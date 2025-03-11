@@ -1,10 +1,10 @@
 package config
 
 import (
-	"gorm.io/driver/sqlite"
+	//"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"fmt"
-	"log"
+	//"fmt"
+	//"log"
 )
 
 // DB is the database connection
