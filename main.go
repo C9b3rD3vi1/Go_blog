@@ -14,7 +14,10 @@ func main() {
 
     fmt.Println("Server is running on port 3000")
 
-    // configure routes
+    app.Get("/", func(c *fiber.Ctx) error {
+        return c.SendString("Cyberlock Technologies!")
+    })
+
     // app listen on port 3000
     app.Listen(":3000")
 }
