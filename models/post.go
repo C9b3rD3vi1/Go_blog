@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"golang.org/x/text/internal/tag"
+)
 
 // Post represents a blog post in the database
 type Post struct {
@@ -26,4 +30,18 @@ type Category struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }
 
-// 
+
+// CreatePost creates a new post in the database
+func CreatePost(ID uint, title string, slug string, image string, content string, tags string) Post {
+	post := Post{
+		Title:    title,
+		Slug:     slug,
+		Image:    image,
+		Content:  content,
+		Tags:     tags,
+		Category: Category{
+			Name: "Category 1",
+		},
+	}
+	return post
+}
