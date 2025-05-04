@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"golang.org/x/text/internal/tag"
+	//"golang.org/x/text/internal/tag"
 )
 
 // Post represents a blog post in the database
@@ -32,16 +32,15 @@ type Category struct {
 
 
 // CreatePost creates a new post in the database
-func CreatePost(ID uint, title string, slug string, image string, content string, tags string) Post {
+func CreatePost(ID uint, title string, slug string, image string, content string, tags string, category Category) Post {
 	post := Post{
 		Title:    title,
 		Slug:     slug,
 		Image:    image,
 		Content:  content,
 		Tags:     tags,
-		Category: Category{
-			Name: "Category 1",
-		},
+		Category: category,
 	}
+
 	return post
 }
