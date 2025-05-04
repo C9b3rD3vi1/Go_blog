@@ -1,10 +1,12 @@
 package main
 
 import (
-    "fmt"
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/template/html/v2"
-    
+	"fmt"
+	//"net/http"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html/v2"
+
 
 )
 
@@ -21,6 +23,14 @@ func main() {
         return c.Render("index", fiber.Map{
             "Title": "Hello, World!, Welcome to the world of Go Fiber",})
     })
+
+    // Route to handle posts
+    app.Get("/posts", func(c *fiber.Ctx) error {
+        return c.Render("posts,", fiber.Map{
+            "Title": "Posts",
+    })
+    })
+
 
     // app listen on port 3000
     app.Listen(":3000")
