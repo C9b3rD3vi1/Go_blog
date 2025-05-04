@@ -1,10 +1,11 @@
-package routes
+package handlers
 
 import (
 	"encoding/json"
-	"fmt"
+	//"fmt"
 	"net/http"
 
+	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,8 +13,8 @@ import (
 // Define the routes
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 	// Handle the request
-	//var post models.Post
-	post := models.CreateSamplePost()
+	var post models.Post
+	//post := models.CreateSamplePost()
 
 	err := json.NewDecoder(r.Body).Decode(&post)
 	if err != nil {
@@ -24,25 +25,20 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	// Set category base on Category
 	//post.Category = post.CategoryID
 
+	// save the post to the database
+	result := config.DB.Create(&post)
+	
+	if result.Error != nil {
+		http.Error(w, result.Error.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(post)
 
-	// save the post to the database
-	//db.Create(&post)
-
-	// Check for errors
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	//logger.Println("Post created:", post)
-	fmt.Fprintf(w, "Post created: %v", post)
-
 
 }
-
 
 // ShowPostHandler handles the request to show a post
 func ShowPostHandler(c *fiber.Ctx) error {

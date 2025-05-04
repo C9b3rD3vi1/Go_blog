@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
-	//"net/http"
 
+	"github.com/C9b3rD3vi1/Go_blog/config"
+	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // fibre app main function
@@ -34,9 +36,30 @@ func main() {
         }
 
         return c.Render("post", fiber.Map{
-            "Title": post,
+            "Post": post,
     })
     })
+
+    //User registration route
+    app.Get("/register", func(c *fiber.Ctx) error {
+        return c.Render("register", fiber.Map{
+            "Title": "Register",
+        })
+    })
+
+    app.Post("/register", handlers.UserRegisterHandler)
+
+
+    // Route to handle login
+    app.Get("/login", func(c *fiber.Ctx) error {
+        return c.Render("login", fiber.Map{
+            "Title": "Login",
+        })
+    })
+
+
+    app.Post("/login", handlers.UserLoginHandler)
+
 
     // app listen on port 3000
     app.Listen(":3000")

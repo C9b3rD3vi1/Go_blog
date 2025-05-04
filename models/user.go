@@ -2,10 +2,14 @@ package models
 
 import "fmt"
 
+
 // User struct represents a user entity with personal and contact details.
 type User struct {
 	FullName    string
 	ID      int
+	Username  string
+	Password  string
+	PasswordConfirm string
 	Email   string
 	Phone   string
 	Address string
@@ -24,10 +28,11 @@ type Comment struct {
 
 
 // Create User function creates a new user entity.
-func CreateUser(ID int, fullName string, email string, phone string, address string, isActive bool) User {
+func CreateUser(ID int, fullName string,username string, email string, phone string, address string, isActive bool) User {
 	user := User{
 		FullName: fullName,
 		ID:   ID,
+		Username: username,
 		Email:  email,
 		Phone:  phone,
 		Address: address,

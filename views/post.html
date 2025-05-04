@@ -18,13 +18,13 @@
 <body>
     <h1>Post</h1>
     <div class="post">
-        <h2>{{post.Title}}</h2>
-        <p>{{post.Content}}</p>
-        <p><strong>Tags:</strong> {{range post.Tags}}{{.}} {{end}}</p>
+        <h2>{{.Post.Title}}</h2>
+        <p>{{.Post.Content}}</p>
+        <p><strong>Tags:</strong> {{range .Tags}}{{.}} {{end}}</p>
         <p><strong>Author:</strong> {{.Author}}</p>
-        <p><strong>Date:</strong> {{post.CreatedAt}}</p>
+        <p><strong>Date:</strong> {{.Post.CreatedAt}}</p>
     </div>
-    
+
     <a href="/">Back to Home</a>
     <script src="/static/script.js"></script>
 
