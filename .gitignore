@@ -1,0 +1,10 @@
+# git ignore
+# Local configuration files
+*.local
+*.env
+# IDE files
+.idea/
+*.iml
+# database files
+*.sqlite
+.db

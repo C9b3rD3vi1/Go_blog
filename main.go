@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
-	"golang.org/x/crypto/bcrypt"
 )
+
 
 // fibre app main function
 func main() {

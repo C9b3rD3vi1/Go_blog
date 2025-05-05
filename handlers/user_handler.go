@@ -7,7 +7,11 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"golang.org/x/crypto/bcrypt"
+	"github.com/gofiber/fiber/v2/middleware/session"
+
 )
+
+var store = session.New()
 
 
 // Define the routes
@@ -47,20 +51,39 @@ func UserRegisterHandler(c *fiber.Ctx) error {
 // UserLoginHandler handles user login
 func UserLoginHandler(c *fiber.Ctx) error {
 	// Get form values
-	Username := c.FormValue("username")
-	Password := c.FormValue("password")
-	// Find the user in the database
+	username := c.FormValue("username")
+	password := c.FormValue("password")
+
+	// Find user
 	var user models.User
-	result := config.DB.Where("username = ?", Username).First(&user)
+	result := config.DB.Where("username = ?", username).First(&user)
 	if result.Error != nil {
 		return c.Status(401).SendString("Invalid username or password")
 	}
-	// Check if the password is correct
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(Password))
+
+	// Check password
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return c.Status(401).SendString("Invalid username or password")
 	}
-	// Set the user session
-	c.Locals("user", user)
+
+	// Create session
+	sess, err := store.Get(c)
+	if err != nil {
+		return err
+	}
+	sess.Set("userID", user.ID)
+	sess.Save()
+
 	return c.Redirect("/")
+}
+
+// LogoutHandler handles user logout
+func LogoutHandler(c *fiber.Ctx) error {
+	sess, err := store.Get(c)
+	if err != nil {
+		return err
+	}
+	sess.Destroy()
+	return c.Redirect("/login")
 }
