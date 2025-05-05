@@ -21,9 +21,10 @@
         <h2>{{post.Title}}</h2>
         <p>{{post.Content}}</p>
         <p><strong>Tags:</strong> {{range post.Tags}}{{.}} {{end}}</p>
-        <p><strong>Author:</strong> {{post.Author}}</p>
-        <p><strong>Date:</strong> {{post.Date}}</p>
+        <p><strong>Author:</strong> {{.Author}}</p>
+        <p><strong>Date:</strong> {{post.CreatedAt}}</p>
     </div>
+    
     <a href="/">Back to Home</a>
     <script src="/static/script.js"></script>
 

@@ -69,8 +69,6 @@ func CreateSamplePost() Post {
 		Category: Category{Name: "Sample Category"},
 	}
 
-	return post.
+	return post
 }
 
-// call create post function
-cre

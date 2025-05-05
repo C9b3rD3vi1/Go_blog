@@ -2,8 +2,8 @@ package models
 
 import (
 	"time"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	//"gorm.io/gorm"
+	//"gorm.io/gorm/logger"
 
 )
 
@@ -29,6 +29,7 @@ type PuzzleCategory struct {
 	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }
+
 
 // CreatePuzzle creates a new puzzle in the database
 func CreatePuzzle(ID uint, title string, slug string, image string, content string, tags string, category Category) Puzzle {
