@@ -23,6 +23,22 @@ type Comment struct {
 
 
 
+// Create User function creates a new user entity.
+func CreateUser(ID int, fullName string, email string, phone string, address string, isActive bool) User {
+	user := User{
+		FullName: fullName,
+		ID:   ID,
+		Email:  email,
+		Phone:  phone,
+		Address: address,
+		IsActive: isActive,
+	}
+
+	return user
+}
+
+
+
 // UserCreate function creates a new user entity.
 func UserCreate() {
 	user := User{

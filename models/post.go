@@ -44,3 +44,33 @@ func CreatePost(ID uint, title string, slug string, image string, content string
 
 	return post
 }
+
+
+// Create category creates a new category in the database
+func CreateCategory(ID uint, name string) Category {
+	category := Category{
+		Name: name,
+	}
+
+	return category
+}
+
+
+
+
+// create a sample post
+func CreateSamplePost() Post {
+	post := Post{
+		Title:    "Sample Post",
+		Slug:     "sample-post",
+		Image:    "https://example.com/sample.jpg",
+		Content:  "This is a sample post content.",
+		Tags:     "sample, post",
+		Category: Category{Name: "Sample Category"},
+	}
+
+	return post.
+}
+
+// call create post function
+cre
