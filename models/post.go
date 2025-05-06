@@ -4,6 +4,7 @@ import (
 	"strings"
 	"time"
 	"unicode"
+	"strconv"
 
 	"gorm.io/gorm"
 	//"golang.org/x/text/internal/tag"
@@ -104,8 +105,24 @@ func (p *Post) BeforeSave(tx *gorm.DB) (err error) {
 
 // Hook GenerateSlug to the Post model
 func (p *Post) BeforeCreate(tx *gorm.DB) (err error) {
-	if p.Slug == "" {
-	p.Slug = GenerateSlug(p.Title)
+	baseSlug := GenerateSlug(p.Title)
+
+	Slug := baseSlug
+	
+	var count int64
+	i := 1
+
+	// Loop until a unique slug is found
+	for {
+	// Check if the slug already exists in the database
+	tx.Model(&Post{}).Where("slug = ?", Slug).Count(&count)
+	if count == 0 {
+		break
 	}
-	return
+	Slug = baseSlug + "_" + strconv.Itoa(i)
+	i++
+	}
+	p.Slug = Slug
+
+	return nil
 }
