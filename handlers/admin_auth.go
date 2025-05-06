@@ -135,3 +135,106 @@ func AdminCreatePost(c *fiber.Ctx) error {
 
 	return c.Redirect("/admin/posts")
 }
+
+// AdminEditPostForm renders the admin post edit form
+func AdminEditPostForm(c *fiber.Ctx) error {
+	// Get the admin user from the session
+	sess, _ := store.Get(c)
+	admin := sess.Get("admin")
+
+	if admin == nil {
+		return c.Redirect("/admin/login")
+	}
+
+	// Get post ID from URL parameters
+	id := c.Params("id")
+
+	// Fetch the post from the database
+	var post models.Post
+	result := config.DB.First(&post, id)
+	if result.Error != nil {
+		return c.Status(404).SendString("Post not found")
+	}
+
+	return c.Render("admin/post_edit", fiber.Map{
+		"Title": "Admin Post Edit",
+		"Admin": admin,
+		"Post":  post,
+	})
+}
+
+
+// AdminUpdatePost handles post update
+func AdminUpdatePost(c *fiber.Ctx) error {
+	// Get the admin user from the session
+	sess, _ := store.Get(c)
+	admin := sess.Get("admin")
+
+	if admin == nil {
+		return c.Redirect("/admin/login")
+	}
+
+	// Get post ID from URL parameters
+	id := c.Params("id")
+
+	// Fetch the post from the database
+	var post models.Post
+	result := config.DB.First(&post, id)
+	if result.Error != nil {
+		return c.Status(404).SendString("Post not found")
+	}
+
+	// Get form values
+	title := c.FormValue("title")
+	content := c.FormValue("content")
+	slug := c.FormValue("slug")
+	image := c.FormValue("image")
+	tags := c.FormValue("tags")
+	//categoryID := c.FormValue("category_id")
+
+	// Update the post
+	post.Title = title
+	post.Content = content
+	post.Slug = slug
+	post.Image = image
+	post.Tags = tags
+	post.Author = admin.(models.User).Username
+
+	// Save the updated post to the database
+	result = config.DB.Save(&post)
+	if result.Error != nil {
+		return c.Status(500).SendString("Error updating post")
+	}
+
+	return c.Redirect("/admin/posts")
+}
+
+// AdminDeletePost handles post deletion
+func AdminDeletePost(c *fiber.Ctx) error {
+	// Get the admin user from the session
+	sess, _ := store.Get(c)
+	admin := sess.Get("admin")
+
+	if admin == nil {
+		return c.Redirect("/admin/login")
+	}
+
+	// Get post ID from URL parameters
+	id := c.Params("id")
+
+	// Fetch the post from the database
+	var post models.Post
+	result := config.DB.First(&post, id)
+	if result.Error != nil {
+		return c.Status(404).SendString("Post not found")
+	}
+
+	// Delete the post from the database
+	result = config.DB.Delete(&post)
+	if result.Error != nil {
+		return c.Status(500).SendString("Error deleting post")
+	}
+
+	return c.Redirect("/admin/posts")
+}
+

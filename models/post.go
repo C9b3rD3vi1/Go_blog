@@ -63,9 +63,6 @@ func CreateCategory(ID uint, name string) Category {
 	return category
 }
 
-
-
-
 // create a sample post
 func CreateSamplePost() Post {
 	post := Post{
