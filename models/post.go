@@ -1,18 +1,19 @@
 package models
 
 import (
+	"strings"
 	"time"
-	"gorm.io/gorm"
+	"unicode"
 
+	"gorm.io/gorm"
 	//"golang.org/x/text/internal/tag"
 )
-
 
 // Post represents a blog post in the database
 type Post struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
 	Title     string    `json:"title" gorm:"not null"`
-	Slug      string    `json:"slug" gorm:"not null"`
+	Slug      string    `json:"slug" gorm:"not null;uniqueIndex"`
 	Image     string    `json:"image" gorm:"not null"`
 	Content   string    `json:"content" gorm:"not null"`
 	Author    string    `json:"author" gorm:"not null"`
@@ -78,3 +79,33 @@ func CreateSamplePost() Post {
 	return post
 }
 
+// GenerateSlug generates a slug from the title
+func GenerateSlug(title string) string {
+	var sb strings.Builder
+	// LOwercase , Rmove non-letters, and replace spaces with hyphens
+	for _, r := range title {
+		if unicode.IsLetter(r) || unicode.IsDigit(r) || unicode.IsSpace(r) {
+			sb.WriteRune(r)
+		} 
+	}
+	return strings.ToLower(strings.ReplaceAll(sb.String(), " ", "_")) // Convert to lowercase
+}
+
+// Hook GenerateSlug to the Post model
+func (p *Post) BeforeSave(tx *gorm.DB) (err error) {
+	if p.Slug == ""{
+
+	 p.Slug = GenerateSlug(p.Title)
+
+	}
+	return
+}
+
+
+// Hook GenerateSlug to the Post model
+func (p *Post) BeforeCreate(tx *gorm.DB) (err error) {
+	if p.Slug == "" {
+	p.Slug = GenerateSlug(p.Title)
+	}
+	return
+}

@@ -16,6 +16,9 @@ type User struct {
 	Address string
 	IsActive  bool
 
+	// admin 
+	IsAdmin bool `gorm:"default:false"`
+
 	gorm.Model
 }
 
