@@ -6,6 +6,7 @@ import (
 
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+    "github.com/C9b3rD3vi1/Go_blog/middleware"
     "github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
@@ -26,6 +27,10 @@ func main() {
       if err != nil {
           log.Fatal("Could not initialize database:", err)
       }
+
+    // Route to handle admin dashboard
+    app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard)
+
 
 
     // Route to render index.html
@@ -68,7 +73,7 @@ func main() {
     // handle post request to login
     app.Post("/login", handlers.UserLoginHandler)
 
-    
+
     // Route to handle logout
     app.Get("/logout", handlers.UserLogoutHandler)
 

@@ -1,4 +1,5 @@
 package routes
+
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
