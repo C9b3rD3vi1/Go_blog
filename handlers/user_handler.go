@@ -56,11 +56,12 @@ func UserLoginHandler(c *fiber.Ctx) error {
 
 	// Find user
 	var user models.User
+
 	result := config.DB.Where("username = ?", username).First(&user)
 	if result.Error != nil {
-		return c.Status(401).SendString("Invalid username or password")
-	}
+		return c.Status(401).SendString("Invalid username or password!! Please try again")
 
+	}
 	// Check password
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
@@ -78,8 +79,10 @@ func UserLoginHandler(c *fiber.Ctx) error {
 	return c.Redirect("/")
 }
 
+
+
 // LogoutHandler handles user logout
-func LogoutHandler(c *fiber.Ctx) error {
+func UserLogoutHandler(c *fiber.Ctx) error {
 	sess, err := store.Get(c)
 	if err != nil {
 		return err

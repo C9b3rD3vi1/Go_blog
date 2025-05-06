@@ -2,9 +2,11 @@ package models
 
 import (
 	"time"
+	"gorm.io/gorm"
 
 	//"golang.org/x/text/internal/tag"
 )
+
 
 // Post represents a blog post in the database
 type Post struct {
@@ -15,9 +17,13 @@ type Post struct {
 	Content   string    `json:"content" gorm:"not null"`
 	Author    string    `json:"author" gorm:"not null"`
 	Tags      string    `json:"tags" gorm:"not null"`
+	CategoryID uint      `json:"category_id" gorm:"not null"`
+	// CategoryID is the foreign key for the category
 	Category  Category  `json:"category" gorm:"foreignKey:CategoryID"`
 	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+
+	gorm.Model
 }
 
 

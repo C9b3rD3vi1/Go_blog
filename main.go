@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+    "log"
 
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+    "github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 )
@@ -18,6 +20,13 @@ func main() {
     engine.Reload(true)
 
     fmt.Println("Server is running on port 3000")
+
+      // Initialize the database
+      _, err := config.InitDB()
+      if err != nil {
+          log.Fatal("Could not initialize database:", err)
+      }
+
 
     // Route to render index.html
     app.Get("/", func(c *fiber.Ctx) error {
@@ -56,8 +65,12 @@ func main() {
         })
     })
 
-
+    // handle post request to login
     app.Post("/login", handlers.UserLoginHandler)
+
+    
+    // Route to handle logout
+    app.Get("/logout", handlers.UserLogoutHandler)
 
 
     // app listen on port 3000

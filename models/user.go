@@ -1,40 +1,48 @@
 package models
 
-import "fmt"
+import ("fmt"
+	"gorm.io/gorm"
+)
 
 
 // User struct represents a user entity with personal and contact details.
 type User struct {
-	FullName    string
-	ID      int
-	Username  string
-	Password  string
+	FullName    string `gorm:"unique;not null"`
+	ID      int	`gorm:"primaryKey"`
+	Username  string `gorm:"unique;not null"`
+	Email     string `gorm:"unique;not null"`
+	Password  string `gorm:"required"`
 	PasswordConfirm string
-	Email   string
-	Phone   string
 	Address string
 	IsActive  bool
+
+	gorm.Model
 }
 
 
 // Comment struct represents a comment entity with user and post details.
 type Comment struct {
-	ID      int
+	ID      int `gorm:"primaryKey"`
 	Content string
-	User    User
+	// UserID is the foreign key for the user
+	UserID int 
+	User    User 
+	// PostID is the foreign key for the post
+	PostID int
 	Post    Post
+
+	gorm.Model
 }
 
 
 
 // Create User function creates a new user entity.
-func CreateUser(ID int, fullName string,username string, email string, phone string, address string, isActive bool) User {
+func CreateUser(ID int, fullName string,username string, email string, address string, isActive bool) User {
 	user := User{
 		FullName: fullName,
 		ID:   ID,
 		Username: username,
 		Email:  email,
-		Phone:  phone,
 		Address: address,
 		IsActive: isActive,
 	}
@@ -50,7 +58,7 @@ func UserCreate() {
 		FullName: "Nana Kwame",
 		ID:   1,
 		Email:  "nana.kwame@gmail.com",
-        Phone:  "+2348123456789",
+		Username: "nana_kwame",
         Address: "123 Main St, Anytown, USA",
         IsActive: true,
     }

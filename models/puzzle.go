@@ -34,7 +34,7 @@ type PuzzleCategory struct {
 // CreatePuzzle creates a new puzzle in the database
 func CreatePuzzle(ID uint, title string, slug string, image string, content string, tags string, category Category) Puzzle {
 	puzzle := Puzzle{
-		Title:    title,
+		Title:    title, 
 		Slug:     slug,
 		Image:    image,
 		Content:  content,
