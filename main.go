@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-    "log"
+	"log"
 
+	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
+	"github.com/C9b3rD3vi1/Go_blog/middleware"
 	"github.com/C9b3rD3vi1/Go_blog/models"
-    "github.com/C9b3rD3vi1/Go_blog/middleware"
-    "github.com/C9b3rD3vi1/Go_blog/config"
+
+	//"github.com/C9b3rD3vi1/Go_blog/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 )
-
 
 // fibre app main function
 func main() {
@@ -27,10 +28,19 @@ func main() {
       if err != nil {
           log.Fatal("Could not initialize database:", err)
       }
+    
+    // admin login route
+    app.Get("/admin/login", func(c *fiber.Ctx) error {
+        return c.Render("admin/login", fiber.Map{
+            "Title": "Admin Login",
+        })
+    })
+
+    // handle post request to admin login
+    app.Post("/admin/login", handlers.AdminAuthHandler)
 
     // Route to handle admin dashboard
-    app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard)
-
+    app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard, handlers.AdminCreatePost, handlers.AdminEditPostForm, handlers.AdminDeletePost)
 
 
     // Route to render index.html

@@ -7,7 +7,7 @@ import (
 )
 
 
-
+// 
 func SetupRoutes(app *fiber.App) {
 	admin := app.Group("/admin")
 
