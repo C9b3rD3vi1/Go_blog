@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/middleware"
+
 )
 
 
@@ -13,6 +14,7 @@ func SetupRoutes(app *fiber.App) {
 
 	admin.Get("/login", handlers.AdminAuthHandler)
 	admin.Post("/login", handlers.AdminAuthHandler)
+
 
 	admin.Use(middleware.RequireAdminAuth) // protect routes below
 
