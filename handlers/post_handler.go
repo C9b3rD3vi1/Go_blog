@@ -53,6 +53,6 @@ func HomePageHandler(c *fiber.Ctx) error  {
 }
 
 func UserRegisterHandler)(c *fiber.Ctx) error  {
-	return c.Render("pages/register", fiber.Map{},)
+	return c.Render("/register", fiber.Map{})
 
 }

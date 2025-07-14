@@ -15,7 +15,6 @@ import (
 	"github.com/znbang/gofiber-layout/html"
 )
 
-
 // fibre app main function
 func main() {
     // load template engine
@@ -54,20 +53,19 @@ func main() {
     // Route to handle admin dashboard
     app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard, handlers.AdminCreatePost, handlers.AdminEditPostForm, handlers.AdminDeletePost)
 
-
     // Route to render index.html
     app.Get("/", handlers.HomePageHandler)
 
 
     //User registration route
-    app.Get("pages/register", auth.UserRegisterHandler)
-    app.Post("pages/register", handlers.UserRegisterHandler)
+    app.Get("/register", auth.UserRegisterHandler)
+    app.Post("/register", handlers.UserRegisterHandler)
 
 
     // Route to handle login
-    app.Get("pages/login", auth.UserLoginHandler)
+    app.Get("/login", auth.UserLoginHandler)
     // handle post request to login
-    app.Post("pages/login", auth.UserLoginHandler)
+    app.Post("/login", auth.UserLoginHandler)
 
 
     // Route to handle logout
