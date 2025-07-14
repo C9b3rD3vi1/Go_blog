@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hacker Hub</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hacker Hub - A place for hackers to share and discuss ideas.">
+    <meta name="keywords" content="Hacker Hub, technology, programming, coding, community">
+    <meta name="author" content="C9b3rD3vi1">
+
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+
+<body>
+    <h1>Post</h1>
+    <div class="post">
+        <h2>{{.Post.Title}}</h2>
+        <p>{{.Post.Content}}</p>
+        <p><strong>Tags:</strong> {{range .Tags}}{{.}} {{end}}</p>
+        <p><strong>Author:</strong> {{.Author}}</p>
+        <p><strong>Date:</strong> {{.Post.CreatedAt}}</p>
+    </div>
+
+    <a href="/">Back to Home</a>
+    <script src="/static/script.js"></script>
+
+
+    <script>
+        // JavaScript code to handle any dynamic behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example: Add event listeners or manipulate DOM elements
+            console.log('Post page loaded');
+        });
+    </script>
+</body>
+</html>
