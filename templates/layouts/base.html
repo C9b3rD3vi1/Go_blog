@@ -1,38 +1,96 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ block "title" . }}Hacker Hub{{ end }}</title>
 
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
-<body>
-    <header>
-        <h1>Hacker Hub</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
-                {{ if .User }}
-                    <li><a href="/logout">Logout</a></li>
-                {{ else }}
-                    <li><a href="/login">Login</a></li>
-                {{ end }}
-            </ul>
-        </nav>
-    </header>
+    <!-- TailwindCSS + DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <main>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body class="min-h-screen flex flex-col bg-base-100 text-base-content font-sans">
+
+    <!-- Header/Navbar -->
+    <header class="navbar bg-base-200 shadow">
+  <div class="container mx-auto px-4 flex flex-wrap justify-between items-center">
+    <a href="/" class="text-xl font-bold text-primary flex items-center gap-2">
+      <i data-lucide="shield" class="w-5 h-5"></i>
+      Hacker Hub
+    </a>
+
+    <div class="flex items-center space-x-2">
+      <!-- Desktop Menu -->
+      <ul class="menu menu-horizontal px-1 hidden md:flex">
+        <li><a href="/"><i data-lucide="home" class="w-4 h-4 mr-1"></i>Home</a></li>
+        <li><a href="/blog"><i data-lucide="book-open" class="w-4 h-4 mr-1"></i>Blog</a></li>
+        <li><a href="/about"><i data-lucide="info" class="w-4 h-4 mr-1"></i>About</a></li>
+        <li><a href="/contact"><i data-lucide="mail" class="w-4 h-4 mr-1"></i>Contact</a></li>
+        {{ if .User }}
+          <li><a href="/dashboard"><i data-lucide="layout-dashboard" class="w-4 h-4 mr-1"></i>Dashboard</a></li>
+          <li><a href="/logout" class="text-error"><i data-lucide="log-out" class="w-4 h-4 mr-1"></i>Logout</a></li>
+        {{ else }}
+          <li><a href="/login"><i data-lucide="log-in" class="w-4 h-4 mr-1"></i>Login</a></li>
+        {{ end }}
+      </ul>
+
+      <!-- Mobile Menu -->
+      <div class="dropdown md:hidden">
+        <label tabindex="0" class="btn btn-ghost">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </label>
+        <ul tabindex="0"
+          class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a href="/"><i data-lucide="home" class="w-4 h-4 mr-1"></i>Home</a></li>
+          <li><a href="/blog"><i data-lucide="book-open" class="w-4 h-4 mr-1"></i>Blog</a></li>
+          <li><a href="/about"><i data-lucide="info" class="w-4 h-4 mr-1"></i>About</a></li>
+          <li><a href="/contact"><i data-lucide="mail" class="w-4 h-4 mr-1"></i>Contact</a></li>
+          {{ if .User }}
+            <li><a href="/dashboard"><i data-lucide="layout-dashboard" class="w-4 h-4 mr-1"></i>Dashboard</a></li>
+            <li><a href="/logout" class="text-error"><i data-lucide="log-out" class="w-4 h-4 mr-1"></i>Logout</a></li>
+          {{ else }}
+            <li><a href="/login"><i data-lucide="log-in" class="w-4 h-4 mr-1"></i>Login</a></li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <!-- Main content -->
+    <main class="flex-1 container mx-auto px-4 py-8">
         {{ block "content" . }}{{ end }}
     </main>
 
-    <footer>
-        <p>&copy; 2023 Hacker Hub. All rights reserved.</p>
-    </footer>
+    <!-- Footer -->
+    <footer class="bg-base-200 p-6 mt-auto">
+  <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="text-sm">&copy; Hacker Hub. All rights reserved.</p>
+
+    <div class="flex gap-4 text-base-content">
+      <a href="https://github.com/C9b3rD3vi1" target="_blank" class="hover:text-primary" aria-label="GitHub">
+        <i data-lucide="github" class="w-5 h-5"></i>
+      </a>
+      <a href="https://twitter.com/yourhandle" target="_blank" class="hover:text-primary" aria-label="Twitter">
+        <i data-lucide="twitter" class="w-5 h-5"></i>
+      </a>
+      <a href="https://linkedin.com/in/yourhandle" target="_blank" class="hover:text-primary" aria-label="LinkedIn">
+        <i data-lucide="linkedin" class="w-5 h-5"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Custom JS -->
     <script src="/static/js/scripts.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
 </body>
 </html>

@@ -30,7 +30,6 @@ func main() {
 		engine.Layout("layouts/base")
 
 
-
     app := fiber.New(fiber.Config{
 			Views: engine,
 		})
