@@ -4,7 +4,11 @@ package middleware
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/gofiber/fiber/v2/middleware/session"
 )
+
+var Store = session.New()
+
 
 func RequireAdminAuth(c *fiber.Ctx) error {
 	admin := c.Locals("admin")

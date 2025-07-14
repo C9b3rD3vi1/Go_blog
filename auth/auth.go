@@ -22,10 +22,13 @@ func UserRegisterHandler(c *fiber.Ctx) error {
 	Email := c.FormValue("email")
 	Password := c.FormValue("password")
 	PasswordConfirm := c.FormValue("password_confirm")
+
 	// Check if passwords match
 	if Password != PasswordConfirm {
-		return c.Status(400).SendString("Passwords do not match")
-	}
+		return c.Render("pages/register", fiber.Map{
+			"error": "Passwords dont match",
+	})
+}
 
 	// Hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(Password), bcrypt.DefaultCost)
@@ -47,7 +50,7 @@ func UserRegisterHandler(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Error creating user")
 	}
 	// Redirect to the login page
-	return c.Redirect("/login")
+	return c.Redirect("pages/login")
 }
 
 
@@ -63,15 +66,19 @@ func UserLoginHandler(c *fiber.Ctx) error {
 
 	result := config.DB.Where("username = ?", username).First(&user)
 	if result.Error != nil {
-		return c.Status(401).SendString("Invalid username or password!! Please try again")
+		return c.Render("/pages/login", fiber.Map{
+			 "error": "Invalid username!! Please try again",
+	})
+}
 
-	}
 
 	// Check hashedPassword password and compared to stored password
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
-		return c.Status(401).SendString("Invalid username or password")
-	}
+		return c.Render("/pages/login", fiber.Map{
+			"error": "Invalid username or password !! Please try again",
+			})
+}
 
 	// Create session
 	sess, err := store.Get(c)
@@ -79,6 +86,7 @@ func UserLoginHandler(c *fiber.Ctx) error {
 		return err
 	}
 	sess.Set("userID", user.ID)
+	sess.Set("_ip", c.IP())
 	sess.Save()
 
 	return c.Redirect("/")
@@ -93,5 +101,5 @@ func UserLogoutHandler(c *fiber.Ctx) error {
 		return err
 	}
 	sess.Destroy()
-	return c.Redirect("/login")
+	return c.Redirect("pages/login")
 }

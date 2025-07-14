@@ -7,6 +7,7 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/middleware"
+	"github.com/C9b3rD3vi1/Go_blog/auth"
 	//"github.com/C9b3rD3vi1/Go_blog/models"
 
 	//"github.com/C9b3rD3vi1/Go_blog/routes"
@@ -45,11 +46,7 @@ func main() {
       }
 
     // admin login route
-    app.Get("/admin/login", func(c *fiber.Ctx) error {
-        return c.Render("admin/login", fiber.Map{
-            "Title": "Admin Login",
-        })
-    })
+    app.Get("/admin/login", hander.AdminAuthHandler)
 
     // handle post request to admin login
     app.Post("/admin/login", handlers.AdminAuthHandler)
@@ -59,44 +56,18 @@ func main() {
 
 
     // Route to render index.html
-    app.Get("/", func(c *fiber.Ctx) error {
-        return c.Render("pages/index", fiber.Map{
-            "Title": "Hacker Hub!",})
-    })
+    app.Get("/", handlers.HomePageHandler)
 
-
-	/*  // Route to handle posts
-    app.Get("/posts", func(c *fiber.Ctx) error {
-        post := models.CreateSamplePost()
-
-        if (post == models.Post{}) {
-            return c.Status(404).SendString("Post not found")
-        }
-
-        return c.Render("post", fiber.Map{
-            "Post": post,
-    })
-		})*/
 
     //User registration route
-    app.Get("pages/register", func(c *fiber.Ctx) error {
-        return c.Render("register", fiber.Map{
-            "Title": "Register",
-        })
-    })
-
-    app.Post("/register", handlers.UserRegisterHandler)
+    app.Get("pages/register", auth.UserRegisterHandler)
+    app.Post("pages/register", handlers.UserRegisterHandler)
 
 
     // Route to handle login
-    app.Get("pages/login", func(c *fiber.Ctx) error {
-        return c.Render("login", fiber.Map{
-            "Title": "Login",
-        })
-    })
-
+    app.Get("pages/login", auth.UserLoginHandler)
     // handle post request to login
-    app.Post("pages/login", handlers.UserLoginHandler)
+    app.Post("pages/login", auth.UserLoginHandler)
 
 
     // Route to handle logout

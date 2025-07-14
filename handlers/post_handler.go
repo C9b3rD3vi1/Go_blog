@@ -27,7 +27,7 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	// save the post to the database
 	result := config.DB.Create(&post)
-	
+
 	if result.Error != nil {
 		http.Error(w, result.Error.Error(), http.StatusInternalServerError)
 		return
@@ -45,4 +45,14 @@ func ShowPostHandler(c *fiber.Ctx) error {
 	post := models.CreateSamplePost() // or fetch from DB
 
 	return c.Render("post", post)
+}
+
+func HomePageHandler(c *fiber.Ctx) error  {
+	return c.Render("/", fiber.Map{})
+
+}
+
+func UserRegisterHandler)(c *fiber.Ctx) error  {
+	return c.Render("pages/register", fiber.Map{},)
+
 }

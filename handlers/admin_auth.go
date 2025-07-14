@@ -40,7 +40,7 @@ func AdminAuthHandler(c *fiber.Ctx) error {
 // AdminDashboard renders the admin dashboard
 func AdminDashboard(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := store.Get(c)
+	sess, _ := Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -66,7 +66,7 @@ func AdminLogoutHandler(c *fiber.Ctx) error {
 // AdminPostList renders the admin post list
 func AdminPostList(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := store.Get(c)
+	sess, _ := Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -90,7 +90,7 @@ func AdminPostList(c *fiber.Ctx) error {
 // AdminPostForm renders the admin post form
 func AdminPostForm(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := store.Get(c)
+	sess, _ := Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -105,7 +105,7 @@ func AdminPostForm(c *fiber.Ctx) error {
 // AdminCreatePost handles post creation
 func AdminCreatePost(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := store.Get(c)
+	sess, _ := Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -237,4 +237,3 @@ func AdminDeletePost(c *fiber.Ctx) error {
 
 	return c.Redirect("/admin/posts")
 }
-
