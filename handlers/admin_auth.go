@@ -1,15 +1,15 @@
 package handlers
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/C9b3rD3vi1/Go_blog/config"
+	"github.com/C9b3rD3vi1/Go_blog/middleware"
+	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 	//"github.com/gofiber/fiber/v2/middleware/session"
 )
 
 // AdminAuthHandler handles admin authentication
-
 
 func AdminAuthHandler(c *fiber.Ctx) error {
 	// Get form values
@@ -30,7 +30,7 @@ func AdminAuthHandler(c *fiber.Ctx) error {
 	}
 
 	// Set session
-	sess, _ := store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	sess.Set("admin", admin)
 	sess.Save()
 
@@ -40,7 +40,7 @@ func AdminAuthHandler(c *fiber.Ctx) error {
 // AdminDashboard renders the admin dashboard
 func AdminDashboard(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := Store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -56,17 +56,16 @@ func AdminDashboard(c *fiber.Ctx) error {
 // AdminLogoutHandler handles admin logout
 func AdminLogoutHandler(c *fiber.Ctx) error {
 	// Destroy the session
-	sess, _ := store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	sess.Destroy()
 
 	return c.Redirect("/admin/login")
 }
 
-
 // AdminPostList renders the admin post list
 func AdminPostList(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := Store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -90,7 +89,7 @@ func AdminPostList(c *fiber.Ctx) error {
 // AdminPostForm renders the admin post form
 func AdminPostForm(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := Store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -102,10 +101,11 @@ func AdminPostForm(c *fiber.Ctx) error {
 		"Admin": admin,
 	})
 }
+
 // AdminCreatePost handles post creation
 func AdminCreatePost(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := Store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -116,13 +116,12 @@ func AdminCreatePost(c *fiber.Ctx) error {
 	title := c.FormValue("title")
 	content := c.FormValue("content")
 
-
 	// Create a new post
 	post := models.Post{
 		Title:   title,
 		Content: content,
-		Slug:    title, // You might want to generate a slug from the title
-		Image:   "image.jpg", // Handle image upload as needed
+		Slug:    title,        // You might want to generate a slug from the title
+		Image:   "image.jpg",  // Handle image upload as needed
 		Tags:    "tag1, tag2", // Handle tags as needed
 		Author:  admin.(models.User).Username,
 	}
@@ -139,7 +138,7 @@ func AdminCreatePost(c *fiber.Ctx) error {
 // AdminEditPostForm renders the admin post edit form
 func AdminEditPostForm(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -163,11 +162,10 @@ func AdminEditPostForm(c *fiber.Ctx) error {
 	})
 }
 
-
 // AdminUpdatePost handles post update
 func AdminUpdatePost(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {
@@ -212,7 +210,7 @@ func AdminUpdatePost(c *fiber.Ctx) error {
 // AdminDeletePost handles post deletion
 func AdminDeletePost(c *fiber.Ctx) error {
 	// Get the admin user from the session
-	sess, _ := store.Get(c)
+	sess, _ := middleware.Store.Get(c)
 	admin := sess.Get("admin")
 
 	if admin == nil {

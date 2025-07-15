@@ -37,7 +37,6 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(post)
 
-
 }
 
 // ShowPostHandler handles the request to show a post
@@ -47,12 +46,12 @@ func ShowPostHandler(c *fiber.Ctx) error {
 	return c.Render("post", post)
 }
 
-func HomePageHandler(c *fiber.Ctx) error  {
+func HomePageHandler(c *fiber.Ctx) error {
 	return c.Render("/", fiber.Map{})
 
 }
 
-func UserRegisterHandler)(c *fiber.Ctx) error  {
+func UserRegisterHandler(c *fiber.Ctx) error {
 	return c.Render("/register", fiber.Map{})
 
 }

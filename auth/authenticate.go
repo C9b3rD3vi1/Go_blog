@@ -1,18 +1,16 @@
-package handlers
+package auth
 
 import (
 	//"fmt"
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/C9b3rD3vi1/Go_blog/config"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2/middleware/session"
-
+	"golang.org/x/crypto/bcrypt"
 )
 
 var store = session.New()
-
 
 // Define the routes
 func UserRegisterHandler(c *fiber.Ctx) error {
@@ -27,8 +25,8 @@ func UserRegisterHandler(c *fiber.Ctx) error {
 	if Password != PasswordConfirm {
 		return c.Render("pages/register", fiber.Map{
 			"error": "Passwords dont match",
-	})
-}
+		})
+	}
 
 	// Hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(Password), bcrypt.DefaultCost)
@@ -53,8 +51,6 @@ func UserRegisterHandler(c *fiber.Ctx) error {
 	return c.Redirect("pages/login")
 }
 
-
-
 // UserLoginHandler handles user login
 func UserLoginHandler(c *fiber.Ctx) error {
 	// Get form values
@@ -67,18 +63,17 @@ func UserLoginHandler(c *fiber.Ctx) error {
 	result := config.DB.Where("username = ?", username).First(&user)
 	if result.Error != nil {
 		return c.Render("/pages/login", fiber.Map{
-			 "error": "Invalid username!! Please try again",
-	})
-}
-
+			"error": "Invalid username!! Please try again",
+		})
+	}
 
 	// Check hashedPassword password and compared to stored password
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return c.Render("/pages/login", fiber.Map{
 			"error": "Invalid username or password !! Please try again",
-			})
-}
+		})
+	}
 
 	// Create session
 	sess, err := store.Get(c)
@@ -91,8 +86,6 @@ func UserLoginHandler(c *fiber.Ctx) error {
 
 	return c.Redirect("/")
 }
-
-
 
 // LogoutHandler handles user logout
 func UserLogoutHandler(c *fiber.Ctx) error {
