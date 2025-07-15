@@ -77,6 +77,13 @@ func main() {
 	// Route to handle logout
 	app.Get("/logout", auth.UserLogoutHandler)
 
+	// Route to handle post request
+	app.Post("/post", handlers.PostHandlerFunc)
+
+	// blog
+	app.Get("/blog", handlers.BlogHandler)
+	app.Get("/blog/:slug", handlers.BlogPostHandler)
+
 	// github stats
 	app.Get("/api/github-stats", handlers.GitHubStatsHandler)
 

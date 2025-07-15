@@ -1,0 +1,32 @@
+{{ define "content" }}
+<section class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-6">Blog</h1>
+
+    {{ if .Posts }}
+    <div class="grid md:grid-cols-2 gap-8">
+        {{ range .Posts }}
+        <div class="p-4 bg-base-200 rounded shadow">
+            <h2 class="text-xl font-bold">{{ .Title }}</h2>
+            <p class="text-sm mt-2">{{ .Excerpt }}</p>
+            <a href="/blog/{{ .Slug }}" class="btn btn-link mt-2"
+                >Read more →</a
+            >
+        </div>
+        {{ end }}
+    </div>
+    {{ else }}
+    <p class="text-center text-base-content">No blog posts found.</p>
+    {{ end }} {{ if gt .TotalPages 1 }}
+    <div class="flex justify-center gap-2 mt-8">
+        {{ range $i := .PageRange }}
+        <a
+            href="/blog?page={{ $i }}"
+            class="btn btn-sm {{ if eq $.CurrentPage $i }}btn-primary{{ else }}btn-outline{{ end }}"
+        >
+            {{ $i }}
+        </a>
+        {{ end }}
+    </div>
+    {{ end }}
+</section>
+{{ end }}

@@ -71,6 +71,32 @@ func AboutUsHandler(c *fiber.Ctx) error {
 
 }
 
+func PostHandlerFunc(c *fiber.Ctx) error {
+	//	post := models.CreateSamplePost() // or fetch from DB
+
+	return c.Render("pages/post", fiber.Map{
+		//"post": post,
+	})
+}
+
+func BlogHandler(c *fiber.Ctx) error {
+	return c.Render("pages/blog", fiber.Map{
+		"Posts":       []any{}, // or []models.Post{}
+		"TotalPages":  1,
+		"CurrentPage": 1,
+		"PageRange":   []int{1},
+	})
+}
+
+func BlogPostHandler(c *fiber.Ctx) error {
+	//slug := c.Params("slug")
+	post := models.CreateSamplePost() // or fetch from DB
+
+	return c.Render("pages/post", fiber.Map{
+		"post": post,
+	})
+}
+
 func GitHubStatsHandler(c *fiber.Ctx) error {
 	resp, err := http.Get("https://api.github.com/repos/C9b3rD3vi1/Go_blog/contributors")
 	if err != nil {
