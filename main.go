@@ -56,19 +56,29 @@ func main() {
 	app.Get("/", handlers.HomePageHandler)
 
 	//User registration route
-	app.Get("/register", auth.UserRegisterHandler)
+	app.Get("/register", handlers.UserRegisterHandlerForm)
 	app.Post("/register", auth.UserRegisterHandler)
 
 	// Route to handle login
-	app.Get("/login", auth.UserLoginHandler)
+	app.Get("/login", handlers.UserLoginHandlerForm)
 	// handle post request to login
 	app.Post("/login", auth.UserLoginHandler)
 
+	// contact
+	app.Get("/contact", handlers.UserContactHandlerForm)
+	//app.Post("/contact", handlers.UserContactHandler)
+
+	// about us page
+	app.Get("/about", handlers.AboutUsHandler)
+
 	// Route to handle logout
 	app.Get("/logout", auth.UserLogoutHandler)
 
 	// Route to handle logout
 	app.Get("/logout", auth.UserLogoutHandler)
+
+	// github stats
+	app.Get("/api/github-stats", handlers.GitHubStatsHandler)
 
 	// app listen on port 3000
 	fmt.Println("Server is running on port 3000")

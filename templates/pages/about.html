@@ -1,0 +1,166 @@
+{{ define "content" }}
+<section class="max-w-6xl mx-auto px-4 py-12 space-y-20">
+    <!-- Hero / Intro -->
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-primary mb-4">About Hacker Hub</h1>
+        <p class="text-lg text-base-content max-w-2xl mx-auto">
+            Hacker Hub is a developer-first platform empowering web builders,
+            cybersecurity enthusiasts, and ethical hackers with practical tools
+            and community-powered learning.
+        </p>
+    </div>
+
+    <!-- Who We Are -->
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+            <img
+                src="/static/images/about-us.svg"
+                alt="Hacker Hub Overview"
+                class="w-full h-auto rounded-lg shadow"
+            />
+        </div>
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">Who We Are</h2>
+            <p class="mb-4">
+                We’re a passionate team of developers, hackers, and open-source
+                contributors. Our platform provides educational content,
+                real-world projects, and community collaboration focused on
+                security, development, and innovation.
+            </p>
+            <p>
+                Built from the ground up with transparency and integrity, Hacker
+                Hub is your place to grow, contribute, and thrive in tech.
+            </p>
+        </div>
+    </div>
+
+    <!-- Meet the Team -->
+    <div>
+        <h2 class="text-3xl font-bold text-center mb-8">👥 Meet the Team</h2>
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <!-- Member 1 -->
+            <div class="p-4 bg-base-200 rounded-lg shadow">
+                <img
+                    src="/static/images/team1.jpg"
+                    alt="Team Member"
+                    class="w-24 h-24 rounded-full mx-auto mb-4"
+                />
+                <h3 class="text-lg font-bold">Nickie C9b3r</h3>
+                <p class="text-sm text-base-content">Founder & Backend Lead</p>
+            </div>
+            <!-- Member 2 -->
+            <div class="p-4 bg-base-200 rounded-lg shadow">
+                <img
+                    src="/static/images/team2.jpg"
+                    alt="Team Member"
+                    class="w-24 h-24 rounded-full mx-auto mb-4"
+                />
+                <h3 class="text-lg font-bold">Jane Dev</h3>
+                <p class="text-sm text-base-content">Frontend Engineer</p>
+            </div>
+            <!-- Member 3 -->
+            <div class="p-4 bg-base-200 rounded-lg shadow">
+                <img
+                    src="/static/images/team3.jpg"
+                    alt="Team Member"
+                    class="w-24 h-24 rounded-full mx-auto mb-4"
+                />
+                <h3 class="text-lg font-bold">Sam Root</h3>
+                <p class="text-sm text-base-content">Security Researcher</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="bg-base-200 p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-center mb-8">
+            📊 Our Impact So Far
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6 text-center">
+            <div>
+                <h3 class="text-3xl font-bold text-primary">50+</h3>
+                <p class="text-sm">Open Source Contributors</p>
+            </div>
+            <div>
+                <h3 class="text-3xl font-bold text-primary">2K+</h3>
+                <p class="text-sm">Commits on GitHub</p>
+            </div>
+            <div>
+                <h3 class="text-3xl font-bold text-primary">1.2K+</h3>
+                <p class="text-sm">Community Members</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline -->
+    <div>
+        <h2 class="text-3xl font-bold text-center mb-10">🕒 Our Journey</h2>
+        <ul
+            class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical"
+        >
+            <li>
+                <div class="timeline-middle">
+                    <i class="text-primary" data-lucide="flag"></i>
+                </div>
+                <div class="timeline-start md:text-end mb-10">
+                    <time class="font-mono italic">2023</time>
+                    <div class="text-lg font-bold">Project Concept Born</div>
+                    Hacker Hub was envisioned to be a hacker’s playground and
+                    educational hub.
+                </div>
+                <hr />
+            </li>
+            <li>
+                <div class="timeline-middle">
+                    <i class="text-primary" data-lucide="git-commit"></i>
+                </div>
+                <div class="timeline-end mb-10">
+                    <time class="font-mono italic">Early 2024</time>
+                    <div class="text-lg font-bold">Initial Build</div>
+                    We launched our MVP with Go Fiber, Tailwind, and community
+                    features.
+                </div>
+                <hr />
+            </li>
+            <li>
+                <div class="timeline-middle">
+                    <i class="text-primary" data-lucide="zap"></i>
+                </div>
+                <div class="timeline-start md:text-end mb-10">
+                    <time class="font-mono italic">Mid 2024</time>
+                    <div class="text-lg font-bold">Open Source Expansion</div>
+                    Community began contributing tools and blog posts actively.
+                </div>
+                <hr />
+            </li>
+            <li>
+                <div class="timeline-middle">
+                    <i class="text-primary" data-lucide="trending-up"></i>
+                </div>
+                <div class="timeline-end mb-10">
+                    <time class="font-mono italic">2025 & Beyond</time>
+                    <div class="text-lg font-bold">Scaling & Outreach</div>
+                    Plans to onboard mentors, publish CTFs, and launch HackerHub
+                    Academy.
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-12">
+        <h2 class="text-3xl font-bold mb-4">Join the Movement 🚀</h2>
+        <p class="text-base mb-6">
+            Be part of something bigger. Contribute your skills, write blog
+            posts, or help secure the web.
+        </p>
+        <a href="/register" class="btn btn-primary btn-wide">Join Hacker Hub</a>
+        <a
+            href="https://github.com/C9b3rD3vi1/Go_blog"
+            target="_blank"
+            class="btn btn-outline btn-secondary btn-wide ml-4"
+            >Contribute on GitHub</a
+        >
+    </div>
+</section>
+{{ end }}

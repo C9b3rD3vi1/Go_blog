@@ -51,7 +51,37 @@ func HomePageHandler(c *fiber.Ctx) error {
 
 }
 
-func UserRegisterHandler(c *fiber.Ctx) error {
+func UserRegisterHandlerForm(c *fiber.Ctx) error {
 	return c.Render("pages/register", fiber.Map{})
 
+}
+
+func UserLoginHandlerForm(c *fiber.Ctx) error {
+	return c.Render("pages/login", fiber.Map{})
+
+}
+
+func UserContactHandlerForm(c *fiber.Ctx) error {
+	return c.Render("pages/contact", fiber.Map{})
+
+}
+
+func AboutUsHandler(c *fiber.Ctx) error {
+	return c.Render("pages/about", fiber.Map{})
+
+}
+
+func GitHubStatsHandler(c *fiber.Ctx) error {
+	resp, err := http.Get("https://api.github.com/repos/C9b3rD3vi1/Go_blog/contributors")
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": "GitHub API error"})
+	}
+	defer resp.Body.Close()
+
+	var contributors []map[string]interface{}
+	json.NewDecoder(resp.Body).Decode(&contributors)
+
+	return c.JSON(fiber.Map{
+		"contributors": len(contributors),
+	})
 }
