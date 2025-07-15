@@ -9,9 +9,8 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/middleware"
 
-	//"github.com/C9b3rD3vi1/Go_blog/models"
-
 	//"github.com/C9b3rD3vi1/Go_blog/routes"
+	//"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/znbang/gofiber-layout/html"
 )
@@ -50,7 +49,8 @@ func main() {
 	app.Post("/admin/login", handlers.AdminAuthHandler)
 
 	// Route to handle admin dashboard
-	app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard, handlers.AdminCreatePost, handlers.AdminEditPostForm, handlers.AdminDeletePost)
+	app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard,
+		handlers.AdminCreatePost, handlers.AdminEditPostForm, handlers.AdminDeletePost)
 
 	// Route to render index.html
 	app.Get("/", handlers.HomePageHandler)
@@ -63,6 +63,9 @@ func main() {
 	app.Get("/login", auth.UserLoginHandler)
 	// handle post request to login
 	app.Post("/login", auth.UserLoginHandler)
+
+	// Route to handle logout
+	app.Get("/logout", auth.UserLogoutHandler)
 
 	// Route to handle logout
 	app.Get("/logout", auth.UserLogoutHandler)

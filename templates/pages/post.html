@@ -1,21 +1,19 @@
 {{ define "content" }}
 <article class="prose prose-invert max-w-3xl mx-auto">
-  <h1 class="text-4xl font-bold mb-2">{{ .Post.Title }}</h1>
-  <p class="text-sm text-base-content/60 mb-6 flex items-center gap-2">
-    <i data-lucide="user" class="w-4 h-4"></i>{{ .Post.Author }} |
-    <i data-lucide="calendar" class="w-4 h-4"></i>{{ .Post.Date }}
-  </p>
+    <h1 class="text-4xl font-bold mb-2">{{ .Post.Title }}</h1>
+    <p class="text-sm text-base-content/60 mb-6 flex items-center gap-2">
+        <i data-lucide="user" class="w-4 h-4"></i>{{ .Post.Author }} |
+        <i data-lucide="calendar" class="w-4 h-4"></i>{{ .Post.Date }}
+    </p>
 
-  <div class="mb-6">
-    {{ .Post.Content | safeHTML }}
-  </div>
+    <div class="mb-6">{{ .Post.Content }}</div>
 
-  {{ if .Post.Tags }}
+    {{ if .Post.Tags }}
     <div class="flex flex-wrap gap-2 mt-4">
-      {{ range .Post.Tags }}
+        {{ range .Post.Tags }}
         <span class="badge badge-outline">{{ . }}</span>
-      {{ end }}
+        {{ end }}
     </div>
-  {{ end }}
+    {{ end }}
 </article>
 {{ end }}
