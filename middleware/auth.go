@@ -2,13 +2,28 @@
 package middleware
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"time"
+
 	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 )
 
-var Store = session.New()
-
+var Store = session.New(session.Config{
+	Expiration:        time.Hour * 24,
+	Storage:           nil,
+	KeyLookup:         "",
+	CookieDomain:      "",
+	CookiePath:        "",
+	CookieSecure:      false,
+	CookieHTTPOnly:    false,
+	CookieSameSite:    "",
+	CookieSessionOnly: false,
+	KeyGenerator: func() string {
+		panic("TODO")
+	},
+	CookieName: "",
+})
 
 func RequireAdminAuth(c *fiber.Ctx) error {
 	admin := c.Locals("admin")

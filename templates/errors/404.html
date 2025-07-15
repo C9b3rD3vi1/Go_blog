@@ -1,0 +1,28 @@
+{{ define "content" }}
+<div class="min-h-screen flex flex-col items-center justify-center bg-black text-green-400 font-mono px-4">
+  <!-- 404 SVG Image -->
+  <img src="/static/images/404-hacker.svg" alt="Hacker 404" class="w-60 md:w-80 mb-8 animate-bounce" />
+
+  <!-- Main 404 Message -->
+  <div class="text-center space-y-4 animate-fade-in">
+    <h1 class="text-6xl font-extrabold text-green-500 tracking-wide">[404] FILE NOT FOUND</h1>
+    <p class="text-md text-green-300">You’ve reached a dark corner of the matrix.</p>
+    <p class="text-sm text-green-700">> Attempted to access: <span class="italic">/void/unknown</span></p>
+
+    <!-- Back Home Button -->
+    <a href="/" class="mt-6 inline-flex items-center gap-2 border border-green-400 text-green-200 px-4 py-2 rounded hover:bg-green-800 hover:text-white transition-all">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      Return to Safety
+    </a>
+  </div>
+
+  <!-- Optional ASCII fallback -->
+  <pre class="mt-10 text-green-700 text-sm leading-tight hidden md:block animate-pulse">
+    ╔══════════════════════════════╗
+    ║         404 ERROR            ║
+    ║     No such directory.       ║
+    ║  Hack the right way, mate.   ║
+    ╚══════════════════════════════╝
+  </pre>
+</div>
+{{ end }}

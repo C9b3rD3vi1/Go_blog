@@ -1,0 +1,66 @@
+{{ define "content" }}
+<div class="max-w-2xl mx-auto bg-base-200 p-8 rounded-lg shadow-md">
+  <h2 class="text-3xl font-bold mb-4 text-primary flex items-center gap-2">
+    <i data-lucide="mail" class="w-6 h-6"></i> Contact Us
+  </h2>
+
+  {{ if .Success }}
+    <div class="alert alert-success mb-6">
+      <i data-lucide="check-circle" class="w-5 h-5"></i>
+      <span>Thanks for your message! We'll get back to you shortly.</span>
+    </div>
+  {{ end }}
+
+  <form method="POST" action="/contact" class="space-y-4">
+   <div class="form-control">
+
+     <div class="form-control">
+  <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+</div>
+
+     <label class="label">
+       <span class="label-text">Your Name</span>
+     </label>
+     <input type="text" name="name" placeholder="John Doe" class="input input-bordered" required />
+   </div>
+
+   <div class="form-control">
+     <label class="label">
+       <span class="label-text">Email Address</span>
+     </label>
+     <input type="email" name="email" placeholder="you@example.com" class="input input-bordered" required />
+   </div>
+
+   <div class="form-control">
+     <label class="label">
+       <span class="label-text">Subject</span>
+     </label>
+     <input type="text" name="subject" placeholder="Bug report, feedback, etc." class="input input-bordered" />
+   </div>
+
+   <div class="form-control">
+     <label class="label">
+       <span class="label-text">Your Message</span>
+     </label>
+     <textarea name="message" class="textarea textarea-bordered min-h-[120px]" placeholder="Write your message here..." required></textarea>
+   </div>
+
+   <button type="submit" class="btn btn-primary w-full gap-2">
+     <i data-lucide="send" class="w-4 h-4"></i> Send Message
+   </button>
+ </form>
+
+ <div class="divider my-6">OR</div>
+
+ <div class="text-center space-y-2 text-sm text-base-content/80">
+   <p>
+     <i data-lucide="mail" class="inline w-4 h-4 mr-1 text-primary"></i>
+     <a href="mailto:admin@hackerhub.com" class="link link-hover">admin@hackerhub.com</a>
+   </p>
+   <p>
+     <i data-lucide="map-pin" class="inline w-4 h-4 mr-1 text-primary"></i>
+     Nairobi, Kenya
+   </p>
+ </div>
+</div>
+{{ end }}
