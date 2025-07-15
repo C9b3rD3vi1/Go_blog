@@ -47,11 +47,11 @@ func ShowPostHandler(c *fiber.Ctx) error {
 }
 
 func HomePageHandler(c *fiber.Ctx) error {
-	return c.Render("/", fiber.Map{})
+	return c.Render("pages/index", fiber.Map{})
 
 }
 
 func UserRegisterHandler(c *fiber.Ctx) error {
-	return c.Render("/register", fiber.Map{})
+	return c.Render("pages/register", fiber.Map{})
 
 }
