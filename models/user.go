@@ -15,6 +15,7 @@ type User struct {
 	Password        string `gorm:"required"`
 	PasswordConfirm string
 	Address         string
+	TwoFASecret     string // save TOTP secret here
 	IsActive        bool
 
 	// admin

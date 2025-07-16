@@ -7,6 +7,7 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
+	"github.com/pquerna/otp/totp"
 	"golang.org/x/crypto/bcrypt"
 )
 
