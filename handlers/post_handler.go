@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
+
 	//"fmt"
 	"net/http"
 
-	"github.com/C9b3rD3vi1/Go_blog/config"
+	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
 )
@@ -26,7 +27,7 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	//post.Category = post.CategoryID
 
 	// save the post to the database
-	result := config.DB.Create(&post)
+	result := database.DB.Create(&post)
 
 	if result.Error != nil {
 		http.Error(w, result.Error.Error(), http.StatusInternalServerError)
@@ -46,54 +47,11 @@ func ShowPostHandler(c *fiber.Ctx) error {
 	return c.Render("post", post)
 }
 
-func HomePageHandler(c *fiber.Ctx) error {
-	return c.Render("pages/index", fiber.Map{})
-
-}
-
-func UserRegisterHandlerForm(c *fiber.Ctx) error {
-	return c.Render("pages/register", fiber.Map{})
-
-}
-
-func UserLoginHandlerForm(c *fiber.Ctx) error {
-	return c.Render("pages/login", fiber.Map{})
-
-}
-
-func UserContactHandlerForm(c *fiber.Ctx) error {
-	return c.Render("pages/contact", fiber.Map{})
-
-}
-
-func AboutUsHandler(c *fiber.Ctx) error {
-	return c.Render("pages/about", fiber.Map{})
-
-}
-
 func PostHandlerFunc(c *fiber.Ctx) error {
 	//	post := models.CreateSamplePost() // or fetch from DB
 
 	return c.Render("pages/post", fiber.Map{
 		//"post": post,
-	})
-}
-
-func BlogHandler(c *fiber.Ctx) error {
-	return c.Render("pages/blog", fiber.Map{
-		"Posts":       []any{}, // or []models.Post{}
-		"TotalPages":  1,
-		"CurrentPage": 1,
-		"PageRange":   []int{1},
-	})
-}
-
-func BlogPostHandler(c *fiber.Ctx) error {
-	//slug := c.Params("slug")
-	post := models.CreateSamplePost() // or fetch from DB
-
-	return c.Render("pages/post", fiber.Map{
-		"post": post,
 	})
 }
 

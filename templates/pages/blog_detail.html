@@ -1,0 +1,42 @@
+{{ define "title" }}{{ .Post.Title }} | Hacker Hub{{ end }} {{ define "content"
+}}
+<section class="max-w-4xl mx-auto px-4 py-16 font-mono text-[#00ff88]">
+    <h1
+        class="text-4xl md:text-5xl font-bold mb-6 text-center animate-pulse tracking-widest uppercase"
+    >
+        {{ .Post.Title }}
+    </h1>
+
+    <div
+        class="text-sm text-[#00ff88]/70 text-center mb-6 border-b border-dashed border-[#00ff88]/30 pb-2"
+    >
+        <span>by <span class="font-bold">{{ .Post.Author }}</span></span> &bull;
+        <span>{{ .Post.Published }}</span>
+    </div>
+
+    {{ if .Post.ImageURL }}
+    <div class="overflow-hidden rounded shadow mb-10" data-aos="zoom-in">
+        <img
+            src="{{ .Post.ImageURL }}"
+            alt="{{ .Post.Title }}"
+            class="w-full object-cover rounded-lg grayscale hover:grayscale-0 transition-all duration-300"
+        />
+    </div>
+    {{ end }}
+
+    <article
+        class="prose max-w-none prose-invert prose-p:text-[#00ff88]/90 prose-headings:text-[#00ff88] prose-a:text-[#00ff88]"
+    >
+        {{ .Post.SafeContent }}
+    </article>
+
+    <div class="mt-12 flex justify-start">
+        <a
+            href="/blog"
+            class="btn btn-outline border-[#00ff88] text-[#00ff88] hover:bg-[#00ff88] hover:text-black transition"
+        >
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Back to Blog
+        </a>
+    </div>
+</section>
+{{ end }}

@@ -10,18 +10,14 @@
             href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css"
             rel="stylesheet"
         />
-        <script src="https://cdn.tailwindcss.com"></script>
 
+        <script src="https://cdn.tailwindcss.com"></script>
         <!-- AOS Animation -->
         <link
             href="https://unpkg.com/aos@2.3.4/dist/aos.css"
             rel="stylesheet"
         />
         <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-        <script>
-            AOS.init();
-        </script>
-
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/static/css/styles.css" />
     </head>
@@ -40,7 +36,6 @@
                     <i data-lucide="shield" class="w-5 h-5"></i>
                     Hacker Hub
                 </a>
-
                 <div class="flex items-center space-x-2">
                     <!-- Desktop Menu -->
                     <ul class="menu menu-horizontal px-1 hidden md:flex">
@@ -71,7 +66,8 @@
                                 >Contact</a
                             >
                         </li>
-                        {{ if .User }}
+                        {{- if .IsLoggedIn -}}
+                        <p>Welcome, {{ .User.Username }}!</p>
                         <li>
                             <a href="/dashboard"
                                 ><i
@@ -81,7 +77,6 @@
                                 >Dashboard</a
                             >
                         </li>
-
                         <li>
                             <a href="/logout" class="text-error"
                                 ><i
@@ -91,7 +86,7 @@
                                 >Logout</a
                             >
                         </li>
-                        {{ else }}
+                        {{- else -}}
                         <li>
                             <a href="/login"
                                 ><i
@@ -110,7 +105,7 @@
                                 >Sign Up</a
                             >
                         </li>
-                        {{ end }}
+                        {{- end -}}
                     </ul>
 
                     <!-- Mobile Menu -->
@@ -158,7 +153,7 @@
                                     >Contact</a
                                 >
                             </li>
-                            {{ if .User }}
+                            {{- if .User -}}
                             <li>
                                 <a href="/dashboard"
                                     ><i
@@ -177,7 +172,7 @@
                                     >Logout</a
                                 >
                             </li>
-                            {{ else }}
+                            {{- else -}}
                             <li>
                                 <a href="/login"
                                     ><i
@@ -188,16 +183,15 @@
                                 >
                             </li>
                             <li>
-                                <a href="/register">
-                                    <i
+                                <a href="/register"
+                                    ><i
                                         data-lucide="user-plus"
                                         class="w-4 h-4 mr-1"
-                                    ></i>
-                                    Sign Up
-                                </a>
+                                    ></i
+                                    >Sign Up</a
+                                >
                             </li>
-
-                            {{ end }}
+                            {{- end -}}
                         </ul>
                     </div>
                 </div>
@@ -206,7 +200,7 @@
 
         <!-- Main content -->
         <main class="flex-1 container mx-auto px-4 py-8">
-            {{ block "content" . }}{{ end }}
+            {{- block "content" . -}}{{- end -}}
         </main>
 
         <!-- Footer -->
@@ -215,58 +209,44 @@
                 class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
             >
                 <p class="text-sm">&copy; Hacker Hub. All rights reserved.</p>
-
                 <div class="flex gap-4 text-base-content">
                     <a
                         href="https://github.com/C9b3rD3vi1"
                         target="_blank"
                         class="hover:text-primary"
                         aria-label="GitHub"
-                    >
-                        <i data-lucide="github" class="w-5 h-5"></i>
-                    </a>
+                        ><i data-lucide="github" class="w-5 h-5"></i
+                    ></a>
                     <a
                         href="https://twitter.com/yourhandle"
                         target="_blank"
                         class="hover:text-primary"
                         aria-label="Twitter"
-                    >
-                        <i data-lucide="twitter" class="w-5 h-5"></i>
-                    </a>
+                        ><i data-lucide="twitter" class="w-5 h-5"></i
+                    ></a>
                     <a
                         href="https://linkedin.com/in/yourhandle"
                         target="_blank"
                         class="hover:text-primary"
                         aria-label="LinkedIn"
-                    >
-                        <i data-lucide="linkedin" class="w-5 h-5"></i>
-                    </a>
+                        ><i data-lucide="linkedin" class="w-5 h-5"></i
+                    ></a>
                     <a
                         href="https://facebook.com/in/yourhandle"
                         target="_blank"
                         class="hover:text-primary"
                         aria-label="Facebook"
-                    >
-                        <i data-lucide="facebook" class="w-5 h-5"></i>
-                    </a>
+                        ><i data-lucide="facebook" class="w-5 h-5"></i
+                    ></a>
                 </div>
             </div>
         </footer>
-
         <!-- Custom JS -->
         <script src="/static/js/scripts.js"></script>
         <script src="https://unpkg.com/lucide@latest"></script>
         <script>
+            AOS.init();
             lucide.createIcons();
-        </script>
-        <script
-            src="https://www.google.com/recaptcha/api.js"
-            async
-            defer
-        ></script>
-
-        <!-- GitHub Stats Script -->
-        <script>
             fetch("/api/github-stats")
                 .then((res) => res.json())
                 .then((data) => {
@@ -274,5 +254,10 @@
                         data.contributors + "+";
                 });
         </script>
+        <script
+            src="https://www.google.com/recaptcha/api.js"
+            async
+            defer
+        ></script>
     </body>
 </html>

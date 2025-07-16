@@ -1,112 +1,104 @@
 {{ define "content" }}
-<div class="max-w-md mx-auto bg-base-200 p-8 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold mb-6 text-center">Create Your Account</h2>
+<section class="max-w-md mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-center text-primary mb-8">
+        Create Your Account
+    </h1>
 
-    <form action="/register" method="POST" class="space-y-4">
+    {{ if .error }}
+    <div class="alert alert-error mb-6">
+        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        <span>{{ .error }}</span>
+    </div>
+    {{ end }}
+
+    <form method="POST" action="/register" class="space-y-6">
         <!-- Full Name -->
         <div>
-            <label for="name" class="label">
-                <span class="label-text">Full Name</span>
+            <label class="label" for="fullname">
+                <span class="label-text font-semibold">Full Name</span>
             </label>
             <input
                 type="text"
-                id="name"
-                name="name"
-                placeholder="Jane Doe"
-                required
+                name="fullname"
+                id="fullname"
+                placeholder="e.g., Jane Doe"
                 class="input input-bordered w-full"
-            />
-        </div>
-
-        <!-- Email -->
-        <div>
-            <label for="email" class="label">
-                <span class="label-text">Email Address</span>
-            </label>
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="you@example.com"
                 required
-                class="input input-bordered w-full"
             />
         </div>
 
         <!-- Username -->
         <div>
-            <label for="username" class="label">
-                <span class="label-text">Username</span>
+            <label class="label" for="username">
+                <span class="label-text font-semibold">Username</span>
             </label>
             <input
                 type="text"
-                id="username"
                 name="username"
-                placeholder="hackerhub123"
-                required
+                id="username"
+                placeholder="e.g., janedoe"
                 class="input input-bordered w-full"
+                required
+            />
+        </div>
+
+        <!-- Email -->
+        <div>
+            <label class="label" for="email">
+                <span class="label-text font-semibold">Email</span>
+            </label>
+            <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="example@domain.com"
+                class="input input-bordered w-full"
+                required
             />
         </div>
 
         <!-- Password -->
         <div>
-            <label for="password" class="label">
-                <span class="label-text">Password</span>
+            <label class="label" for="password">
+                <span class="label-text font-semibold">Password</span>
             </label>
             <input
                 type="password"
-                id="password"
                 name="password"
-                placeholder="••••••••"
-                required
+                id="password"
                 class="input input-bordered w-full"
+                required
             />
         </div>
 
         <!-- Confirm Password -->
         <div>
-            <label for="confirm_password" class="label">
-                <span class="label-text">Confirm Password</span>
+            <label class="label" for="password_confirm">
+                <span class="label-text font-semibold">Confirm Password</span>
             </label>
             <input
                 type="password"
-                id="confirm_password"
-                name="confirm_password"
-                placeholder="••••••••"
-                required
+                name="password_confirm"
+                id="password_confirm"
                 class="input input-bordered w-full"
+                required
             />
         </div>
 
-        <!-- Terms -->
-        <div class="form-control">
-            <label class="cursor-pointer label justify-start gap-2">
-                <input
-                    type="checkbox"
-                    class="checkbox checkbox-primary"
-                    required
-                />
-                <span class="label-text text-sm"
-                    >I agree to the
-                    <a href="#" class="link link-primary"
-                        >terms and conditions</a
-                    ></span
-                >
-            </label>
-        </div>
-
         <!-- Submit Button -->
-        <div>
-            <button type="submit" class="btn btn-primary w-full">
-                Create Account
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-full gap-2">
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+                Register
             </button>
         </div>
-
-        <!-- Already have an account -->
-        <p class="text-center text-sm mt-4">
-            Already have an account?
-            <a href="/login" class="link link-secondary">Login here</a>
-        </p>
     </form>
-</div>
+
+    <p class="text-center mt-4 text-sm">
+        Already have an account?
+        <a href="/login" class="text-primary font-semibold hover:underline"
+            >Login here</a
+        >
+    </p>
+</section>
 {{ end }}

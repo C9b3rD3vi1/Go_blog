@@ -1,30 +1,46 @@
 {{ define "content" }}
 <div class="max-w-md mx-auto bg-base-200 p-8 rounded-lg shadow-md">
-  <h2 class="text-2xl font-bold mb-6 text-center text-primary">Login to Hacker Hub</h2>
+    <h2 class="text-2xl font-bold mb-6 text-center text-primary">
+        Login to Hacker Hub
+    </h2>
 
-  <form method="POST" action="/login" class="space-y-4">
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text">Email</span>
-      </label>
-      <input type="email" name="email" placeholder="you@example.com" class="input input-bordered" required />
-    </div>
+    <form method="POST" action="/login" class="space-y-5">
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">Email</span>
+            </label>
+            <input
+                type="email"
+                name="email"
+                placeholder="hackers@example.com"
+                class="input input-bordered"
+                required
+            />
+        </div>
 
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text">Password</span>
-      </label>
-      <input type="password" name="password" placeholder="••••••••" class="input input-bordered" required />
-    </div>
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">Password</span>
+            </label>
+            <input
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                class="input input-bordered"
+                required
+            />
+        </div>
 
-    <button type="submit" class="btn btn-primary w-full gap-2">
-      <i data-lucide="log-in" class="w-4 h-4"></i> Login
-    </button>
-  </form>
+        <button type="submit" class="btn btn-primary w-full gap-2">
+            <i data-lucide="log-in" class="w-4 h-4"></i> Login
+        </button>
+    </form>
 
-  <p class="mt-4 text-sm text-center">
-    Don't have an account?
-    <a href="pages/register" class="text-primary hover:underline">Register</a>
-  </p>
+    <p class="mt-4 text-sm text-center">
+        Don't have an account?
+        <a href="pages/register" class="text-primary hover:underline"
+            >Register</a
+        >
+    </p>
 </div>
 {{ end }}

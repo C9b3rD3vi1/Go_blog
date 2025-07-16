@@ -42,3 +42,20 @@ func RequireAdminAuth(c *fiber.Ctx) error {
 	return c.Next()
 
 }
+
+// create user session and store it in the context
+func CreateUserSession(c *fiber.Ctx) error {
+	user := c.Locals("user")
+	if user == nil {
+		return c.Next()
+	}
+	sess, err := Store.Get(c)
+	if err != nil {
+		return err
+	}
+	sess.Set("user", user)
+	if err := sess.Save(); err != nil {
+		return err
+	}
+	return c.Next()
+}

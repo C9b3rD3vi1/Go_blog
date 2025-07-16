@@ -6,6 +6,7 @@ import (
 
 	"github.com/C9b3rD3vi1/Go_blog/auth"
 	"github.com/C9b3rD3vi1/Go_blog/config"
+	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/middleware"
 
@@ -35,9 +36,13 @@ func main() {
 
 	//load static files
 	app.Static("/static", "./static")
+	app.Static("/upload", "./upload")
+
+	// initialize session
+	config.InitSession()
 
 	// Initialize the database
-	_, err := config.InitDB()
+	_, err := database.InitDB()
 	if err != nil {
 		log.Fatal("Could not initialize database:", err)
 	}
@@ -74,15 +79,17 @@ func main() {
 	// Route to handle logout
 	app.Get("/logout", auth.UserLogoutHandler)
 
-	// Route to handle logout
-	app.Get("/logout", auth.UserLogoutHandler)
-
 	// Route to handle post request
 	app.Post("/post", handlers.PostHandlerFunc)
 
 	// blog
 	app.Get("/blog", handlers.BlogHandler)
-	app.Get("/blog/:slug", handlers.BlogPostHandler)
+	app.Get("/blog_detail/:slug", handlers.BlogPostHandler)
+
+	// create blog post and save to database
+	app.Get("/admin/create_blog", handlers.ShowCreateBlogForm)
+	app.Post("/admin/create_blog", handlers.CreateBlogPostHandler)
+	app.Get("/blog/:slug", handlers.BlogDetailsHandler)
 
 	// github stats
 	app.Get("/api/github-stats", handlers.GitHubStatsHandler)

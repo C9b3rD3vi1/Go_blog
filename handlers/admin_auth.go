@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/C9b3rD3vi1/Go_blog/config"
+	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/middleware"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
@@ -19,7 +19,7 @@ func AdminAuthHandler(c *fiber.Ctx) error {
 	// Find admin user
 	var admin models.User
 
-	result := config.DB.Where("username = ? AND is_admin = ?", username, true).First(&admin)
+	result := database.DB.Where("username = ? AND is_admin = ?", username, true).First(&admin)
 	if result.Error != nil {
 		return c.Status(401).SendString("Invalid credentials")
 	}
@@ -74,7 +74,7 @@ func AdminPostList(c *fiber.Ctx) error {
 
 	// Fetch posts from the database
 	var posts []models.Post
-	result := config.DB.Find(&posts)
+	result := database.DB.Find(&posts)
 	if result.Error != nil {
 		return c.Status(500).SendString("Error fetching posts")
 	}
@@ -127,7 +127,7 @@ func AdminCreatePost(c *fiber.Ctx) error {
 	}
 
 	// Save the post to the database
-	result := config.DB.Create(&post)
+	result := database.DB.Create(&post)
 	if result.Error != nil {
 		return c.Status(500).SendString("Error creating post")
 	}
@@ -150,7 +150,7 @@ func AdminEditPostForm(c *fiber.Ctx) error {
 
 	// Fetch the post from the database
 	var post models.Post
-	result := config.DB.First(&post, id)
+	result := database.DB.First(&post, id)
 	if result.Error != nil {
 		return c.Status(404).SendString("Post not found")
 	}
@@ -177,7 +177,7 @@ func AdminUpdatePost(c *fiber.Ctx) error {
 
 	// Fetch the post from the database
 	var post models.Post
-	result := config.DB.First(&post, id)
+	result := database.DB.First(&post, id)
 	if result.Error != nil {
 		return c.Status(404).SendString("Post not found")
 	}
@@ -199,7 +199,7 @@ func AdminUpdatePost(c *fiber.Ctx) error {
 	post.Author = admin.(models.User).Username
 
 	// Save the updated post to the database
-	result = config.DB.Save(&post)
+	result = database.DB.Save(&post)
 	if result.Error != nil {
 		return c.Status(500).SendString("Error updating post")
 	}
@@ -222,13 +222,13 @@ func AdminDeletePost(c *fiber.Ctx) error {
 
 	// Fetch the post from the database
 	var post models.Post
-	result := config.DB.First(&post, id)
+	result := database.DB.First(&post, id)
 	if result.Error != nil {
 		return c.Status(404).SendString("Post not found")
 	}
 
 	// Delete the post from the database
-	result = config.DB.Delete(&post)
+	result = database.DB.Delete(&post)
 	if result.Error != nil {
 		return c.Status(500).SendString("Error deleting post")
 	}

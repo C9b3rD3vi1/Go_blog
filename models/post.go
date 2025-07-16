@@ -28,15 +28,6 @@ type Post struct {
 	gorm.Model
 }
 
-type BlogPost struct {
-	Title     string `json:"title" gorm:"not null"`
-	Slug      string `json:"slug" gorm:"not null;uniqueIndex"`
-	Excerpt   string `json:"excerpt" gorm:"not null"`
-	ImageURL  string `json:"image_url" gorm:"not null"`
-	Author    string `json:"author" gorm:"not null"`
-	Published string `json:"published" gorm:"not null"`
-}
-
 // category represents a blog post category in the database
 type Category struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`

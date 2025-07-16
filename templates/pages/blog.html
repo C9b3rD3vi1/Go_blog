@@ -1,27 +1,66 @@
 {{ define "content" }}
-<section class="max-w-6xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold mb-6">Blog</h1>
+<section class="max-w-7xl mx-auto px-4 py-16">
+    <h1
+        class="text-4xl md:text-5xl font-bold text-center text-[#00ff88] tracking-widest mb-12 animate-pulse uppercase"
+        data-aos="fade-in"
+    >
+        Hacker Hub Blog
+    </h1>
 
     {{ if .Posts }}
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
         {{ range .Posts }}
-        <div class="p-4 bg-base-200 rounded shadow">
-            <h2 class="text-xl font-bold">{{ .Title }}</h2>
-            <p class="text-sm mt-2">{{ .Excerpt }}</p>
-            <a href="/blog/{{ .Slug }}" class="btn btn-link mt-2"
-                >Read more →</a
-            >
+        <div
+            class="card bg-[#0d0d0d] border border-[#00ff88]/30 shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-[#00ff88]/50"
+            data-aos="fade-up"
+        >
+            <figure class="overflow-hidden rounded-t-md">
+                <img
+                    src="{{ .ImageURL }}"
+                    alt="{{ .Title }}"
+                    class="w-full h-48 object-cover filter grayscale hover:grayscale-0 transition-all duration-300"
+                />
+            </figure>
+
+            <div class="card-body text-[#00ff88] font-mono">
+                <h2
+                    class="text-lg font-bold truncate border-b border-dashed border-[#00ff88]/30 pb-2"
+                >
+                    {{ .Title }}
+                </h2>
+                <p
+                    class="text-sm text-[#00ff88]/80 mt-2 h-20 overflow-hidden line-clamp-3"
+                >
+                    {{ .Excerpt }}
+                </p>
+
+                <div
+                    class="mt-4 flex justify-between items-center text-xs text-[#00ff88]/60 italic"
+                >
+                    <span>by {{ .Author }}</span>
+                    <span>{{ .Published }}</span>
+                </div>
+
+                <a
+                    href="/blog/{{ .Slug }}"
+                    class="btn btn-outline btn-sm border-[#00ff88] text-[#00ff88] mt-4 hover:bg-[#00ff88] hover:text-black transition"
+                >
+                    ➤ Read More
+                </a>
+            </div>
         </div>
         {{ end }}
     </div>
     {{ else }}
-    <p class="text-center text-base-content">No blog posts found.</p>
+    <p class="text-center text-[#00ff88]/70 mt-12 text-xl font-mono">
+        No blog posts found.
+    </p>
     {{ end }} {{ if gt .TotalPages 1 }}
-    <div class="flex justify-center gap-2 mt-8">
+    <div class="flex justify-center flex-wrap gap-2 mt-16">
         {{ range $i := .PageRange }}
         <a
             href="/blog?page={{ $i }}"
-            class="btn btn-sm {{ if eq $.CurrentPage $i }}btn-primary{{ else }}btn-outline{{ end }}"
+            class="btn btn-sm {{ if eq $.CurrentPage $i }}bg-[#00ff88] text-black{{ else }}btn-outline border-[#00ff88] text-[#00ff88]{{ end }}"
         >
             {{ $i }}
         </a>
