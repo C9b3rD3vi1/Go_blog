@@ -20,6 +20,18 @@
         <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/static/css/styles.css" />
+
+        <style>
+            .terminal-cursor::after {
+                content: "_";
+                animation: blink 1s step-start infinite;
+            }
+            @keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
+        </style>
     </head>
     <body
         class="min-h-screen flex flex-col bg-base-100 text-base-content font-sans"
@@ -204,43 +216,50 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-base-200 p-6 mt-auto">
-            <div
-                class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
-            >
-                <p class="text-sm">&copy; Hacker Hub. All rights reserved.</p>
-                <div class="flex gap-4 text-base-content">
-                    <a
-                        href="https://github.com/C9b3rD3vi1"
-                        target="_blank"
-                        class="hover:text-primary"
-                        aria-label="GitHub"
-                        ><i data-lucide="github" class="w-5 h-5"></i
-                    ></a>
-                    <a
-                        href="https://twitter.com/yourhandle"
-                        target="_blank"
-                        class="hover:text-primary"
-                        aria-label="Twitter"
-                        ><i data-lucide="twitter" class="w-5 h-5"></i
-                    ></a>
-                    <a
-                        href="https://linkedin.com/in/yourhandle"
-                        target="_blank"
-                        class="hover:text-primary"
-                        aria-label="LinkedIn"
-                        ><i data-lucide="linkedin" class="w-5 h-5"></i
-                    ></a>
-                    <a
-                        href="https://facebook.com/in/yourhandle"
-                        target="_blank"
-                        class="hover:text-primary"
-                        aria-label="Facebook"
-                        ><i data-lucide="facebook" class="w-5 h-5"></i
-                    ></a>
+        <!-- Footer -->
+        <footer
+            class="bg-black text-[#00ff88] p-6 mt-auto font-mono text-sm border-t border-[#00ff88]/20"
+        >
+            <div class="container mx-auto flex flex-col gap-3">
+                <!-- Typing Terminal Section -->
+                <div class="whitespace-pre-line leading-snug">
+                    <span class="text-[#00ff88]">root@hackerhub:/# </span>
+                    <span id="terminal-text"></span>
+                    <span class="animate-pulse">█</span>
+                </div>
+
+                <!-- Footer Info -->
+                <div
+                    class="flex justify-between items-center pt-4 border-t border-[#00ff88]/20"
+                >
+                    <p>&copy; 2025 Hacker Hub. All shells reserved.</p>
+                    <div class="flex gap-3">
+                        <a
+                            href="https://github.com/C9b3rD3vi1"
+                            target="_blank"
+                            class="hover:text-white"
+                        >
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                        <a
+                            href="https://twitter.com/yourhandle"
+                            target="_blank"
+                            class="hover:text-white"
+                        >
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a
+                            href="https://linkedin.com/in/yourhandle"
+                            target="_blank"
+                            class="hover:text-white"
+                        >
+                            <i data-lucide="linkedin" class="w-4 h-4"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </footer>
+
         <!-- Custom JS -->
         <script src="/static/js/scripts.js"></script>
         <script src="https://unpkg.com/lucide@latest"></script>
@@ -259,5 +278,67 @@
             async
             defer
         ></script>
+
+        <script>
+            const terminalText = document.getElementById("terminal-text");
+            const messages = [
+                "Initializing shell... [OK]",
+                "Loading modules... [OK]",
+                "Establishing secure connection... [OK]",
+                "Sync complete at {{ now }}",
+                "→ Type 'help' for available commands",
+            ];
+
+            let msgIndex = 0;
+            let charIndex = 0;
+            let lines = []; // Holds all typed lines so far
+
+            function renderTerminal() {
+                // Join previous lines and add the current line + cursor
+                const prompt =
+                    '<span class="text-[#00ff88]">root@hackerhub:/# </span>';
+                const currentLine =
+                    messages[msgIndex]?.substring(0, charIndex) || "";
+                terminalText.innerHTML =
+                    lines.join("<br>") +
+                    "<br>" +
+                    prompt +
+                    currentLine +
+                    '<span class="animate-pulse">█</span>';
+            }
+
+            function typeNextChar() {
+                if (msgIndex >= messages.length) {
+                    // Restart after delay
+                    setTimeout(() => {
+                        msgIndex = 0;
+                        charIndex = 0;
+                        lines = [];
+                        typeNextChar();
+                    }, 4000);
+                    return;
+                }
+
+                const currentMsg = messages[msgIndex];
+                if (charIndex <= currentMsg.length) {
+                    renderTerminal();
+                    charIndex++;
+                    setTimeout(typeNextChar, 40);
+                } else {
+                    // Finish current message, move to next
+                    lines.push(
+                        '<span class="text-[#00ff88]">root@hackerhub:/# </span>' +
+                            currentMsg,
+                    );
+                    msgIndex++;
+                    charIndex = 0;
+                    setTimeout(typeNextChar, 700);
+                }
+            }
+
+            window.addEventListener("DOMContentLoaded", () => {
+                typeNextChar();
+            });
+        </script>
     </body>
 </html>
