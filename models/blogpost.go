@@ -10,6 +10,7 @@ type BlogPost struct {
 	Excerpt   string    `json:"excerpt" gorm:"not null"`
 	ImageURL  string    `json:"image_url" gorm:"not null"`
 	Author    string    `json:"author" gorm:"not null"`
+	Tags      string    `json:"tags" gorm:"not null;default:''"`
 	Published time.Time `json:"published" gorm:"not null"`
 	Content   string
 }

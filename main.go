@@ -54,14 +54,20 @@ func main() {
 	}
 
 	// admin login route
-	app.Get("/admin/login", handlers.AdminAuthHandler)
+	app.Get("/admin/login", auth.AdminAuthHandler)
 
 	// handle post request to admin login
-	app.Post("/admin/login", handlers.AdminAuthHandler)
+	app.Post("/admin/login", auth.AdminAuthHandler)
+	app.Get("/admin/verify", auth.ShowOTPPage)
+	app.Post("/admin/verify", auth.ShowOTPPage)
 
 	// Route to handle admin dashboard
 	app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard,
-		handlers.AdminCreatePost, handlers.AdminEditPostForm, handlers.AdminDeletePost)
+		handlers.AdminEditPostForm, handlers.AdminDeletePost)
+
+	// create blog post and save to database
+	app.Get("/admin/create_blog", handlers.ShowCreateBlogForm)
+	app.Post("/admin/create_blog", handlers.CreateBlogPostHandler)
 
 	// Route to render index.html
 	app.Get("/", handlers.HomePageHandler)
@@ -91,10 +97,6 @@ func main() {
 	// blog
 	app.Get("/blog", handlers.BlogHandler)
 	app.Get("/blog_detail/:slug", handlers.BlogPostHandler)
-
-	// create blog post and save to database
-	app.Get("/admin/create_blog", handlers.ShowCreateBlogForm)
-	app.Post("/admin/create_blog", handlers.CreateBlogPostHandler)
 	app.Get("/blog/:slug", handlers.BlogDetailsHandler)
 
 	// github stats
