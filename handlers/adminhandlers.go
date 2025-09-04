@@ -3,14 +3,13 @@ package handlers
 import (
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
-	"github.com/C9b3rD3vi1/Go_blog/middleware"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/gofiber/fiber/v2"
 )
 
 // AdminDashboard renders the admin dashboard
 func AdminDashboard(c *fiber.Ctx) error {
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")
@@ -36,7 +35,7 @@ func AdminDashboard(c *fiber.Ctx) error {
 
 // AdminPostList renders the admin post list
 func AdminPostList(c *fiber.Ctx) error {
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")
@@ -56,7 +55,7 @@ func AdminPostList(c *fiber.Ctx) error {
 
 // AdminEditPostForm renders the admin post edit form
 func AdminEditPostForm(c *fiber.Ctx) error {
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")
@@ -139,7 +138,7 @@ func AdminDeletePost(c *fiber.Ctx) error {
 
 // AdminNewProjectForm renders the add project form
 func AdminNewProjectForm(c *fiber.Ctx) error {
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")
@@ -152,7 +151,7 @@ func AdminNewProjectForm(c *fiber.Ctx) error {
 
 // AdminCreateProject handles POST request to add a new project
 func AdminCreateProject(c *fiber.Ctx) error {
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")
@@ -173,7 +172,7 @@ func AdminCreateProject(c *fiber.Ctx) error {
 
 // AdminDeleteProject deletes a project
 func AdminDeleteProject(c *fiber.Ctx) error {
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")
@@ -191,7 +190,7 @@ func AdminDeleteProject(c *fiber.Ctx) error {
 // create services functionality
 func AdminCreateServices(c *fiber.Ctx) error {
 	// fetch and check sessiona to ensure its the admin 
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")
@@ -211,10 +210,10 @@ func AdminCreateServices(c *fiber.Ctx) error {
 	
 }
 
-
+// AdminDeleteService deletes a service
 func AdminDeleteService(c *fiber.Ctx) error {
 	// fetch and check sessiona to ensure its the admin 
-	sess, _ := middleware.Store.Get(c)
+	sess, _ := config.Store.Get(c)
 	admin := sess.Get("admin")
 	if admin == nil {
 		return c.Redirect("/admin/login")

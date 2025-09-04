@@ -1,8 +1,7 @@
 package models
 
 import (
-	"fmt"
-
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -38,31 +37,19 @@ type Comment struct {
 	gorm.Model
 }
 
-// Create User function creates a new user entity.
-func CreateUser(ID int, fullName string, username string, email string, address string, isActive bool) User {
-	user := User{
-		FullName: fullName,
-		ID:       ID,
-		Username: username,
-		Email:    email,
-		Address:  address,
-		IsActive: isActive,
-	}
 
-	return user
+// HashPassword hashes the user's password
+func (u *User) HashPassword() error {
+    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+    if err != nil {
+        return err
+    }
+    u.Password = string(hashedPassword)
+    return nil
 }
 
-// UserCreate function creates a new user entity.
-func UserCreate() {
-	user := User{
-		FullName: "Nana Kwame",
-		ID:       1,
-		Email:    "nana.kwame@gmail.com",
-		Username: "nana_kwame",
-		Address:  "123 Main St, Anytown, USA",
-		IsActive: true,
-	}
-
-	fmt.Println(user)
-	fmt.Println("User created")
+// CheckPassword compares plain password with hashed password
+func (u *User) CheckPassword(password string) bool {
+    err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+    return err == nil
 }

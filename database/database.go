@@ -35,3 +35,28 @@ func InitDB() (*gorm.DB, error) {
 
 	return db, nil
 }
+
+// CreateAdminUser creates the initial admin user
+func CreateAdminUser(db *gorm.DB) error {
+    // Check if admin user already exists
+    var count int64
+    db.Model(&models.User{}).Where("username = ?", "admin").Count(&count)
+    
+    if count > 0 {
+        return nil // Admin already exists
+    }
+
+    admin := models.User{
+        Username: "admin",
+        Email:    "admin@example.com",
+        Password: "admin123", // Change this in production!
+        IsAdmin:  true,
+        IsActive: true,
+    }
+
+    if err := admin.HashPassword(); err != nil {
+        return err
+    }
+
+    return db.Create(&admin).Error
+}

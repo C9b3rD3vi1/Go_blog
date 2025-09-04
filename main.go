@@ -8,8 +8,10 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/auth"
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
+	"github.com/C9b3rD3vi1/Go_blog/routes"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
-	"github.com/C9b3rD3vi1/Go_blog/middleware"
+
+	//"github.com/C9b3rD3vi1/Go_blog/middleware"
 
 	//"github.com/C9b3rD3vi1/Go_blog/routes"
 	//"github.com/C9b3rD3vi1/Go_blog/models"
@@ -48,11 +50,25 @@ func main() {
 	config.InitSession()
 
 	// Initialize the database
-	_, err := database.InitDB()
-	if err != nil {
-		log.Fatal("Could not initialize database:", err)
-	}
+ // Initialize database
+    db, err := database.InitDB()
+    if err != nil {
+        log.Fatal("Database initialization failed:", err)
+    }
 
+    // Create admin user
+    if err := database.CreateAdminUser(db); err != nil {
+        log.Fatal("Failed to create admin user:", err)
+    }
+    log.Println("Admin user created/verified")
+
+
+    
+    
+    // Setup Adminroutes
+    routes.SetupAdminRoutes(app) 
+    
+    
 	// admin login route
 	app.Get("/admin/login", auth.AdminAuthHandler)
 
@@ -62,8 +78,8 @@ func main() {
 	app.Post("/admin/verify", auth.ShowOTPPage)
 
 	// Route to handle admin dashboard
-	app.Get("/admin/dashboard", middleware.RequireAdminAuth, handlers.AdminDashboard,
-		handlers.AdminEditPostForm, handlers.AdminDeletePost)
+	app.Get("/admin/dashboard",  handlers.AdminDashboard)
+	//	handlers.AdminEditPostForm, handlers.AdminDeletePost)
 
 	// create blog post and save to database
 	app.Get("/admin/dashboard", handlers.AdminDashboard)
@@ -72,13 +88,13 @@ func main() {
 	app.Get("/admin/edit/:id", handlers.AdminEditPostForm)
 	app.Post("/admin/edit/:id", handlers.AdminUpdatePost)
 	app.Get("/admin/delete/:id", handlers.AdminDeletePost)
-	
+
 	app.Get("/admin/new-project", handlers.AdminNewProjectForm)
 	app.Post("/admin/new-project", handlers.AdminCreateProject)
 	app.Get("/admin/delete-project/:id", handlers.AdminDeleteProject)
 
-	
-	
+
+
 	// Route to render index.html
 	app.Get("/", handlers.HomePageHandler)
 
