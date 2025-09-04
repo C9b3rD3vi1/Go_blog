@@ -8,9 +8,10 @@ import (
 func SetupPublicRoutes(app *fiber.App) {
     // Public services pages
     app.Get("/services", handlers.ServiceList)        // List all services
-    app.Get("/service/:id", handlers.ServiceView)    // Single service view
+    app.Get("/service/:slug", handlers.ServiceView)    // Single service view
 
-    // You can add other public pages here, e.g.:
-    // app.Get("/", handlers.HomePage)
-    // app.Get("/about", handlers.AboutPage)
+    // Public Project routes
+    app.Get("/projects", handlers.ProjectList)        // List all projects (public)
+    app.Get("/projects/:slug", handlers.ProjectView)  // View single project by slug
+
 }

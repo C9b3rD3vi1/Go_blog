@@ -1,0 +1,42 @@
+{{ define "content" }}
+<section class="bg-black text-green-400 min-h-screen py-10 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">📂 Manage Projects</h1>
+      <a href="/admin/projects/new" class="btn btn-success">+ New Project</a>
+    </div>
+
+    <div class="overflow-x-auto bg-gray-900 border border-green-600 rounded-lg shadow">
+      <table class="table w-full text-green-300">
+        <thead>
+          <tr class="bg-gray-800 text-green-400">
+            <th>Image</th>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range .Projects }}
+          <tr class="hover:bg-gray-800">
+            <td><img src="{{ .ImageURL }}" alt="{{ .Title }}" class="w-16 h-16 object-cover rounded-md" /></td>
+            <td>{{ .Title }}</td>
+            <td class="text-sm text-gray-400">{{ .Slug }}</td>
+            <td>{{ .CreatedAt.Format "2006-01-02" }}</td>
+            <td class="space-x-2">
+              <a href="/admin/projects/edit/{{ .ID }}" class="btn btn-xs btn-info">Edit</a>
+              <a href="/admin/projects/delete/{{ .ID }}" class="btn btn-xs btn-error" onclick="return confirm('Delete this project?')">Delete</a>
+            </td>
+          </tr>
+          {{ else }}
+          <tr>
+            <td colspan="5" class="text-center py-6 text-gray-500">No projects found.</td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{{ end }}

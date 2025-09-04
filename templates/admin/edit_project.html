@@ -1,0 +1,32 @@
+{{ define "content" }}
+<section class="bg-black text-green-400 min-h-screen py-10 px-6">
+  <div class="max-w-3xl mx-auto bg-gray-900 p-6 rounded-lg border border-green-600 shadow">
+    <h1 class="text-2xl font-bold mb-6">✏️ Edit Project</h1>
+
+    <form method="POST" action="/admin/projects/edit/{{ .Project.ID }}" enctype="multipart/form-data" class="space-y-4">
+      <div>
+        <label class="block text-sm font-bold mb-1">Title</label>
+        <input type="text" name="title" value="{{ .Project.Title }}" class="input input-bordered w-full" required />
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold mb-1">Description</label>
+        <textarea name="description" rows="5" class="textarea textarea-bordered w-full" required>{{ .Project.Description }}</textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold mb-1">Link</label>
+        <input type="url" name="link" value="{{ .Project.Link }}" class="input input-bordered w-full" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold mb-1">Replace Image</label>
+        <input type="file" name="image" accept="image/*" class="file-input w-full" />
+        <p class="text-xs text-gray-400 mt-1">Current: <img src="{{ .Project.ImageURL }}" alt="{{ .Project.Title }}" class="w-20 h-20 inline rounded-md" /></p>
+      </div>
+
+      <button type="submit" class="btn btn-info w-full">Update Project</button>
+    </form>
+  </div>
+</section>
+{{ end }}
