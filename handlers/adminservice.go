@@ -26,6 +26,7 @@ func AdminServiceList(c *fiber.Ctx) error {
     })
 }
 
+
 // AdminCreateServices handles the creation of a new service
 func AdminCreateServices(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
@@ -33,12 +34,20 @@ func AdminCreateServices(c *fiber.Ctx) error {
         return c.Redirect("/admin/login")
     }
 
+    // Get form values
+    title := c.FormValue("title")
+    description := c.FormValue("description")
+
     // Upload image if provided
     imageURL, _ := utils.UploadImage(c, "image")
 
+    // Generate unique slug
+    slug := utils.UniqueSlug(database.DB, "services", title)
+
     service := models.Services{
-        Title:       c.FormValue("title"),
-        Description: c.FormValue("description"),
+        Title:       title,
+        Description: description,
+        Slug:        slug,
         ImageURL:    imageURL,
     }
 
@@ -46,9 +55,8 @@ func AdminCreateServices(c *fiber.Ctx) error {
         return c.Status(500).SendString("Error saving service")
     }
 
-    return c.Redirect("/admin/dashboard")
+    return c.Redirect("/admin/services") // 👈 better UX: go to services list
 }
-
 
 
 
@@ -99,9 +107,9 @@ func AdminUpdateService(c *fiber.Ctx) error {
         return c.Redirect("/admin/login")
     }
 
-    id := c.Params("id")
+    slug := c.Params("slug")
     var service models.Services
-    if err := database.DB.First(&service, id).Error; err != nil {
+    if err := database.DB.First(&service, slug).Error; err != nil {
         return c.Status(404).SendString("Service not found")
     }
     // Upload image if provided
@@ -110,6 +118,8 @@ func AdminUpdateService(c *fiber.Ctx) error {
     service.Title = c.FormValue("title")
     service.Description = c.FormValue("description")
     service.ImageURL = imageURL
+    // Generate unique slug
+    slug = utils.UniqueSlug(database.DB, "services", service.Title)
 
     if err := database.DB.Save(&service).Error; err != nil {
         return c.Status(500).SendString("Error updating service")
@@ -125,9 +135,9 @@ func AdminViewService(c *fiber.Ctx) error {
         return c.Redirect("/admin/login")
     }
 
-    id := c.Params("id")
+    slug := c.Params("slug")
     var service models.Services
-    if err := database.DB.First(&service, id).Error; err != nil {
+    if err := database.DB.First(&service, slug).Error; err != nil {
         return c.Status(404).SendString("Service not found")
     }
 
