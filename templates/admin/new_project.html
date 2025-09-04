@@ -1,31 +1,70 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
 {{ define "content" }}
-<section class="bg-black text-green-400 min-h-screen py-10 px-6">
-  <div class="max-w-3xl mx-auto bg-gray-900 p-6 rounded-lg border border-green-600 shadow">
-    <h1 class="text-2xl font-bold mb-6">➕ Add New Project</h1>
-
-    <form method="POST" action="/admin/projects/new" enctype="multipart/form-data" class="space-y-4">
-      <div>
-        <label class="block text-sm font-bold mb-1">Title</label>
-        <input type="text" name="title" class="input input-bordered w-full" required />
+<section class="bg-gray-950 text-gray-200 min-h-screen p-6 md:p-12 flex items-center justify-center">
+  <div class="w-full max-w-2xl mx-auto animate-fade-in-up">
+    <div class="bg-gray-800 p-8 md:p-10 rounded-3xl shadow-2xl border border-gray-700">
+      <div class="mb-8 text-center">
+        <div class="p-3 bg-indigo-600 rounded-full inline-block mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-white mb-2">Create New Project</h1>
+        <p class="text-gray-400 max-w-sm mx-auto">Fill in the details below to add a new project to your portfolio dashboard.</p>
       </div>
 
-      <div>
-        <label class="block text-sm font-bold mb-1">Description</label>
-        <textarea name="description" rows="5" class="textarea textarea-bordered w-full" required></textarea>
-      </div>
+      <form method="POST" action="/admin/projects/new" enctype="multipart/form-data" class="space-y-6">
+        <div>
+          <label for="title" class="block text-sm font-semibold mb-2 text-gray-300">Project Title</label>
+          <input type="text" id="title" name="title" class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" placeholder="e.g., SaaS Dashboard" required />
+        </div>
 
-      <div>
-        <label class="block text-sm font-bold mb-1">Link</label>
-        <input type="url" name="link" class="input input-bordered w-full" placeholder="https://example.com" />
-      </div>
+        <div>
+          <label for="description" class="block text-sm font-semibold mb-2 text-gray-300">Description</label>
+          <textarea id="description" name="description" rows="5" class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors resize-none" placeholder="A brief overview of the project..." required></textarea>
+        </div>
 
-      <div>
-        <label class="block text-sm font-bold mb-1">Upload Image</label>
-        <input type="file" name="image" accept="image/*" class="file-input w-full" />
-      </div>
+        <div>
+          <label for="link" class="block text-sm font-semibold mb-2 text-gray-300">Project Link (Optional)</label>
+          <input type="url" id="link" name="link" class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" placeholder="https://example.com" />
+        </div>
 
-      <button type="submit" class="btn btn-success w-full">Save Project</button>
-    </form>
+        <div>
+          <label for="image" class="block text-sm font-semibold mb-2 text-gray-300">Upload Image</label>
+          <div class="flex items-center space-x-4">
+            <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-gray-400
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-indigo-600 file:text-white
+              hover:file:bg-indigo-700 transition-colors
+              cursor-pointer
+            "/>
+          </div>
+        </div>
+        
+        <button type="submit" class="w-full px-6 py-3 mt-4 text-base font-semibold rounded-xl shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 ease-in-out transform hover:scale-105">
+          Save Project
+        </button>
+      </form>
+    </div>
   </div>
 </section>
 {{ end }}
