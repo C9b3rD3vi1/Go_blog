@@ -55,6 +55,8 @@ func PostHandlerFunc(c *fiber.Ctx) error {
 	})
 }
 
+
+
 func GitHubStatsHandler(c *fiber.Ctx) error {
 	resp, err := http.Get("https://api.github.com/repos/C9b3rD3vi1/Go_blog/contributors")
 	if err != nil {

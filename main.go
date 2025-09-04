@@ -66,9 +66,19 @@ func main() {
 		handlers.AdminEditPostForm, handlers.AdminDeletePost)
 
 	// create blog post and save to database
-	app.Get("/admin/create_blog", handlers.ShowCreateBlogForm)
-	app.Post("/admin/create_blog", handlers.CreateBlogPostHandler)
+	app.Get("/admin/dashboard", handlers.AdminDashboard)
 
+	app.Get("/admin/posts", handlers.AdminPostList)
+	app.Get("/admin/edit/:id", handlers.AdminEditPostForm)
+	app.Post("/admin/edit/:id", handlers.AdminUpdatePost)
+	app.Get("/admin/delete/:id", handlers.AdminDeletePost)
+	
+	app.Get("/admin/new-project", handlers.AdminNewProjectForm)
+	app.Post("/admin/new-project", handlers.AdminCreateProject)
+	app.Get("/admin/delete-project/:id", handlers.AdminDeleteProject)
+
+	
+	
 	// Route to render index.html
 	app.Get("/", handlers.HomePageHandler)
 
@@ -98,6 +108,9 @@ func main() {
 	app.Get("/blog", handlers.BlogHandler)
 	app.Get("/blog_detail/:slug", handlers.BlogPostHandler)
 	app.Get("/blog/:slug", handlers.BlogDetailsHandler)
+
+	// project
+	app.Get("/projects", handlers.ProjectsHandler)
 
 	// github stats
 	app.Get("/api/github-stats", handlers.GitHubStatsHandler)
