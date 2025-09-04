@@ -37,6 +37,7 @@ func main() {
 	engine.AddFunc("now", func() string {
 		return time.Now().Format("2006-01-02 15:04:05")
 	})
+	
 
 	app := fiber.New(fiber.Config{
 		Views: engine,
@@ -67,6 +68,7 @@ func main() {
     
     // Setup Adminroutes
     routes.SetupAdminRoutes(app) 
+    routes.SetupPublicRoutes(app)
     
     
 //	app.Get("/admin/verify", auth.ShowOTPPage)

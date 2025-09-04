@@ -1,0 +1,93 @@
+{{ define "content" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Our Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #1f2937;
+        }
+
+        .service-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08), 0 6px 12px -4px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transform: translateY(0);
+            will-change: transform, box-shadow;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .staggered-animation {
+            animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen">
+    <header class="bg-white shadow py-10 mb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold text-center text-gray-900 leading-tight">Our Services</h1>
+            <p class="mt-2 text-lg text-center text-gray-600 max-w-2xl mx-auto">Explore the range of services we offer, each designed to meet your specific needs with efficiency and excellence.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6 sm:p-8 lg:p-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {{ range .Services }}
+            <div class="service-card p-8 flex flex-col justify-between">
+                <div>
+                    {{ if .ImageURL }}
+                        <img src="{{ .ImageURL }}" alt="{{ .Title }}" class="w-full h-48 object-cover rounded-lg mb-6 transform scale-100 hover:scale-105 transition-transform duration-300">
+                    {{ end }}
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">{{ .Title }}</h2>
+                    <p class="text-gray-600 mb-4 leading-relaxed">{{ .Description }}</p>
+                </div>
+                <div class="mt-4">
+                    <a href="/service/{{ .ID }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-semibold transition-colors duration-200">
+                        View More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2">
+                            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('staggered-animation');
+            });
+        });
+    </script>
+</body>
+</html>
+{{ end }}

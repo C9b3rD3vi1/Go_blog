@@ -31,13 +31,21 @@ func SetupAdminRoutes(app *fiber.App) {
     admin.Post("/posts/edit/:id", handlers.AdminUpdatePost)
     admin.Get("/posts/delete/:id", handlers.AdminDeletePost)
 
-    // Projects
+    // Projects admin routes
+    //admin.Get("/projects", handlers.AdminProjectList)
     admin.Get("/projects/new", handlers.AdminNewProjectForm)
     admin.Post("/projects/new", handlers.AdminCreateProject)
     admin.Get("/projects/delete/:id", handlers.AdminDeleteProject)
 
+    
     // Services
-    admin.Get("/services/new", handlers.AdminNewServiceForm) // display
-    admin.Post("/services/new", handlers.AdminCreateServices)
-    admin.Get("/services/delete/:id", handlers.AdminDeleteService)
+    // Services Admin Routes
+    admin.Get("/services", handlers.AdminServiceList)            // List all services
+    admin.Get("/services/new", handlers.AdminNewServiceForm)    // Show form to create
+    admin.Post("/services/new", handlers.AdminCreateServices)   // Handle create
+    admin.Get("/services/edit/:id", handlers.AdminEditServiceForm)  // Show edit form
+    admin.Post("/services/edit/:id", handlers.AdminUpdateService)   // Handle update
+    admin.Get("/services/delete/:id", handlers.AdminDeleteService)  // Delete
+    admin.Get("/services/:id", handlers.AdminViewService)       // View single service
+
 }

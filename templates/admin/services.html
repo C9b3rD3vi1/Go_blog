@@ -1,0 +1,116 @@
+{{ define "content" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ .Title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1f2937;
+        }
+        .content-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+        }
+        .btn-action {
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+        .btn-add {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-add:hover {
+            background-color: #2563eb;
+        }
+        .btn-edit {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-edit:hover {
+            background-color: #2563eb;
+        }
+        .btn-delete {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-delete:hover {
+            background-color: #dc2626;
+        }
+        .btn-view {
+            background-color: #a855f7;
+            color: white;
+        }
+        .btn-view:hover {
+            background-color: #9333ea;
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="min-h-screen">
+    <!-- Main Content -->
+    <main class="container mx-auto p-6 space-y-8 max-w-7xl">
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <h2 class="text-3xl font-bold">Services</h2>
+            <div class="relative w-full sm:w-64">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span data-lucide="search" class="w-5 h-5 text-gray-400"></span>
+                </span>
+                <input type="search" placeholder="Search..." class="w-full pl-10 pr-4 py-2 rounded-full bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm" />
+            </div>
+        </div>
+
+        <!-- Services Table -->
+        <div class="content-card p-6 rounded-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Services</h3>
+                <a href="/admin/services/new" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm">Add New Service</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left table-auto">
+                    <thead>
+                        <tr class="text-xs text-gray-500 uppercase tracking-wider bg-gray-50">
+                            <th class="py-3 px-4 font-semibold rounded-tl-lg">Title</th>
+                            <th class="py-3 px-4 font-semibold">Description</th>
+                            <th class="py-3 px-4 font-semibold rounded-tr-lg text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {{ range .Services }}
+                        <tr>
+                            <td class="py-3 px-4 text-sm">{{ .Title }}</td>
+                            <td class="py-3 px-4 text-sm">{{ .Description }}</td>
+                            <td class="py-3 px-4 text-sm text-right space-x-2">
+                                <a href="/admin/services/new/{{ .ID }}" class="btn-action btn-add text-xs px-2 py-1">Add</a>
+                                <a href="/admin/services/edit/{{ .ID }}" class="btn-action btn-edit text-xs px-2 py-1">Edit</a>
+                                <a href="/admin/services/delete/{{ .ID }}" class="btn-action btn-delete text-xs px-2 py-1">Delete</a>
+                                <a href="/admin/services/{{ .ID }}" class="btn-action btn-view text-xs px-2 py-1">View</a>
+                            </td>
+                        </tr>
+                        {{ else }}
+                        <tr>
+                            <td colspan="3" class="py-4 text-center text-gray-500">No services yet</td>
+                        </tr>
+                        {{ end }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+{{ end }}
