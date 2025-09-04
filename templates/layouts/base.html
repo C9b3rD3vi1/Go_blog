@@ -1,208 +1,81 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{{ block "title" . }}Hacker Hub{{ end }}</title>
+        <title>{{ block "title" . }}SaaS Portfolio{{ end }}</title>
 
-        <!-- TailwindCSS + DaisyUI CDN -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css"
-            rel="stylesheet"
-        />
-
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css" rel="stylesheet" />
         <script src="https://cdn.tailwindcss.com"></script>
-        <!-- AOS Animation -->
-        <link
-            href="https://unpkg.com/aos@2.3.4/dist/aos.css"
-            rel="stylesheet"
-        />
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <script src="https://unpkg.com/lucide@latest"></script>
+
+        <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
         <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="/static/css/styles.css" />
 
         <style>
-            .terminal-cursor::after {
-                content: "_";
-                animation: blink 1s step-start infinite;
+            body {
+                font-family: 'Inter', sans-serif;
             }
-            @keyframes blink {
-                50% {
-                    opacity: 0;
-                }
+            .hero-section {
+                background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 30v-4H8v4H4v2h4v4h4v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4H8v4H4v2h4v4h4v-4h4v-2h-4zM36 46v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 46v-4H8v4H4v2h4v4h4v-4h4v-2h-4zM48 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 16v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM48 46v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+                background-size: 60px 60px;
+                animation: move-pattern 20s linear infinite;
+            }
+            @keyframes move-pattern {
+                0% { background-position: 0 0; }
+                100% { background-position: 60px 60px; }
             }
         </style>
     </head>
-    <body
-        class="min-h-screen flex flex-col bg-base-100 text-base-content font-sans"
-    >
-        <!-- Header/Navbar -->
-        <header class="navbar bg-base-200 shadow">
-            <div
-                class="container mx-auto px-4 flex flex-wrap justify-between items-center"
-            >
-                <a
-                    href="/"
-                    class="text-xl font-bold text-primary flex items-center gap-2"
-                >
-                    <i data-lucide="shield" class="w-5 h-5"></i>
-                    Hacker Hub
+    <body class="min-h-screen flex flex-col bg-base-100 text-base-content font-sans">
+        <header class="navbar bg-base-100 shadow-sm border-b border-base-200">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <a href="/" class="text-2xl font-bold text-primary flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-6 h-6 text-primary"></i>
+                    SaaS Studio
                 </a>
                 <div class="flex items-center space-x-2">
-                    <!-- Desktop Menu -->
-                    <ul class="menu menu-horizontal px-1 hidden md:flex">
-                        <li>
-                            <a href="/"
-                                ><i data-lucide="home" class="w-4 h-4 mr-1"></i
-                                >Home</a
-                            >
-                        </li>
-                        <li>
-                            <a href="/blog"
-                                ><i
-                                    data-lucide="book-open"
-                                    class="w-4 h-4 mr-1"
-                                ></i
-                                >Blog</a
-                            >
-                        </li>
-                        <li>
-                            <a href="/about"
-                                ><i data-lucide="info" class="w-4 h-4 mr-1"></i
-                                >About</a
-                            >
-                        </li>
-                        <li>
-                            <a href="/contact"
-                                ><i data-lucide="mail" class="w-4 h-4 mr-1"></i
-                                >Contact</a
-                            >
-                        </li>
-                        {{- if .IsLoggedIn -}}
-                        <p>Welcome, {{ .User.Username }}!</p>
-                        <li>
-                            <a href="/dashboard"
-                                ><i
-                                    data-lucide="layout-dashboard"
-                                    class="w-4 h-4 mr-1"
-                                ></i
-                                >Dashboard</a
-                            >
-                        </li>
-                        <li>
-                            <a href="/logout" class="text-error"
-                                ><i
-                                    data-lucide="log-out"
-                                    class="w-4 h-4 mr-1"
-                                ></i
-                                >Logout</a
-                            >
-                        </li>
-                        {{- else -}}
-                        <li>
-                            <a href="/login"
-                                ><i
-                                    data-lucide="log-in"
-                                    class="w-4 h-4 mr-1"
-                                ></i
-                                >Login</a
-                            >
-                        </li>
-                        <li>
-                            <a href="/register"
-                                ><i
-                                    data-lucide="user-plus"
-                                    class="w-4 h-4 mr-1"
-                                ></i
-                                >Sign Up</a
-                            >
-                        </li>
-                        {{- end -}}
+                    <ul class="menu menu-horizontal px-1 hidden md:flex font-medium items-center">
+                        <li><a href="/" class="hover:text-primary">Home</a></li>
+                        <li><a href="/projects" class="hover:text-primary">Projects</a></li>
+                        <li><a href="/services" class="hover:text-primary">Services</a></li>
+                        <li><a href="/about" class="hover:text-primary">About</a></li>
+                        <li><a href="/contact" class="hover:text-primary">Contact</a></li>
+                        <div class="pl-4">
+                            {{- if .IsLoggedIn -}}
+                            <li><a href="/dashboard" class="btn btn-primary btn-sm">Dashboard</a></li>
+                            {{- else -}}
+                            <li class="flex-row gap-2">
+                                <a href="/login" class="btn btn-ghost btn-sm">Log In</a>
+                                <a href="/register" class="btn btn-primary btn-sm">Sign Up</a>
+                            </li>
+                            {{- end -}}
+                        </div>
                     </ul>
 
-                    <!-- Mobile Menu -->
-                    <div class="dropdown md:hidden">
+                    <div class="dropdown dropdown-end md:hidden">
                         <label tabindex="0" class="btn btn-ghost">
                             <i data-lucide="menu" class="w-6 h-6"></i>
                         </label>
-                        <ul
-                            tabindex="0"
-                            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-                        >
-                            <li>
-                                <a href="/"
-                                    ><i
-                                        data-lucide="home"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >Home</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/blog"
-                                    ><i
-                                        data-lucide="book-open"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >Blog</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/about"
-                                    ><i
-                                        data-lucide="info"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >About</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/contact"
-                                    ><i
-                                        data-lucide="mail"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >Contact</a
-                                >
-                            </li>
-                            {{- if .User -}}
-                            <li>
-                                <a href="/dashboard"
-                                    ><i
-                                        data-lucide="layout-dashboard"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >Dashboard</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/logout" class="text-error"
-                                    ><i
-                                        data-lucide="log-out"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >Logout</a
-                                >
-                            </li>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/projects">Projects</a></li>
+                            <li><a href="/services">Services</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                            {{- if .IsLoggedIn -}}
+                            <div class="divider"></div>
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li><a href="/logout" class="text-error">Logout</a></li>
                             {{- else -}}
-                            <li>
-                                <a href="/login"
-                                    ><i
-                                        data-lucide="log-in"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >Login</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/register"
-                                    ><i
-                                        data-lucide="user-plus"
-                                        class="w-4 h-4 mr-1"
-                                    ></i
-                                    >Sign Up</a
-                                >
-                            </li>
+                            <div class="divider"></div>
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/register">Sign Up</a></li>
                             {{- end -}}
                         </ul>
                     </div>
@@ -210,135 +83,112 @@
             </div>
         </header>
 
-        <!-- Main content -->
-        <main class="flex-1 container mx-auto px-4 py-8">
-            {{- block "content" . -}}{{- end -}}
+        <main class="flex-1 container mx-auto px-4 py-16">
+            {{- block "content" . -}}
+            <section class="hero-section text-center py-20 rounded-box shadow-lg mb-16 bg-base-200" data-aos="fade-up" data-aos-duration="1000">
+                <div class="max-w-3xl mx-auto">
+                    <h1 class="text-5xl font-extrabold text-base-content leading-tight mb-4" data-aos="fade-up" data-aos-delay="200">
+                        Building the Future of Software, Together.
+                    </h1>
+                    <p class="text-xl text-base-content/80 mb-8" data-aos="fade-up" data-aos-delay="400">
+                        Crafting innovative and scalable software solutions that drive real results for your business.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4" data-aos="fade-up" data-aos-delay="600">
+                        <a href="/contact" class="btn btn-primary btn-lg shadow-lg">Get a Quote</a>
+                        <a href="/projects" class="btn btn-outline btn-lg">View Projects</a>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="py-16">
+                <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">Our Core Services</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card bg-base-200 shadow-xl border border-base-300 transition-all duration-300 hover:scale-105 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-body items-center text-center">
+                            <i data-lucide="layout" class="w-12 h-12 text-primary mb-4"></i>
+                            <h3 class="card-title text-xl font-semibold">Web Development</h3>
+                            <p class="text-sm text-base-content/80">
+                                Modern, responsive, and high-performance web applications tailored to your needs.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card bg-base-200 shadow-xl border border-base-300 transition-all duration-300 hover:scale-105 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="300">
+                        <div class="card-body items-center text-center">
+                            <i data-lucide="smartphone" class="w-12 h-12 text-primary mb-4"></i>
+                            <h3 class="card-title text-xl font-semibold">Mobile App Development</h3>
+                            <p class="text-sm text-base-content/80">
+                                Native and cross-platform mobile apps for iOS and Android.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card bg-base-200 shadow-xl border border-base-300 transition-all duration-300 hover:scale-105 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="400">
+                        <div class="card-body items-center text-center">
+                            <i data-lucide="cloud" class="w-12 h-12 text-primary mb-4"></i>
+                            <h3 class="card-title text-xl font-semibold">Cloud Solutions</h3>
+                            <p class="text-sm text-base-content/80">
+                                Scalable and secure cloud infrastructure and deployment services.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="bg-primary text-primary-content py-16 px-8 rounded-box shadow-xl text-center" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-4">Ready to Start Your Project?</h2>
+                <p class="text-xl mb-8">
+                    We're here to turn your ideas into a successful software product.
+                </p>
+                <a href="/contact" class="btn btn-secondary btn-lg shadow-lg">Let's Talk</a>
+            </section>
+            
+            {{- end -}}
         </main>
 
-        <!-- Footer -->
-        <!-- Footer -->
-        <footer
-            class="bg-black text-[#00ff88] p-6 mt-auto font-mono text-sm border-t border-[#00ff88]/20"
-        >
-            <div class="container mx-auto flex flex-col gap-3">
-                <!-- Typing Terminal Section -->
-                <div class="whitespace-pre-line leading-snug">
-                    <span class="text-[#00ff88]">root@hackerhub:/# </span>
-                    <span id="terminal-text"></span>
-                    <span class="animate-pulse">█</span>
-                </div>
-
-                <!-- Footer Info -->
-                <div
-                    class="flex justify-between items-center pt-4 border-t border-[#00ff88]/20"
-                >
-                    <p>&copy; 2025 Hacker Hub. All shells reserved.</p>
-                    <div class="flex gap-3">
-                        <a
-                            href="https://github.com/C9b3rD3vi1"
-                            target="_blank"
-                            class="hover:text-white"
-                        >
-                            <i data-lucide="github" class="w-4 h-4"></i>
-                        </a>
-                        <a
-                            href="https://twitter.com/yourhandle"
-                            target="_blank"
-                            class="hover:text-white"
-                        >
-                            <i data-lucide="twitter" class="w-4 h-4"></i>
-                        </a>
-                        <a
-                            href="https://linkedin.com/in/yourhandle"
-                            target="_blank"
-                            class="hover:text-white"
-                        >
-                            <i data-lucide="linkedin" class="w-4 h-4"></i>
-                        </a>
-                    </div>
+        <footer class="footer bg-base-200 text-base-content p-10 mt-auto">
+            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <aside>
+                    <a href="/" class="text-3xl font-bold text-primary flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-8 h-8 text-primary"></i>
+                        SaaS Studio
+                    </a>
+                    <p class="text-sm mt-2">
+                        Crafting innovative software solutions for the modern world.
+                        <br/>&copy; 2025 SaaS Studio. All rights reserved.
+                    </p>
+                </aside> 
+                <nav>
+                    <header class="footer-title">Services</header> 
+                    <a class="link link-hover" href="/services#web-dev">Web Development</a>
+                    <a class="link link-hover" href="/services#mobile-dev">Mobile App Development</a>
+                    <a class="link link-hover" href="/services#cloud-solutions">Cloud Solutions</a>
+                    <a class="link link-hover" href="/services#consulting">Consulting</a>
+                </nav> 
+                <nav>
+                    <header class="footer-title">Company</header> 
+                    <a class="link link-hover" href="/about">About Us</a>
+                    <a class="link link-hover" href="/contact">Contact</a>
+                    <a class="link link-hover" href="/careers">Careers</a>
+                    <a class="link link-hover" href="/press">Press Kit</a>
+                </nav> 
+                <nav>
+                    <header class="footer-title">Legal</header> 
+                    <a class="link link-hover" href="/terms">Terms of use</a>
+                    <a class="link link-hover" href="/privacy">Privacy policy</a>
+                    <a class="link link-hover" href="/cookies">Cookie policy</a>
+                </nav>
+            </div>
+            <div class="container mx-auto text-center mt-8 pt-4 border-t border-base-300">
+                <div class="flex justify-center gap-4">
+                    <a href="https://github.com/yourhandle" target="_blank" class="link link-hover"><i data-lucide="github" class="w-6 h-6"></i></a>
+                    <a href="https://twitter.com/yourhandle" target="_blank" class="link link-hover"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                    <a href="https://linkedin.com/in/yourhandle" target="_blank" class="link link-hover"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
                 </div>
             </div>
         </footer>
 
-        <!-- Custom JS -->
-        <script src="/static/js/scripts.js"></script>
-        <script src="https://unpkg.com/lucide@latest"></script>
         <script>
             AOS.init();
             lucide.createIcons();
-            fetch("/api/github-stats")
-                .then((res) => res.json())
-                .then((data) => {
-                    document.getElementById("contributor-count").innerText =
-                        data.contributors + "+";
-                });
-        </script>
-        <script
-            src="https://www.google.com/recaptcha/api.js"
-            async
-            defer
-        ></script>
-
-        <script>
-            const terminalText = document.getElementById("terminal-text");
-            const messages = [
-                "Initializing shell... [OK]",
-                "Loading modules... [OK]",
-                "Establishing secure connection... [OK]",
-                "Sync complete at {{ now }}",
-                "→ Type 'help' for available commands",
-            ];
-
-            let msgIndex = 0;
-            let charIndex = 0;
-            let lines = []; // Holds all typed lines so far
-
-            function renderTerminal() {
-                // Join previous lines and add the current line + cursor
-                const prompt =
-                    '<span class="text-[#00ff88]">root@hackerhub:/# </span>';
-                const currentLine =
-                    messages[msgIndex]?.substring(0, charIndex) || "";
-                terminalText.innerHTML =
-                    lines.join("<br>") +
-                    "<br>" +
-                    prompt +
-                    currentLine +
-                    '<span class="animate-pulse">█</span>';
-            }
-
-            function typeNextChar() {
-                if (msgIndex >= messages.length) {
-                    // Restart after delay
-                    setTimeout(() => {
-                        msgIndex = 0;
-                        charIndex = 0;
-                        lines = [];
-                        typeNextChar();
-                    }, 4000);
-                    return;
-                }
-
-                const currentMsg = messages[msgIndex];
-                if (charIndex <= currentMsg.length) {
-                    renderTerminal();
-                    charIndex++;
-                    setTimeout(typeNextChar, 40);
-                } else {
-                    // Finish current message, move to next
-                    lines.push(
-                        '<span class="text-[#00ff88]">root@hackerhub:/# </span>' +
-                            currentMsg,
-                    );
-                    msgIndex++;
-                    charIndex = 0;
-                    setTimeout(typeNextChar, 700);
-                }
-            }
-
-            window.addEventListener("DOMContentLoaded", () => {
-                typeNextChar();
-            });
         </script>
     </body>
 </html>

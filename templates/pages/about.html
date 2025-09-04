@@ -1,166 +1,249 @@
 {{ define "content" }}
-<section class="max-w-6xl mx-auto px-4 py-12 space-y-20">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Hacker Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .hero-gradient {
+            background-image: radial-gradient(at center, rgba(55, 65, 81, 0.1) 0%, rgba(247, 250, 252, 0.5) 75%);
+        }
+        .icon {
+            color: #4a90e2; /* Matches a primary-like color */
+        }
+        /* Custom staggered animations */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .stagger-item {
+            animation: fadeInSlideUp 0.6s ease-out forwards;
+            opacity: 0; /* Start hidden */
+        }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+        .stagger-7 { animation-delay: 0.7s; }
+        .stagger-8 { animation-delay: 0.8s; }
+        .stagger-9 { animation-delay: 0.9s; }
+        .stagger-10 { animation-delay: 1.0s; }
+        .stagger-11 { animation-delay: 1.1s; }
+        .stagger-12 { animation-delay: 1.2s; }
+        .stagger-13 { animation-delay: 1.3s; }
+        .stagger-14 { animation-delay: 1.4s; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+<section class="max-w-7xl mx-auto px-6 py-20 space-y-24">
+
     <!-- Hero / Intro -->
-    <div class="text-center">
-        <h1 class="text-4xl font-bold text-primary mb-4">About Hacker Hub</h1>
-        <p class="text-lg text-base-content max-w-2xl mx-auto">
+    <div class="text-center space-y-6 hero-gradient rounded-3xl p-12 stagger-item stagger-1">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900">
+            Building the Future of Cybersecurity Education
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             Hacker Hub is a developer-first platform empowering web builders,
             cybersecurity enthusiasts, and ethical hackers with practical tools
             and community-powered learning.
         </p>
     </div>
 
-    <!-- Who We Are -->
-    <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
+    <!-- Who We Are - Staggered Section 1 -->
+    <div class="grid md:grid-cols-2 gap-12 items-center stagger-item stagger-2">
+        <div class="p-4 rounded-3xl overflow-hidden shadow-xl">
             <img
-                src="/static/images/about-us.svg"
+                src="https://placehold.co/800x600/e2e8f0/64748b?text=Innovation+and+Community"
                 alt="Hacker Hub Overview"
-                class="w-full h-auto rounded-lg shadow"
+                class="w-full h-auto rounded-2xl transition duration-300 hover:scale-105"
             />
         </div>
-        <div>
-            <h2 class="text-2xl font-semibold mb-4">Who We Are</h2>
-            <p class="mb-4">
-                We’re a passionate team of developers, hackers, and open-source
-                contributors. Our platform provides educational content,
-                real-world projects, and community collaboration focused on
-                security, development, and innovation.
+        <div class="space-y-6">
+            <h2 class="text-4xl font-bold text-gray-900">Who We Are</h2>
+            <p class="text-gray-700 leading-relaxed">
+                We're a passionate team of developers, hackers, and open-source contributors
+                dedicated to creating a transparent and integrity-driven platform. We provide
+                educational content, real-world projects, and community collaboration focused
+                on security, development, and innovation.
             </p>
-            <p>
-                Built from the ground up with transparency and integrity, Hacker
-                Hub is your place to grow, contribute, and thrive in tech.
+            <p class="text-gray-700 leading-relaxed">
+                Hacker Hub is built from the ground up to be your place to grow, contribute,
+                and thrive in the ever-evolving world of technology.
             </p>
+        </div>
+    </div>
+
+    <!-- Our Mission - Staggered Section 2 -->
+    <div class="grid md:grid-cols-2 gap-12 items-center stagger-item stagger-3">
+        <div class="order-2 md:order-1 space-y-6">
+            <h2 class="text-4xl font-bold text-gray-900">Our Mission</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Our mission is to democratize cybersecurity and web development education. We believe that
+                everyone, regardless of their background, should have access to the tools and knowledge
+                needed to build secure applications and navigate the digital world safely.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Through our community-driven approach, we foster an environment of continuous learning
+                and shared expertise, making the complex world of hacking and development accessible to all.
+            </p>
+        </div>
+        <div class="order-1 md:order-2 p-4 rounded-3xl overflow-hidden shadow-xl">
+            <img
+                src="https://placehold.co/800x600/f3f4f6/6b7280?text=Democratizing+Education"
+                alt="Our Mission"
+                class="w-full h-auto rounded-2xl transition duration-300 hover:scale-105"
+            />
         </div>
     </div>
 
     <!-- Meet the Team -->
     <div>
-        <h2 class="text-3xl font-bold text-center mb-8">👥 Meet the Team</h2>
-        <div class="grid md:grid-cols-3 gap-8 text-center">
+        <h2 class="text-4xl font-bold text-center mb-12 text-gray-900 stagger-item stagger-4">
+            Meet the Team
+        </h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Member 1 -->
-            <div class="p-4 bg-base-200 rounded-lg shadow">
+            <div class="bg-white p-8 rounded-3xl shadow-lg text-center transform transition duration-300 hover:shadow-xl hover:-translate-y-1 stagger-item stagger-5">
                 <img
-                    src="/static/images/team1.jpg"
-                    alt="Team Member"
-                    class="w-24 h-24 rounded-full mx-auto mb-4"
+                    src="https://placehold.co/128x128/d1d5db/374151?text=N.C."
+                    alt="Team Member Nickie"
+                    class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-200"
                 />
-                <h3 class="text-lg font-bold">Nickie C9b3r</h3>
-                <p class="text-sm text-base-content">Founder & Backend Lead</p>
+                <h3 class="text-xl font-bold text-gray-900">Nickie C9b3r</h3>
+                <p class="text-md text-gray-600">Founder & Backend Lead</p>
             </div>
             <!-- Member 2 -->
-            <div class="p-4 bg-base-200 rounded-lg shadow">
+            <div class="bg-white p-8 rounded-3xl shadow-lg text-center transform transition duration-300 hover:shadow-xl hover:-translate-y-1 stagger-item stagger-6">
                 <img
-                    src="/static/images/team2.jpg"
-                    alt="Team Member"
-                    class="w-24 h-24 rounded-full mx-auto mb-4"
+                    src="https://placehold.co/128x128/d1d5db/374151?text=J.D."
+                    alt="Team Member Jane"
+                    class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-200"
                 />
-                <h3 class="text-lg font-bold">Jane Dev</h3>
-                <p class="text-sm text-base-content">Frontend Engineer</p>
+                <h3 class="text-xl font-bold text-gray-900">Jane Dev</h3>
+                <p class="text-md text-gray-600">Frontend Engineer</p>
             </div>
             <!-- Member 3 -->
-            <div class="p-4 bg-base-200 rounded-lg shadow">
+            <div class="bg-white p-8 rounded-3xl shadow-lg text-center transform transition duration-300 hover:shadow-xl hover:-translate-y-1 stagger-item stagger-7">
                 <img
-                    src="/static/images/team3.jpg"
-                    alt="Team Member"
-                    class="w-24 h-24 rounded-full mx-auto mb-4"
+                    src="https://placehold.co/128x128/d1d5db/374151?text=S.R."
+                    alt="Team Member Sam"
+                    class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-200"
                 />
-                <h3 class="text-lg font-bold">Sam Root</h3>
-                <p class="text-sm text-base-content">Security Researcher</p>
+                <h3 class="text-xl font-bold text-gray-900">Sam Root</h3>
+                <p class="text-md text-gray-600">Security Researcher</p>
             </div>
         </div>
     </div>
 
     <!-- Stats Section -->
-    <div class="bg-base-200 p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold text-center mb-8">
-            📊 Our Impact So Far
+    <div class="bg-gray-800 p-10 rounded-3xl text-white shadow-xl stagger-item stagger-8">
+        <h2 class="text-4xl font-bold text-center mb-8">
+            Our Impact So Far
         </h2>
-        <div class="grid md:grid-cols-3 gap-6 text-center">
-            <div>
-                <h3 class="text-3xl font-bold text-primary">50+</h3>
-                <p class="text-sm">Open Source Contributors</p>
+        <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="space-y-2">
+                <h3 class="text-5xl font-extrabold text-blue-400">50+</h3>
+                <p class="text-md font-medium text-gray-400">Open Source Contributors</p>
             </div>
-            <div>
-                <h3 class="text-3xl font-bold text-primary">2K+</h3>
-                <p class="text-sm">Commits on GitHub</p>
+            <div class="space-y-2">
+                <h3 class="text-5xl font-extrabold text-blue-400">2K+</h3>
+                <p class="text-md font-medium text-gray-400">Commits on GitHub</p>
             </div>
-            <div>
-                <h3 class="text-3xl font-bold text-primary">1.2K+</h3>
-                <p class="text-sm">Community Members</p>
+            <div class="space-y-2">
+                <h3 class="text-5xl font-extrabold text-blue-400">1.2K+</h3>
+                <p class="text-md font-medium text-gray-400">Community Members</p>
             </div>
         </div>
     </div>
 
     <!-- Timeline -->
     <div>
-        <h2 class="text-3xl font-bold text-center mb-10">🕒 Our Journey</h2>
-        <ul
-            class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical"
-        >
-            <li>
-                <div class="timeline-middle">
-                    <i class="text-primary" data-lucide="flag"></i>
+        <h2 class="text-4xl font-bold text-center mb-12 text-gray-900 stagger-item stagger-9">
+            Our Journey
+        </h2>
+        <div class="space-y-12">
+            <!-- Timeline Item 1 -->
+            <div class="flex flex-col md:flex-row items-center stagger-item stagger-10">
+                <div class="md:w-1/2 md:pr-12 space-y-2 text-center md:text-right">
+                    <h3 class="text-xl font-bold text-gray-900">Project Concept Born</h3>
+                    <time class="font-semibold italic text-gray-500 block">2023</time>
+                    <p class="text-gray-700">Hacker Hub was envisioned to be a hacker’s playground and educational hub.</p>
                 </div>
-                <div class="timeline-start md:text-end mb-10">
-                    <time class="font-mono italic">2023</time>
-                    <div class="text-lg font-bold">Project Concept Born</div>
-                    Hacker Hub was envisioned to be a hacker’s playground and
-                    educational hub.
+                <div class="w-1 h-20 bg-blue-500 hidden md:block"></div>
+                <div class="md:w-1/2 md:pl-12 flex-shrink-0"></div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="flex flex-col md:flex-row-reverse items-center stagger-item stagger-11">
+                <div class="md:w-1/2 md:pl-12 space-y-2 text-center md:text-left">
+                    <h3 class="text-xl font-bold text-gray-900">Initial Build</h3>
+                    <time class="font-semibold italic text-gray-500 block">Early 2024</time>
+                    <p class="text-gray-700">We launched our MVP with Go Fiber, Tailwind, and initial community features.</p>
                 </div>
-                <hr />
-            </li>
-            <li>
-                <div class="timeline-middle">
-                    <i class="text-primary" data-lucide="git-commit"></i>
+                <div class="w-1 h-20 bg-blue-500 hidden md:block"></div>
+                <div class="md:w-1/2 md:pr-12 flex-shrink-0"></div>
+            </div>
+
+            <!-- Timeline Item 3 -->
+            <div class="flex flex-col md:flex-row items-center stagger-item stagger-12">
+                <div class="md:w-1/2 md:pr-12 space-y-2 text-center md:text-right">
+                    <h3 class="text-xl font-bold text-gray-900">Open Source Expansion</h3>
+                    <time class="font-semibold italic text-gray-500 block">Mid 2024</time>
+                    <p class="text-gray-700">The community began actively contributing tools and blog posts.</p>
                 </div>
-                <div class="timeline-end mb-10">
-                    <time class="font-mono italic">Early 2024</time>
-                    <div class="text-lg font-bold">Initial Build</div>
-                    We launched our MVP with Go Fiber, Tailwind, and community
-                    features.
+                <div class="w-1 h-20 bg-blue-500 hidden md:block"></div>
+                <div class="md:w-1/2 md:pl-12 flex-shrink-0"></div>
+            </div>
+
+            <!-- Timeline Item 4 -->
+            <div class="flex flex-col md:flex-row-reverse items-center stagger-item stagger-13">
+                <div class="md:w-1/2 md:pl-12 space-y-2 text-center md:text-left">
+                    <h3 class="text-xl font-bold text-gray-900">Scaling & Outreach</h3>
+                    <time class="font-semibold italic text-gray-500 block">2025 & Beyond</time>
+                    <p class="text-gray-700">We plan to onboard mentors, publish CTFs, and launch HackerHub Academy.</p>
                 </div>
-                <hr />
-            </li>
-            <li>
-                <div class="timeline-middle">
-                    <i class="text-primary" data-lucide="zap"></i>
-                </div>
-                <div class="timeline-start md:text-end mb-10">
-                    <time class="font-mono italic">Mid 2024</time>
-                    <div class="text-lg font-bold">Open Source Expansion</div>
-                    Community began contributing tools and blog posts actively.
-                </div>
-                <hr />
-            </li>
-            <li>
-                <div class="timeline-middle">
-                    <i class="text-primary" data-lucide="trending-up"></i>
-                </div>
-                <div class="timeline-end mb-10">
-                    <time class="font-mono italic">2025 & Beyond</time>
-                    <div class="text-lg font-bold">Scaling & Outreach</div>
-                    Plans to onboard mentors, publish CTFs, and launch HackerHub
-                    Academy.
-                </div>
-            </li>
-        </ul>
+                <div class="w-1 h-20 bg-blue-500 hidden md:block"></div>
+                <div class="md:w-1/2 md:pr-12 flex-shrink-0"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Call to Action -->
-    <div class="text-center mt-12">
-        <h2 class="text-3xl font-bold mb-4">Join the Movement 🚀</h2>
-        <p class="text-base mb-6">
-            Be part of something bigger. Contribute your skills, write blog
-            posts, or help secure the web.
+    <div class="text-center mt-12 space-y-6 stagger-item stagger-14">
+        <h2 class="text-4xl font-bold text-gray-900">Join the Movement 🚀</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Be part of something bigger. Contribute your skills, write blog posts, or help secure the web.
         </p>
-        <a href="/register" class="btn btn-primary btn-wide">Join Hacker Hub</a>
-        <a
-            href="https://github.com/C9b3rD3vi1/Go_blog"
-            target="_blank"
-            class="btn btn-outline btn-secondary btn-wide ml-4"
-            >Contribute on GitHub</a
-        >
+        <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="/register" class="btn bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition duration-300">
+                Join Hacker Hub
+            </a>
+            <a href="https://github.com/C9b3rD3vi1/Go_blog" target="_blank" class="btn border-2 border-blue-600 text-blue-600 font-semibold py-3 px-8 rounded-full hover:bg-blue-50 transition duration-300">
+                Contribute on GitHub
+            </a>
+        </div>
     </div>
 </section>
+
+</body>
+</html>
+
 {{ end }}
