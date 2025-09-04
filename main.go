@@ -69,29 +69,8 @@ func main() {
     routes.SetupAdminRoutes(app) 
     
     
-	// admin login route
-	app.Get("/admin/login", auth.AdminAuthHandler)
-
-	// handle post request to admin login
-	app.Post("/admin/login", auth.AdminAuthHandler)
-	app.Get("/admin/verify", auth.ShowOTPPage)
-	app.Post("/admin/verify", auth.ShowOTPPage)
-
-	// Route to handle admin dashboard
-	app.Get("/admin/dashboard",  handlers.AdminDashboard)
-	//	handlers.AdminEditPostForm, handlers.AdminDeletePost)
-
-	// create blog post and save to database
-	app.Get("/admin/dashboard", handlers.AdminDashboard)
-
-	app.Get("/admin/posts", handlers.AdminPostList)
-	app.Get("/admin/edit/:id", handlers.AdminEditPostForm)
-	app.Post("/admin/edit/:id", handlers.AdminUpdatePost)
-	app.Get("/admin/delete/:id", handlers.AdminDeletePost)
-
-	app.Get("/admin/new-project", handlers.AdminNewProjectForm)
-	app.Post("/admin/new-project", handlers.AdminCreateProject)
-	app.Get("/admin/delete-project/:id", handlers.AdminDeleteProject)
+//	app.Get("/admin/verify", auth.ShowOTPPage)
+	//app.Post("/admin/verify", auth.ShowOTPPage)
 
 
 

@@ -8,30 +8,40 @@ import (
 )
 
 // AdminDashboard renders the admin dashboard
+// AdminDashboard renders the admin dashboard
 func AdminDashboard(c *fiber.Ctx) error {
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
+    // Get the current logged-in user
+    admin := config.GetCurrentUser(c)
+    if admin == nil {
+        return c.Redirect("/admin/login")
+    }
 
-	// fetch projects and posts for dashboard
-	var posts []models.Post
-	var projects []models.Projects
-	var services []models.Services
-	var users []models.User
-	database.DB.Order("created_at desc").Find(&posts)
-	database.DB.Order("created_at desc").Find(&projects)
-	database.DB.Order("created_at desc").Find(&users)
-	database.DB.Order("created_at desc").Find(&services)
+    // Ensure user is actually an admin
+    if !admin.IsAdmin {
+        return c.SendStatus(fiber.StatusForbidden)
+    }
 
-	return c.Render("admin/dashboard", fiber.Map{
-		"Title":    "Admin Dashboard",
-		"Admin":    admin,
-		"Posts":    posts,
-		"Projects": projects,
-	})
+    // fetch projects, posts, services, and users
+    var posts []models.Post
+    var projects []models.Projects   // ⚡ not Projects (should match your struct name)
+    var services []models.Services   // ⚡ same here
+    var users []models.User
+
+    database.DB.Order("created_at desc").Find(&posts)
+    database.DB.Order("created_at desc").Find(&projects)
+    database.DB.Order("created_at desc").Find(&users)
+    database.DB.Order("created_at desc").Find(&services)
+
+    return c.Render("admin/dashboard", fiber.Map{
+        "Title":    "Admin Dashboard",
+        "Admin":    admin.Username, // pass name, or whole struct if needed
+        "Posts":    posts,
+        "Projects": projects,
+        "Services": services,
+        "Users":    users,
+    })
 }
+
 
 // AdminPostList renders the admin post list
 func AdminPostList(c *fiber.Ctx) error {

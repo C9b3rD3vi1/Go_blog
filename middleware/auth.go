@@ -4,28 +4,42 @@ package middleware
 import (
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/gofiber/fiber/v2"
 	//		"github.com/gofiber/fiber/v2/middleware/session"
 	//	 "github.com/gofiber/fiber/v2/utils"
 )
 
 func RequireAdminAuth(c *fiber.Ctx) error {
-	admin := c.Locals("admin")
-	if admin == nil {
-		// If admin is not authenticated, redirect to login page
-		c.Status(401)
-		return c.Redirect("/admin/login")
-	}
+    // Get session
+    sess, err := config.Store.Get(c)
+    if err != nil {
+        return c.Redirect("/admin/login")
+    }
 
-	// check if the user is admin
-	if !admin.(*models.User).IsAdmin {
-		c.Status(403)
-		return c.SendStatus(fiber.StatusForbidden)
-	}
+    adminID := sess.Get("admin_id")
+    if adminID == nil {
+        return c.Redirect("/admin/login")
+    }
 
-	return c.Next()
+    // Fetch user from DB
+    var admin models.User
+    if err := database.DB.First(&admin, adminID).Error; err != nil {
+        return c.Redirect("/admin/login")
+    }
 
+    // Check if user is actually an admin
+    if !admin.IsAdmin {
+        return c.SendStatus(fiber.StatusForbidden) // 403
+    }
+
+    // Store in context for handlers to use
+    c.Locals("admin", &admin)
+
+    return c.Next()
 }
+
+
 
 // LogoutUser handles user logout
 func LogoutUser(c *fiber.Ctx) error {
