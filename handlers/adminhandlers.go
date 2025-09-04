@@ -202,3 +202,18 @@ func AdminDeleteService(c *fiber.Ctx) error {
 
     return c.Redirect("/admin/dashboard")
 }
+
+
+// AdminNewServiceForm renders the form to add a new service
+func AdminNewServiceForm(c *fiber.Ctx) error {
+    // Get current admin
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
+
+    return c.Render("admin/new_service", fiber.Map{
+        "Title": "Add New Service",
+        "Admin": admin.Username,
+    })
+}

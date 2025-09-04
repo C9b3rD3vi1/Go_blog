@@ -41,7 +41,7 @@ func CreatePost(ID uint, title string, slug string, image string, content string
 	post := Post{
 		Title:    title,
 		Slug:     slug,
-		Image:    image,
+		ImageURL:    image,
 		Content:  content,
 		Tags:     tags,
 		Category: category,
@@ -64,7 +64,7 @@ func CreateSamplePost() Post {
 	post := Post{
 		Title:    "Sample Post",
 		Slug:     "sample-post",
-		Image:    "https://example.com/sample.jpg",
+		ImageURL:    "https://example.com/sample.jpg",
 		Content:  "This is a sample post content.",
 		Tags:     "sample, post",
 		Category: Category{Name: "Sample Category"},

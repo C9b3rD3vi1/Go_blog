@@ -1,0 +1,32 @@
+{{ define "content" }}
+<div class="max-w-3xl mx-auto p-6 bg-base-200 rounded shadow-lg">
+    <h1 class="text-2xl font-bold mb-4">➕ Add New Service</h1>
+
+    <!-- Flash messages -->
+    {{ if .Error }}
+    <div class="alert alert-error mb-4">{{ .Error }}</div>
+    {{ end }}
+    {{ if .Success }}
+    <div class="alert alert-success mb-4">{{ .Success }}</div>
+    {{ end }}
+
+    <form method="POST" action="/admin/services/new" class="space-y-4">
+        <div>
+            <label class="block text-sm font-bold mb-1">Title</label>
+            <input type="text" name="title" placeholder="Service Title" class="input input-bordered w-full" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold mb-1">Description</label>
+            <textarea name="description" placeholder="Service Description" class="textarea textarea-bordered w-full" required></textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold mb-1">Image URL</label>
+            <input type="text" name="image" placeholder="https://example.com/image.jpg" class="input input-bordered w-full">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">Add Service</button>
+    </form>
+</div>
+{{ end }}

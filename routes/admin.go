@@ -37,6 +37,7 @@ func SetupAdminRoutes(app *fiber.App) {
     admin.Get("/projects/delete/:id", handlers.AdminDeleteProject)
 
     // Services
+    admin.Get("/services/new", handlers.AdminNewServiceForm) // display
     admin.Post("/services/new", handlers.AdminCreateServices)
     admin.Get("/services/delete/:id", handlers.AdminDeleteService)
 }
