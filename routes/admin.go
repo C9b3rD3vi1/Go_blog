@@ -6,9 +6,11 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/middleware"
 	"github.com/gofiber/fiber/v2"
 )
+
+// SetupAdminRoutes sets up the admin routes for the application.
 func SetupAdminRoutes(app *fiber.App) {
     // --- Public admin routes (NO middleware) ---
-    app.Get("/admin/login", auth.AdminAuthHandler)   // GET form
+    app.Get("/admin/login", auth.AdminLoginForm)     // GET form
     app.Post("/admin/login", auth.AdminAuthHandler)    // POST form
 
     // --- Protected admin routes ---

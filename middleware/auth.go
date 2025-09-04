@@ -17,27 +17,29 @@ func RequireAdminAuth(c *fiber.Ctx) error {
         return c.Redirect("/admin/login")
     }
 
-    adminID := sess.Get("admin_id")
-    if adminID == nil {
+    // ✅ match key with CreateUserSession
+    userID := sess.Get("user_id")
+    if userID == nil {
         return c.Redirect("/admin/login")
     }
 
     // Fetch user from DB
-    var admin models.User
-    if err := database.DB.First(&admin, adminID).Error; err != nil {
+    var user models.User
+    if err := database.DB.First(&user, userID).Error; err != nil {
         return c.Redirect("/admin/login")
     }
 
     // Check if user is actually an admin
-    if !admin.IsAdmin {
+    if !user.IsAdmin {
         return c.SendStatus(fiber.StatusForbidden) // 403
     }
 
-    // Store in context for handlers to use
-    c.Locals("admin", &admin)
+    // ✅ store back in context for downstream handlers
+    c.Locals("user", &user)
 
     return c.Next()
 }
+
 
 
 

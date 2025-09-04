@@ -8,23 +8,19 @@ import (
 )
 
 // AdminDashboard renders the admin dashboard
-// AdminDashboard renders the admin dashboard
 func AdminDashboard(c *fiber.Ctx) error {
-    // Get the current logged-in user
     admin := config.GetCurrentUser(c)
     if admin == nil {
         return c.Redirect("/admin/login")
     }
 
-    // Ensure user is actually an admin
     if !admin.IsAdmin {
         return c.SendStatus(fiber.StatusForbidden)
     }
 
-    // fetch projects, posts, services, and users
     var posts []models.Post
-    var projects []models.Projects   // ⚡ not Projects (should match your struct name)
-    var services []models.Services   // ⚡ same here
+    var projects []models.Projects
+    var services []models.Services
     var users []models.User
 
     database.DB.Order("created_at desc").Find(&posts)
@@ -34,7 +30,7 @@ func AdminDashboard(c *fiber.Ctx) error {
 
     return c.Render("admin/dashboard", fiber.Map{
         "Title":    "Admin Dashboard",
-        "Admin":    admin.Username, // pass name, or whole struct if needed
+        "Admin":    admin, // whole struct → you can display Username, Email, etc.
         "Posts":    posts,
         "Projects": projects,
         "Services": services,
@@ -42,203 +38,167 @@ func AdminDashboard(c *fiber.Ctx) error {
     })
 }
 
-
-// AdminPostList renders the admin post list
+// --- Posts ---
 func AdminPostList(c *fiber.Ctx) error {
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
 
-	var posts []models.Post
-	if err := database.DB.Find(&posts).Error; err != nil {
-		return c.Status(500).SendString("Error fetching posts")
-	}
+    var posts []models.Post
+    if err := database.DB.Find(&posts).Error; err != nil {
+        return c.Status(500).SendString("Error fetching posts")
+    }
 
-	return c.Render("admin/posts", fiber.Map{
-		"Title": "Admin Post List",
-		"Admin": admin,
-		"Posts": posts,
-	})
+    return c.Render("admin/posts", fiber.Map{
+        "Title": "Admin Post List",
+        "Admin": admin,
+        "Posts": posts,
+    })
 }
 
-// AdminEditPostForm renders the admin post edit form
 func AdminEditPostForm(c *fiber.Ctx) error {
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
 
-	id := c.Params("id")
-	var blogpost models.BlogPost
-	if err := database.DB.First(&blogpost, id).Error; err != nil {
-		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
-	}
+    id := c.Params("id")
+    var post models.Post
+    if err := database.DB.First(&post, id).Error; err != nil {
+        return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
+    }
 
-	return c.Render("admin/edit", fiber.Map{
-		"Post": blogpost,
-	})
+    return c.Render("admin/edit", fiber.Map{
+        "Post": post,
+    })
 }
 
-
-// AdminUpdatePost updates a post
 func AdminUpdatePost(c *fiber.Ctx) error {
-	sess, err := config.Store.Get(c)
-	if err != nil {
-		return c.Redirect("/admin/login")
-	}
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
 
-	id := c.Params("id")
-	var blogpost models.BlogPost
-	if err := database.DB.First(&blogpost, id).Error; err != nil {
-		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
-	}
+    id := c.Params("id")
+    var post models.Post
+    if err := database.DB.First(&post, id).Error; err != nil {
+        return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
+    }
 
-	// update fields
-	blogpost.Title = c.FormValue("title")
-	blogpost.Content = c.FormValue("content")
-	blogpost.Slug = c.FormValue("slug")
-	blogpost.ImageURL = c.FormValue("image")
-	blogpost.Tags = c.FormValue("tags")
-	blogpost.Author = admin.(models.User).Username
+    post.Title = c.FormValue("title")
+    post.Content = c.FormValue("content")
+    post.Slug = c.FormValue("slug")
+    post.ImageURL = c.FormValue("image")
+    post.Tags = c.FormValue("tags")
+    post.Author = admin.Username
 
-	if blogpost.Title == "" || blogpost.Slug == "" {
-		return c.Render("admin/edit", fiber.Map{
-			"Post":  blogpost,
-			"Error": "Title and Slug are required",
-		})
-	}
+    if post.Title == "" || post.Slug == "" {
+        return c.Render("admin/edit", fiber.Map{
+            "Post":  post,
+            "Error": "Title and Slug are required",
+        })
+    }
 
-	if err := database.DB.Save(&blogpost).Error; err != nil {
-		return c.Status(500).SendString("Error updating post")
-	}
+    if err := database.DB.Save(&post).Error; err != nil {
+        return c.Status(500).SendString("Error updating post")
+    }
 
-	return c.Redirect("/admin/posts")
+    return c.Redirect("/admin/posts")
 }
 
-// AdminDeletePost handles post deletion
 func AdminDeletePost(c *fiber.Ctx) error {
-	sess, err := config.Store.Get(c)
-	if err != nil {
-		return c.Redirect("/admin/login")
-	}
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
 
-	id := c.Params("id")
-	var blogpost models.BlogPost
-	if err := database.DB.First(&blogpost, id).Error; err != nil {
-		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
-	}
+    id := c.Params("id")
+    if err := database.DB.Delete(&models.Post{}, id).Error; err != nil {
+        return c.Status(500).SendString("Error deleting post")
+    }
 
-	if err := database.DB.Delete(&blogpost).Error; err != nil {
-		return c.Status(500).Render("errors/500", fiber.Map{"Error": "Error deleting post"})
-	}
-
-	return c.Redirect("/admin/dashboard")
+    return c.Redirect("/admin/dashboard")
 }
 
-// AdminNewProjectForm renders the add project form
+// --- Projects ---
 func AdminNewProjectForm(c *fiber.Ctx) error {
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
-	return c.Render("admin/new_project", fiber.Map{
-		"Title": "Add New Projects",
-		"Admin": admin,
-	})
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
+    return c.Render("admin/new_project", fiber.Map{
+        "Title": "Add New Project",
+        "Admin": admin,
+    })
 }
 
-// AdminCreateProject handles POST request to add a new project
 func AdminCreateProject(c *fiber.Ctx) error {
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
 
-	project := models.Projects{
-		Title:       c.FormValue("title"),
-		Description: c.FormValue("description"),
-		Link:        c.FormValue("link"),
-		ImageURL:    c.FormValue("image"),
-	}
-	if err := database.DB.Create(&project).Error; err != nil {
-		return c.Status(500).SendString("Error saving project")
-	}
+    project := models.Projects{
+        Title:       c.FormValue("title"),
+        Description: c.FormValue("description"),
+        Link:        c.FormValue("link"),
+        ImageURL:    c.FormValue("image"),
+    }
+    if err := database.DB.Create(&project).Error; err != nil {
+        return c.Status(500).SendString("Error saving project")
+    }
 
-	return c.Redirect("/admin/dashboard")
+    return c.Redirect("/admin/dashboard")
 }
 
-// AdminDeleteProject deletes a project
 func AdminDeleteProject(c *fiber.Ctx) error {
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
 
-	id := c.Params("id")
-	if err := database.DB.Delete(&models.Projects{}, id).Error; err != nil {
-		return c.Status(500).SendString("Error deleting project")
-	}
+    id := c.Params("id")
+    if err := database.DB.Delete(&models.Projects{}, id).Error; err != nil {
+        return c.Status(500).SendString("Error deleting project")
+    }
 
-	return c.Redirect("/admin/dashboard")
+    return c.Redirect("/admin/dashboard")
 }
 
-
-// create services functionality
+// --- Services ---
 func AdminCreateServices(c *fiber.Ctx) error {
-	// fetch and check sessiona to ensure its the admin 
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
-	
-	service := models.Services{
-		Title:       c.FormValue("title"),
-		Description: c.FormValue("description"),
-		//Link:        c.FormValue("link"),
-		ImageURL:    c.FormValue("image"),
-	}
-	if err := database.DB.Create(&service).Error; err != nil {
-		return c.Status(500).SendString("Error saving project")
-	}
-	
-	return c.Status(200).SendString("Service Created Successfully")	
-	
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
+
+    service := models.Services{
+        Title:       c.FormValue("title"),
+        Description: c.FormValue("description"),
+        ImageURL:    c.FormValue("image"),
+    }
+    if err := database.DB.Create(&service).Error; err != nil {
+        return c.Status(500).SendString("Error saving service")
+    }
+
+    return c.Redirect("/admin/dashboard")
 }
 
-// AdminDeleteService deletes a service
 func AdminDeleteService(c *fiber.Ctx) error {
-	// fetch and check sessiona to ensure its the admin 
-	sess, _ := config.Store.Get(c)
-	admin := sess.Get("admin")
-	if admin == nil {
-		return c.Redirect("/admin/login")
-	}
-	
-	// fetch service ID from session
-	serviceid := c.Params("id")
-	if serviceid == "" {
-		return c.Status(404).SendString("Invalid Service ID")
-	}
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
 
-	// Delete service from database
-	if err := database.DB.Delete(&models.Services{}, serviceid).Error; err != nil {
-		return c.Status(500).SendString("Error deleting project")
-	}
-	
-	return c.Status(200).SendString("Service deleted Successfully")
+    id := c.Params("id")
+    if id == "" {
+        return c.Status(404).SendString("Invalid Service ID")
+    }
+
+    if err := database.DB.Delete(&models.Services{}, id).Error; err != nil {
+        return c.Status(500).SendString("Error deleting service")
+    }
+
+    return c.Redirect("/admin/dashboard")
 }
