@@ -32,6 +32,8 @@ func main() {
 
 	// Config app layouts
 	engine.Layout("layouts/base")
+	
+	
 
 	// time add function
 	engine.AddFunc("now", func() string {

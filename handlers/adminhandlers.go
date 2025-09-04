@@ -4,6 +4,7 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/C9b3rD3vi1/Go_blog/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -85,11 +86,13 @@ func AdminUpdatePost(c *fiber.Ctx) error {
     if err := database.DB.First(&post, id).Error; err != nil {
         return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
     }
+    
+    imageURL, _ := utils.UploadImage(c, "image")
 
     post.Title = c.FormValue("title")
     post.Content = c.FormValue("content")
     post.Slug = c.FormValue("slug")
-    post.ImageURL = c.FormValue("image")
+    post.ImageURL = imageURL
     post.Tags = c.FormValue("tags")
     post.Author = admin.Username
 
@@ -165,4 +168,3 @@ func AdminDeleteProject(c *fiber.Ctx) error {
 
     return c.Redirect("/admin/dashboard")
 }
-

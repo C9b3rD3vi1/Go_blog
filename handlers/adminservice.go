@@ -5,6 +5,7 @@ import (
     "github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/C9b3rD3vi1/Go_blog/utils"
 )
 
 // --- Services ---
@@ -32,17 +33,24 @@ func AdminCreateServices(c *fiber.Ctx) error {
         return c.Redirect("/admin/login")
     }
 
+    // Upload image if provided
+    imageURL, _ := utils.UploadImage(c, "image")
+
     service := models.Services{
         Title:       c.FormValue("title"),
         Description: c.FormValue("description"),
-        ImageURL:    c.FormValue("image"),
+        ImageURL:    imageURL,
     }
+
     if err := database.DB.Create(&service).Error; err != nil {
         return c.Status(500).SendString("Error saving service")
     }
 
     return c.Redirect("/admin/dashboard")
 }
+
+
+
 
 // AdminEditServiceForm handles the form for editing a service
 func AdminEditServiceForm(c *fiber.Ctx) error {
@@ -83,6 +91,7 @@ func AdminDeleteService(c *fiber.Ctx) error {
     return c.Redirect("/admin/dashboard")
 }
 
+
 // AdminUpdateService handles the update of a service
 func AdminUpdateService(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
@@ -95,10 +104,12 @@ func AdminUpdateService(c *fiber.Ctx) error {
     if err := database.DB.First(&service, id).Error; err != nil {
         return c.Status(404).SendString("Service not found")
     }
+    // Upload image if provided
+    imageURL, _ := utils.UploadImage(c, "image")
 
     service.Title = c.FormValue("title")
     service.Description = c.FormValue("description")
-    service.ImageURL = c.FormValue("image")
+    service.ImageURL = imageURL
 
     if err := database.DB.Save(&service).Error; err != nil {
         return c.Status(500).SendString("Error updating service")
