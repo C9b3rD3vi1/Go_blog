@@ -10,7 +10,7 @@
     <div class="alert alert-success mb-4">{{ .Success }}</div>
     {{ end }}
 
-    <form method="POST" action="/admin/services/new" class="space-y-4">
+    <form method="POST" action="/admin/services/new" enctype="multipart/form-data" class="space-y-6">
         <div>
             <label class="block text-sm font-bold mb-1">Title</label>
             <input type="text" name="title" placeholder="Service Title" class="input input-bordered w-full" required>
@@ -18,13 +18,13 @@
 
         <div>
             <label class="block text-sm font-bold mb-1">Description</label>
-            <textarea name="description" placeholder="Service Description" class="textarea textarea-bordered w-full" required></textarea>
+            <textarea name="description" placeholder="Service Description" class="textarea textarea-bordered w-full h-40" required></textarea>
         </div>
 
         <div>
-            <label class="block text-sm font-bold mb-1">Image URL</label>
-            <input type="text" name="image" placeholder="https://example.com/image.jpg" class="input input-bordered w-full">
-        </div>
+            <label class="block text-sm font-bold mb-1">Upload Image</label>
+                <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full"/>
+            </div>
 
         <button type="submit" class="btn btn-primary w-full">Add Service</button>
     </form>

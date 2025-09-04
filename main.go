@@ -46,7 +46,7 @@ func main() {
 	})
 
 	//load static files
-	app.Static("/static", "./static")
+	app.Static("/", "./static")
 	app.Static("/upload", "./upload")
 
 	// initialize session

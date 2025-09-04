@@ -18,6 +18,7 @@ func ServiceList(c *fiber.Ctx) error {
     })
 }
 
+// ServiceView displays a single service view
 func ServiceView(c *fiber.Ctx) error {
     id := c.Params("id")
     var service models.Services
