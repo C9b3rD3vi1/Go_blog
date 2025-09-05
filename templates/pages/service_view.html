@@ -3,45 +3,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>{{ .Service.Title }}</title>
+    <title>{{ .Service.Title }} - Your SaaS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f3f4f6;
             color: #1f2937;
         }
 
         .content-card {
             background-color: #ffffff;
-            border: 1px solid #e2e8f0;
             border-radius: 1.5rem;
-            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08), 0 6px 12px -4px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+
+        /* This is the key CSS to allow text to wrap */
+        .image-float {
+            float: left;
+            margin-right: 3rem; /* Tailwind 'md:space-x-12' is roughly equivalent to this */
+            margin-bottom: 1.5rem; /* Add some space below the image */
         }
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="min-h-screen">
-    <header class="bg-white shadow py-8 mb-8">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-            <h1 class="text-4xl font-extrabold text-center text-gray-900 leading-tight">{{ .Service.Title }}</h1>
-            <a href="/services" class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-800 font-semibold transition-colors duration-200">
+<body class="min-h-screen antialiased flex flex-col">
+    <header class="bg-white shadow-sm py-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <a href="/services" class="inline-flex items-center text-gray-500 hover:text-gray-900 font-medium transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left mr-2">
                     <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
                 </svg>
-                Back to Services
+                <span class="text-sm">Back to Services</span>
             </a>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 sm:px-8 lg:px-12">
-        <div class="content-card p-8 md:p-12 lg:p-16">
-            {{ if .Service.ImageURL }}
-                <img src="{{ .Service.ImageURL }}" alt="{{ .Service.Title }}" class="w-full h-auto max-h-[500px] object-cover rounded-lg mb-8 shadow-md">
-            {{ end }}
-            <p class="text-gray-700 leading-relaxed text-lg">{{ .Service.Description }}</p>
+    <main class="flex-grow flex items-start py-12 md:py-16">
+        <div class="container mx-auto px-6 sm:px-8 lg:px-12">
+            <div class="content-card p-8 md:p-12 lg:p-16">
+                <div class="clearfix">
+                    {{ if .Service.ImageURL }}
+                        <div class="image-float w-full sm:w-1/2 md:w-2/5">
+                            <img src="{{ .Service.ImageURL }}" alt="{{ .Service.Title }}" class="w-full h-auto object-cover rounded-xl shadow-lg">
+                        </div>
+                    {{ end }}
+                    
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">{{ .Service.Title }}</h1>
+                    <p class="text-gray-700 leading-relaxed text-lg">{{ .Service.Description }}</p>
+                </div>
+            </div>
         </div>
     </main>
 

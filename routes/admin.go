@@ -47,8 +47,8 @@ func SetupAdminRoutes(app *fiber.App) {
     // Services
     // Services Admin Routes
     admin.Get("/services", handlers.AdminServiceList)            // List all services
-    admin.Get("/services/new", handlers.AdminNewServiceForm)    // Show form to create
     admin.Get("/services/new", handlers.AdminNewServicePage)  // LIST ALL TECH STACK FOR MULTI SELECT
+    admin.Get("/services/new", handlers.AdminNewServiceForm)    // Show form to create
     admin.Post("/services/new", handlers.AdminCreateServices)   // Handle create
     admin.Get("/services/edit/:id", handlers.AdminEditServiceForm)  // Show edit form
     admin.Post("/services/edit/:id", handlers.AdminUpdateService)   // Handle update

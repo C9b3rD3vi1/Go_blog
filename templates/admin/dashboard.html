@@ -203,7 +203,7 @@
                 <ul class="divide-y divide-gray-200">
                     {{ range .Services }}
                     <li class="py-3 flex justify-between items-center">
-                        <span class="text-sm font-medium">{{ .Title }} - {{ .Description }}</span>
+                        <span class="text-sm font-medium">{{ .Title }} </span>
                         <a href="/admin/services/delete/{{ .ID }}" class="btn-action btn-delete px-4 py-1 text-xs">Delete</a>
                     </li>
                     {{ else }}

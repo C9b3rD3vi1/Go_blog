@@ -3,36 +3,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Our Services</title>
+    <title>Our Services | A Modern SaaS Experience</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
+        /* Base styles for a modern dark theme */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
-            color: #1f2937;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #cbd5e1; /* text-slate-300 */
+            background-image: radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.1), transparent 35%),
+                              radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.1), transparent 35%);
         }
 
+        /* Gradient text for the main heading */
+        .gradient-text {
+            background-image: linear-gradient(90deg, #a855f7, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Enhanced Service Card Styling */
         .service-card {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
+            background: rgba(30, 41, 59, 0.5); /* bg-slate-800 with transparency */
+            border: 1px solid #334155; /* border-slate-700 */
             border-radius: 1.5rem;
-            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08), 0 6px 12px -4px rgba(0, 0, 0, 0.04);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            transform: translateY(0);
-            will-change: transform, box-shadow;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            will-change: transform, border-color, box-shadow;
+            overflow: hidden;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-color: #a855f7;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
         }
 
+        .service-card img {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .service-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Class to truncate the description text */
+        .truncate-description {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3; /* Limits the text to 3 lines */
+            overflow: hidden;
+        }
+
+        /* Animation for elements fading in and sliding up */
         @keyframes fadeInSlideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -40,51 +76,89 @@
             }
         }
         
-        .staggered-animation {
-            animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        /* Class to apply the animation */
+        .animate-on-load {
+            animation: fadeInSlideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
             opacity: 0;
         }
+
+        /* Tech stack badges styling */
+        .tech-badge {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #d8b4fe;
+            transition: all 0.2s ease;
+        }
+        
+        .tech-badge:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateY(-1px);
+        }
     </style>
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="min-h-screen">
-    <header class="bg-white shadow py-10 mb-8">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-extrabold text-center text-gray-900 leading-tight">Our Services</h1>
-            <p class="mt-2 text-lg text-center text-gray-600 max-w-2xl mx-auto">Explore the range of services we offer, each designed to meet your specific needs with efficiency and excellence.</p>
+
+    <header class="py-16 sm:py-24">
+        <div class="container mx-auto px-6 lg:px-8 text-center">
+            <h1 class="text-5xl md:text-7xl font-black gradient-text leading-tight animate-on-load" style="animation-delay: 0.1s;">
+                Our Services
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-400 max-w-3xl mx-auto animate-on-load" style="animation-delay: 0.3s;">
+                Explore our suite of powerful solutions, meticulously crafted to elevate your business and drive success.
+            </p>
         </div>
     </header>
 
-    <main class="container mx-auto p-6 sm:p-8 lg:p-12">
+    <main class="container mx-auto px-6 lg:px-8 pb-16 sm:pb-24">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {{ range .Services }}
-            <div class="service-card p-8 flex flex-col justify-between">
-                <div>
-                    {{ if .ImageURL }}
-                        <img src="{{ .ImageURL }}" alt="{{ .Title }}" class="w-full h-48 object-cover rounded-lg mb-6 transform scale-100 hover:scale-105 transition-transform duration-300">
-                    {{ end }}
-                    <h2 class="text-2xl font-bold text-gray-800 mb-2">{{ .Title }}</h2>
-                    <p class="text-gray-600 mb-4 leading-relaxed">{{ .Description }}</p>
+            {{ range $i, $service := .Services }}
+            <div class="service-card flex flex-col animate-on-load" data-tilt data-tilt-max="5" data-tilt-scale="1.02" data-tilt-perspective="1000">
+                {{ if .ImageURL }}
+                <div class="w-full h-48 overflow-hidden">
+                    <img src="{{ .ImageURL }}" alt="{{ .Title }}" class="w-full h-full object-cover">
                 </div>
-                <div class="mt-4">
-                    <a href="/service/{{ .ID }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-semibold transition-colors duration-200">
-                        View More
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2">
-                            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-                        </svg>
-                    </a>
+                {{ end }}
+                
+                <div class="p-8 flex flex-col flex-grow">
+                    <div class="flex-grow">
+                        <h2 class="text-2xl font-bold text-slate-100 mb-2">{{ .Title }}</h2>
+                        <p class="text-slate-400 mb-6 leading-relaxed truncate-description">{{ .Description }}</p>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        {{ if .TechStacks }}
+                        <div class="flex flex-wrap items-center gap-2 mb-4">
+                            {{ range .TechStacks }}
+                                <span class="tech-badge inline-block text-xs font-medium px-3 py-1.5 rounded-full">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                        
+                        <a href="/service/{{ .ID }}" class="group inline-flex items-center text-purple-400 hover:text-purple-300 font-semibold transition-colors duration-200">
+                            Learn More
+                            <i data-lucide="arrow-right" class="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             {{ end }}
         </div>
     </main>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.service-card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.classList.add('staggered-animation');
+            lucide.createIcons();
+            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                glare: true,
+                "max-glare": 0.1,
+            });
+            const animatedElements = document.querySelectorAll('.animate-on-load');
+            animatedElements.forEach((el, index) => {
+                if (el.classList.contains('service-card')) {
+                    el.style.animationDelay = `${0.5 + index * 0.15}s`;
+                }
             });
         });
     </script>

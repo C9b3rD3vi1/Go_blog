@@ -1,15 +1,17 @@
 package handlers
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/C9b3rD3vi1/Go_blog/config"
+	"strings"
+
+	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/C9b3rD3vi1/Go_blog/utils"
+	"github.com/gofiber/fiber/v2"
 )
 
 // --- Services ---
-// 
+//
 func AdminServiceList(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
     if admin == nil || !admin.IsAdmin {
@@ -54,6 +56,16 @@ func AdminCreateServices(c *fiber.Ctx) error {
     title := c.FormValue("title")
     description := c.FormValue("description")
 
+
+    // Get selected tech stack IDs from form (multiple checkboxes or select)
+    stackIDs := c.FormValue("techstacks") // returns comma-separated if select[multiple]
+    ids := strings.Split(stackIDs, ",")
+
+    var techStacks []models.TechStack
+    if len(ids) > 0 {
+        database.DB.Where("id IN ?", ids).Find(&techStacks)
+    }
+
     // Upload image if provided
     imageURL, _ := utils.UploadImage(c, "image")
 
@@ -65,6 +77,7 @@ func AdminCreateServices(c *fiber.Ctx) error {
         Description: description,
         Slug:        slug,
         ImageURL:    imageURL,
+        TechStacks:  techStacks,
     }
 
     if err := database.DB.Create(&service).Error; err != nil {
