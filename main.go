@@ -3,13 +3,14 @@ package main
 import (
 	"fmt"
 	"log"
+	"reflect"
 	"time"
 
 	"github.com/C9b3rD3vi1/Go_blog/auth"
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
-	"github.com/C9b3rD3vi1/Go_blog/routes"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
+	"github.com/C9b3rD3vi1/Go_blog/routes"
 
 	//"github.com/C9b3rD3vi1/Go_blog/middleware"
 
@@ -40,7 +41,6 @@ func main() {
 		return time.Now().Format("2006-01-02 15:04:05")
 	})
 	
-
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})

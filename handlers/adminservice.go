@@ -191,3 +191,8 @@ func AdminNewServiceForm(c *fiber.Ctx) error {
         "Admin": admin.Username,
     })
 }
+
+
+func add(a, b int) int {
+    return a + b
+}

@@ -7,33 +7,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #8b5cf6;
+            --light: #f8fafc;
+            --dark: #0f172a;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #1f2937;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #334155;
+            overflow-x: hidden;
         }
 
         .content-card {
-            background-color: #ffffff;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
             border-radius: 1.5rem;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.05);
-            border: none;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.5),
+                0 10px 30px -10px rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transform: translateY(0);
+            transition: all 0.4s ease;
         }
 
-        /* This is the key CSS to allow text to wrap */
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 35px 60px -12px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.6),
+                0 15px 40px -10px rgba(99, 102, 241, 0.2);
+        }
+
         .image-float {
             float: left;
-            margin-right: 3rem; /* Tailwind 'md:space-x-12' is roughly equivalent to this */
-            margin-bottom: 1.5rem; /* Add some space below the image */
+            margin-right: 3rem;
+            margin-bottom: 1.5rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .image-float:hover {
+            transform: perspective(1000px) rotateY(0deg) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        h1 {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        h1:hover::after {
+            transform: scaleX(1);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .animated-element {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .image-float {
+                float: none;
+                margin-right: 0;
+                width: 100% !important;
+                transform: none;
+                margin-bottom: 2rem;
+            }
+            
+            .image-float:hover {
+                transform: scale(1.02);
+            }
         }
     </style>
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="min-h-screen antialiased flex flex-col">
-    <header class="bg-white shadow-sm py-6">
+    <div class="gradient-bg"></div>
+    
+    <header class="bg-white/80 backdrop-blur-sm shadow-sm py-6 sticky top-0 z-10">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <a href="/services" class="inline-flex items-center text-gray-500 hover:text-gray-900 font-medium transition-colors duration-200">
+            <a href="/services" class="back-button animated-element">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left mr-2">
                     <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
                 </svg>
@@ -44,16 +182,55 @@
 
     <main class="flex-grow flex items-start py-12 md:py-16">
         <div class="container mx-auto px-6 sm:px-8 lg:px-12">
-            <div class="content-card p-8 md:p-12 lg:p-16">
+            <div class="content-card p-8 md:p-12 lg:p-16 animated-element">
                 <div class="clearfix">
                     {{ if .Service.ImageURL }}
-                        <div class="image-float w-full sm:w-1/2 md:w-2/5">
-                            <img src="{{ .Service.ImageURL }}" alt="{{ .Service.Title }}" class="w-full h-auto object-cover rounded-xl shadow-lg">
+                        <div class="image-float w-full sm:w-1/2 md:w-2/5 floating">
+                            <img src="{{ .Service.ImageURL }}" alt="{{ .Service.Title }}" class="w-full h-auto object-cover">
                         </div>
                     {{ end }}
                     
-                    <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">{{ .Service.Title }}</h1>
-                    <p class="text-gray-700 leading-relaxed text-lg">{{ .Service.Description }}</p>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold mb-6 leading-tight animated-element">{{ .Service.Title }}</h1>
+                    <p class="text-slate-700 leading-relaxed text-lg animated-element">{{ .Service.Description }}</p>
+                    
+                    <div class="mt-auto">
+                        {{ if .Service.TechStacks }}
+                        <div class="flex flex-wrap items-center gap-2 mb-4">
+                            {{ range .Service.TechStacks }}
+                                <span class="tech-badge inline-block text-xs font-medium px-3 py-1.5 rounded-full">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    <!-- Additional content with animations -->
+                    <div class="mt-10 pt-8 border-t border-slate-100">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4 animated-element">Key Features</h2>
+                        <ul class="space-y-3 animated-element">
+                            <li class="flex items-start">
+                                <svg class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-slate-700">Advanced analytics and reporting</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-slate-700">Seamless third-party integrations</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-slate-700">Enterprise-grade security</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-8 animated-element">
+                        <button class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                            Get Started Today
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,6 +238,62 @@
 
     <script>
         lucide.createIcons();
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize GSAP animations
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Animate elements on page load
+            gsap.to('.gradient-bg', {
+                opacity: 1,
+                duration: 1.5,
+                ease: 'power2.out'
+            });
+            
+            gsap.to('.animated-element', {
+                opacity: 1,
+                y: 0,
+                stagger: 0.15,
+                duration: 0.8,
+                ease: 'power2.out',
+                delay: 0.3
+            });
+            
+            // Create scroll-triggered animations
+            gsap.utils.toArray('.content-card').forEach(card => {
+                gsap.to(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                });
+            });
+            
+            // Add hover animation to the CTA button
+            const ctaButton = document.querySelector('button');
+            if (ctaButton) {
+                ctaButton.addEventListener('mouseenter', () => {
+                    gsap.to(ctaButton, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+                
+                ctaButton.addEventListener('mouseleave', () => {
+                    gsap.to(ctaButton, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+            }
+        });
     </script>
 </body>
 </html>
