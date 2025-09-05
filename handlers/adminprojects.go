@@ -1,12 +1,13 @@
 package handlers
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/C9b3rD3vi1/Go_blog/config"
+	"strings"
+
+	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/C9b3rD3vi1/Go_blog/utils"
-    
+	"github.com/gofiber/fiber/v2"
 )
 
 // --- Projects ---
@@ -24,6 +25,25 @@ func AdminNewProjectForm(c *fiber.Ctx) error {
     })
 }
 
+
+func AdminNewProjectPage(c *fiber.Ctx) error {
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
+
+    var techStacks []models.TechStack
+    if err := database.DB.Order("created_at desc").Find(&techStacks).Error; err != nil {
+        return c.Status(500).SendString("Error fetching tech stacks")
+    }
+
+    return c.Render("admin/new_project", fiber.Map{
+        "Admin":      admin,
+        "TechStacks": techStacks, // must match {{ .TechStacks }} in template
+    })
+}
+
+
 // Handle project creation
 func AdminCreateProject(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
@@ -34,6 +54,15 @@ func AdminCreateProject(c *fiber.Ctx) error {
     title := c.FormValue("title")
     description := c.FormValue("description")
     link := c.FormValue("link")
+
+    // Get selected tech stack IDs from form (multiple checkboxes or select)
+    stackIDs := c.FormValue("techstacks") // returns comma-separated if select[multiple]
+    ids := strings.Split(stackIDs, ",")
+
+    var techStacks []models.TechStack
+    if len(ids) > 0 {
+        database.DB.Where("id IN ?", ids).Find(&techStacks)
+    }
 
     // Upload image
     imageURL, _ := utils.UploadImage(c, "image")
@@ -46,6 +75,7 @@ func AdminCreateProject(c *fiber.Ctx) error {
         Description: description,
         Link:        link,
         Slug:        slug,
+        TechStacks:  techStacks,
         ImageURL:    imageURL,
     }
 
@@ -72,6 +102,7 @@ func AdminProjectList(c *fiber.Ctx) error {
         "Projects": projects,
     })
 }
+
 
 // View single project
 func AdminViewProject(c *fiber.Ctx) error {

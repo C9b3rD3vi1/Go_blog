@@ -34,6 +34,7 @@ func SetupAdminRoutes(app *fiber.App) {
 
     // Projects admin routes
     admin.Get("/projects", handlers.AdminProjectList)           // list all
+    admin.Get("/projects/new", handlers.AdminNewProjectPage)  // LIST ALL TECH STACK FOR MULTI SELECT
     admin.Get("/projects/new", handlers.AdminNewProjectForm)    // show create form
     admin.Post("/projects/new", handlers.AdminCreateProject)    // handle create
     admin.Get("/projects/view/:slug", handlers.AdminViewProject) // view single project by slug
@@ -47,10 +48,20 @@ func SetupAdminRoutes(app *fiber.App) {
     // Services Admin Routes
     admin.Get("/services", handlers.AdminServiceList)            // List all services
     admin.Get("/services/new", handlers.AdminNewServiceForm)    // Show form to create
+    admin.Get("/services/new", handlers.AdminNewServicePage)  // LIST ALL TECH STACK FOR MULTI SELECT
     admin.Post("/services/new", handlers.AdminCreateServices)   // Handle create
     admin.Get("/services/edit/:id", handlers.AdminEditServiceForm)  // Show edit form
     admin.Post("/services/edit/:id", handlers.AdminUpdateService)   // Handle update
     admin.Get("/services/delete/:id", handlers.AdminDeleteService)  // Delete
     admin.Get("/services/:id", handlers.AdminViewService)       // View single service
+    
+    // Tech Stack Routes (admin)
+    admin.Get("/techstacks", handlers.AdminTechStackList)
+    admin.Get("/techstacks/new", handlers.AdminNewTechStackForm)
+    admin.Post("/techstacks/new", handlers.AdminCreateTechStack)
+    admin.Get("/techstacks/edit/:id", handlers.AdminEditTechStackForm)
+    admin.Post("/techstacks/edit/:id", handlers.AdminUpdateTechStack)
+    admin.Get("/techstacks/delete/:id", handlers.AdminDeleteTechStack)
+
 
 }

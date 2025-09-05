@@ -26,6 +26,22 @@ func AdminServiceList(c *fiber.Ctx) error {
     })
 }
 
+func AdminNewServicePage(c *fiber.Ctx) error {
+    admin := config.GetCurrentUser(c)
+    if admin == nil || !admin.IsAdmin {
+        return c.Redirect("/admin/login")
+    }
+
+    var techStacks []models.TechStack
+    if err := database.DB.Order("created_at desc").Find(&techStacks).Error; err != nil {
+        return c.Status(500).SendString("Error fetching tech stacks")
+    }
+
+    return c.Render("admin/new_service", fiber.Map{
+        "Admin":      admin,
+        "TechStacks": techStacks, // must match {{ .TechStacks }} in template
+    })
+}
 
 // AdminCreateServices handles the creation of a new service
 func AdminCreateServices(c *fiber.Ctx) error {

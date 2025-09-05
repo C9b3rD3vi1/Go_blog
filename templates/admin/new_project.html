@@ -18,10 +18,11 @@
 
 {{ define "content" }}
 <section class="bg-gray-950 text-gray-200 min-h-screen p-6 md:p-12 flex items-center justify-center">
-  <div class="w-full max-w-2xl mx-auto animate-fade-in-up">
+  <div class="w-full max-w-3xl mx-auto animate-fade-in-up">
     <div class="bg-gray-800 p-8 md:p-10 rounded-3xl shadow-2xl border border-gray-700">
+      <!-- Header -->
       <div class="mb-8 text-center">
-        <div class="p-3 bg-indigo-600 rounded-full inline-block mb-4">
+        <div class="p-3 bg-indigo-600 rounded-full inline-block mb-4 shadow-md shadow-indigo-700/50">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
@@ -30,41 +31,124 @@
         <p class="text-gray-400 max-w-sm mx-auto">Fill in the details below to add a new project to your portfolio dashboard.</p>
       </div>
 
+      <!-- Form -->
       <form method="POST" action="/admin/projects/new" enctype="multipart/form-data" class="space-y-6">
+        <!-- Title -->
         <div>
           <label for="title" class="block text-sm font-semibold mb-2 text-gray-300">Project Title</label>
-          <input type="text" id="title" name="title" class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" placeholder="e.g., SaaS Dashboard" required />
+          <input type="text" id="title" name="title" 
+            class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" 
+            placeholder="e.g., SaaS Dashboard" required />
         </div>
 
+        <!-- Description -->
         <div>
           <label for="description" class="block text-sm font-semibold mb-2 text-gray-300">Description</label>
-          <textarea id="description" name="description" rows="5" class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors resize-none" placeholder="A brief overview of the project..." required></textarea>
+          <textarea id="description" name="description" rows="5" 
+            class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors resize-none" 
+            placeholder="A brief overview of the project..." required></textarea>
         </div>
 
+        <!-- Project Link -->
         <div>
           <label for="link" class="block text-sm font-semibold mb-2 text-gray-300">Project Link (Optional)</label>
-          <input type="url" id="link" name="link" class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" placeholder="https://example.com" />
+          <input type="url" id="link" name="link" 
+            class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white placeholder-gray-500 border border-gray-600 
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" 
+            placeholder="https://example.com" />
         </div>
 
+        <!-- Tech Stacks (multi-select with checkboxes) -->
+        <!-- Tech Stacks (multi-select dropdown) -->
+        <div id="tech-stacks-dropdown" class="relative">
+          <label for="techstacks" class="block text-sm font-semibold mb-2 text-gray-300">Select Tech Stacks</label>
+        
+          <!-- Dropdown button -->
+          <button type="button" id="dropdown-button"
+            class="w-full px-4 py-2.5 rounded-xl bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center">
+            <span id="button-text">Select tech stacks</span>
+            <svg class="w-5 h-5 ml-2 text-gray-400 transform transition-transform duration-200" id="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+        
+          <!-- Dropdown list -->
+          <div id="dropdown-list"
+            class="hidden absolute mt-1 w-full bg-gray-700 border border-gray-600 rounded-xl shadow-lg z-50 max-h-60 overflow-auto">
+            {{ range .TechStacks }}
+            <label class="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-600">
+              <input type="checkbox" name="techstacks[]" value="{{ .ID }}" data-name="{{ .Name }}"
+                class="techstack-checkbox mr-2 rounded-lg text-indigo-500 bg-gray-600 border-gray-500 focus:ring-indigo-500">
+              <span class="text-gray-200">{{ .Name }}</span>
+            </label>
+            {{ end }}
+          </div>
+        </div>
+
+        <!-- Image -->
         <div>
           <label for="image" class="block text-sm font-semibold mb-2 text-gray-300">Upload Image</label>
           <div class="flex items-center space-x-4">
-            <input type="file" id="image" name="image" accept="image/*" class="w-full text-sm text-gray-400
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-full file:border-0
-              file:text-sm file:font-semibold
-              file:bg-indigo-600 file:text-white
-              hover:file:bg-indigo-700 transition-colors
-              cursor-pointer
-            "/>
+            <input type="file" id="image" name="image" accept="image/*" 
+              class="w-full text-sm text-gray-400
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-indigo-600 file:text-white
+                hover:file:bg-indigo-700 transition-colors cursor-pointer"/>
           </div>
         </div>
-        
-        <button type="submit" class="w-full px-6 py-3 mt-4 text-base font-semibold rounded-xl shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 ease-in-out transform hover:scale-105">
+
+        <!-- Submit -->
+        <button type="submit" 
+          class="w-full px-6 py-3 mt-4 text-base font-semibold rounded-xl shadow-lg text-white 
+                 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 
+                 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 ease-in-out 
+                 transform hover:scale-105">
           Save Project
         </button>
       </form>
     </div>
   </div>
 </section>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropdownContainer = document.getElementById('tech-stacks-dropdown');
+    const dropdownButton = document.getElementById('dropdown-button');
+    const dropdownList = document.getElementById('dropdown-list');
+    const buttonTextSpan = document.getElementById('button-text');
+    const dropdownArrow = document.getElementById('dropdown-arrow');
+    const checkboxes = document.querySelectorAll('.techstack-checkbox');
+
+    dropdownButton.addEventListener('click', () => {
+      dropdownList.classList.toggle('hidden');
+      dropdownArrow.classList.toggle('rotate-180');
+    });
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        const selectedItems = Array.from(checkboxes)
+          .filter(cb => cb.checked)
+          .map(cb => cb.getAttribute('data-name'));
+        
+        if (selectedItems.length > 0) {
+          buttonTextSpan.textContent = selectedItems.length + ' selected';
+        } else {
+          buttonTextSpan.textContent = 'Select tech stacks';
+        }
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!dropdownContainer.contains(event.target)) {
+        dropdownList.classList.add('hidden');
+        dropdownArrow.classList.remove('rotate-180');
+      }
+    });
+  });
+</script>
 {{ end }}

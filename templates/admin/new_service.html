@@ -1,32 +1,151 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+  body {
+    font-family: "Inter", sans-serif;
+  }
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
 {{ define "content" }}
-<div class="max-w-3xl mx-auto p-6 bg-base-200 rounded shadow-lg">
-    <h1 class="text-2xl font-bold mb-4">➕ Add New Service</h1>
+<section class="bg-slate-950 text-slate-200 min-h-screen py-12 px-6">
+  <div class="max-w-3xl w-full mx-auto p-8 bg-slate-800 rounded-3xl shadow-2xl animate-fade-in-up">
+    <h1 class="text-3xl font-extrabold mb-6 text-slate-50 tracking-tight text-center">
+      ➕ Add New Service
+    </h1>
 
     <!-- Flash messages -->
     {{ if .Error }}
-    <div class="alert alert-error mb-4">{{ .Error }}</div>
+    <div class="p-4 mb-4 text-sm font-medium text-red-300 rounded-xl bg-red-900/40" role="alert">{{ .Error }}</div>
     {{ end }}
     {{ if .Success }}
-    <div class="alert alert-success mb-4">{{ .Success }}</div>
+    <div class="p-4 mb-4 text-sm font-medium text-green-300 rounded-xl bg-green-900/40" role="alert">{{ .Success }}</div>
     {{ end }}
 
     <form method="POST" action="/admin/services/new" enctype="multipart/form-data" class="space-y-6">
-        <div>
-            <label class="block text-sm font-bold mb-1">Title</label>
-            <input type="text" name="title" placeholder="Service Title" class="input input-bordered w-full" required>
+      <div>
+        <label for="title" class="block text-sm font-semibold mb-2 text-slate-300">Title</label>
+        <input type="text" id="title" name="title" placeholder="Service Title" class="w-full px-4 py-2.5 rounded-xl bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors" required>
+      </div>
+
+      <div>
+        <label for="description" class="block text-sm font-semibold mb-2 text-slate-300">Description</label>
+        <textarea id="description" name="description" placeholder="Service Description" class="w-full px-4 py-2.5 rounded-xl bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 h-40 transition-colors" required></textarea>
+      </div>
+
+      <div>
+        <label for="image" class="block text-sm font-semibold mb-2 text-slate-300">Upload Image</label>
+        <input type="file" id="image" name="image" accept="image/*" class="w-full px-4 py-2.5 rounded-xl bg-slate-700 text-white border border-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-cyan-500 file:text-white hover:file:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors cursor-pointer" />
+      </div>
+
+      <!-- Tech Stacks (multi-select dropdown) -->
+      <div id="tech-stacks-dropdown" class="relative mt-8 mb-8">
+        <label class="block text-sm font-semibold mb-2 text-slate-300">Select Tech Stacks</label>
+
+        <!-- Dropdown button -->
+        <button type="button" id="dropdown-button" class="w-full px-4 py-2.5 rounded-xl bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 flex justify-between items-center transition-colors">
+          <div class="flex flex-wrap gap-1" id="button-tags">
+            <span class="text-slate-400 truncate">Select tech stacks</span>
+          </div>
+          <svg class="w-5 h-5 ml-2 text-slate-400 transform transition-transform duration-200" id="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+
+        <!-- Dropdown list -->
+        <div id="dropdown-list" class="hidden absolute mt-2 w-full bg-slate-700 border border-slate-600 rounded-xl shadow-lg z-50 max-h-72 overflow-auto p-2 space-y-1">
+          {{ range .TechStacks }}
+          <label class="flex items-center px-3 py-2 cursor-pointer hover:bg-slate-600 rounded-lg">
+            <input type="checkbox" name="techstacks[]" value="{{ .ID }}" data-name="{{ .Name }}"
+              class="techstack-checkbox mr-2 rounded-lg text-cyan-500 bg-slate-600 border-slate-500 focus:ring-cyan-500">
+            <span class="text-slate-200 truncate">{{ .Name }}</span>
+          </label>
+          {{ end }}
         </div>
-
-        <div>
-            <label class="block text-sm font-bold mb-1">Description</label>
-            <textarea name="description" placeholder="Service Description" class="textarea textarea-bordered w-full h-40" required></textarea>
-        </div>
-
-        <div>
-            <label class="block text-sm font-bold mb-1">Upload Image</label>
-                <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full"/>
-            </div>
-
-        <button type="submit" class="btn btn-primary w-full">Add Service</button>
+      </div>
+      
+      <div class="mt-6">
+      <!-- Submit Button -->
+      <button type="submit" class="w-full mt-6 px-6 py-3 rounded-xl font-bold bg-cyan-600 text-white hover:bg-cyan-700 transition-colors transform hover:scale-105">
+        Add Service
+      </button>
+      
+      </div>
     </form>
-</div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdownContainer = document.getElementById("tech-stacks-dropdown");
+    const dropdownButton = document.getElementById("dropdown-button");
+    const dropdownList = document.getElementById("dropdown-list");
+    const dropdownArrow = document.getElementById("dropdown-arrow");
+    const checkboxes = dropdownContainer.querySelectorAll(".techstack-checkbox");
+    const buttonTags = document.getElementById("button-tags");
+
+    // Toggle dropdown visibility
+    dropdownButton.addEventListener("click", () => {
+      dropdownList.classList.toggle("hidden");
+      dropdownArrow.classList.toggle("rotate-180");
+    });
+
+    // Update selected items
+    function updateButtonTags() {
+      const selectedItems = Array.from(checkboxes)
+        .filter((cb) => cb.checked)
+        .map((cb) => ({ id: cb.value, name: cb.dataset.name }));
+
+      buttonTags.innerHTML = "";
+      if (selectedItems.length === 0) {
+        const placeholder = document.createElement("span");
+        placeholder.classList.add("text-slate-400", "truncate");
+        placeholder.textContent = "Select tech stacks";
+        buttonTags.appendChild(placeholder);
+      } else {
+        selectedItems.forEach((item) => {
+          const tag = document.createElement("span");
+          tag.className = "bg-cyan-600 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1";
+          tag.textContent = item.name;
+
+          // Remove button inside tag
+          const removeBtn = document.createElement("button");
+          removeBtn.type = "button";
+          removeBtn.innerHTML = "&times;";
+          removeBtn.className = "ml-1 text-white text-sm opacity-75 hover:opacity-100";
+          removeBtn.addEventListener("click", () => {
+            const cb = dropdownContainer.querySelector(`input[value="${item.id}"]`);
+            cb.checked = false;
+            updateButtonTags();
+          });
+
+          tag.appendChild(removeBtn);
+          buttonTags.appendChild(tag);
+        });
+      }
+    }
+
+    checkboxes.forEach((cb) => cb.addEventListener("change", updateButtonTags));
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (event) => {
+      if (!dropdownContainer.contains(event.target)) {
+        dropdownList.classList.add("hidden");
+        dropdownArrow.classList.remove("rotate-180");
+      }
+    });
+
+    // Initial update on page load
+    updateButtonTags();
+  });
+</script>
 {{ end }}
