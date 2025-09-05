@@ -1,19 +1,62 @@
 {{ define "content" }}
-<section class="bg-black text-green-400 min-h-screen py-16 px-6">
-  <div class="max-w-4xl mx-auto">
-    <a href="/projects" class="text-sm text-green-500 hover:underline">&larr; Back to Projects</a>
+<section class="bg-gradient-to-br from-slate-50 to-slate-100 text-slate-900 min-h-screen py-16 px-6 sm:px-10 font-inter relative overflow-hidden">
+  <!-- Subtle background pattern -->
+  <div class="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-    <div class="mt-6 bg-gray-900 border border-green-600 rounded-xl overflow-hidden shadow-lg">
-      <img src="{{ .Project.ImageURL }}" alt="{{ .Project.Title }}" class="w-full max-h-[400px] object-cover border-b border-green-600" />
+  <div class="max-w-7xl mx-auto relative z-10">
+    <!-- Back to Projects Link -->
+    <a href="/projects" class="inline-flex items-center text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Back to Projects
+    </a>
 
-      <div class="p-6 space-y-4">
-        <h1 class="text-3xl font-bold">{{ .Project.Title }}</h1>
-        <p class="text-gray-300 leading-relaxed">{{ .Project.Description }}</p>
+    <!-- Main Content Grid -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
 
+      <!-- Project Image -->
+      <div class="relative group rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:shadow-xl hover:ring-2 hover:ring-blue-500/20">
+        <div class="aspect-video bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
+          <img src="{{ .Project.ImageURL }}" alt="{{ .Project.Title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        </div>
+      </div>
+
+      <!-- Project Details -->
+      <div class="space-y-6">
+        <h1 class="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">{{ .Project.Title }}</h1>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-2 text-slate-800">About the Project</h2>
+          <p class="text-slate-600 leading-relaxed">{{ .Project.Description }}</p>
+        </div>
+
+        <!-- Tech Stack Section -->
+        {{ if .Project.TechStacks }}
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4 text-slate-800">Tech Stack</h2>
+          <div class="flex flex-wrap items-center gap-3">
+            {{ range .Project.TechStacks }}
+            <div class="bg-slate-100 text-slate-700 px-4 py-1.5 rounded-lg text-sm font-medium border border-slate-200 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-colors cursor-pointer">
+              {{ .Name }}
+            </div>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+        <!-- Action Button -->
         {{ if .Project.Link }}
-        <a href="{{ .Project.Link }}" target="_blank" class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-black font-bold px-4 py-2 rounded-md transition-colors">
-          🔗 Visit Project
-        </a>
+        <div class="pt-4">
+          <a href="{{ .Project.Link }}" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center
+             bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700
+             text-white font-semibold py-3 px-8 rounded-lg shadow-sm transform transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Visit Project
+          </a>
+        </div>
         {{ end }}
       </div>
     </div>

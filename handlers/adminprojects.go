@@ -94,7 +94,14 @@ func AdminProjectList(c *fiber.Ctx) error {
     }
 
     var projects []models.Projects
-    database.DB.Order("created_at desc").Find(&projects)
+    // Use Preload("TechStacks") to eager load the many-to-many relationship
+    result := database.DB.Preload("TechStacks").Order("created_at desc").Find(&projects)
+    
+    if result.Error != nil {
+        // Handle the error appropriately, e.g., log it and return an error page.
+        // For now, let's just show a simple error.
+        return c.Status(500).SendString("Error loading projects")
+    }
 
     return c.Render("admin/projects", fiber.Map{
         "Title":    "Manage Projects",

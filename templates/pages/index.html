@@ -1,11 +1,5 @@
 {{ block "content" .}}
 
-<!-- 
-  Enhanced Tech Hub Landing Page
-  - Updated to reflect Software Engineering, Cybersecurity, Hacking, and DevOps.
-  - Implemented GSAP for hero section animations.
-  - Refined content and aesthetics.
--->
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -46,24 +40,25 @@
         /* Base Body and Font Styles */
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, gray, white);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             overflow-x: hidden;
-            color: #e2e8f0;
+            color: #f1f5f9;
         }
 
         .code-font {
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Tech Terminal Effect */
+        /* Enhanced Tech Terminal Effect */
         .tech-terminal {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(15, 23, 42, 0.8);
             border: 1px solid var(--tech-teal);
-            box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
-            border-radius: 8px;
-            padding: 1.5rem;
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.4);
+            border-radius: 12px;
+            padding: 2rem;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .tech-terminal::before {
@@ -82,7 +77,7 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Matrix Background */
+        /* Enhanced Matrix Background */
         .matrix-bg {
             position: relative;
             overflow: hidden;
@@ -106,7 +101,7 @@
             100% { background-position: 0 100%; }
         }
 
-        /* Glitch Text Effect */
+        /* Enhanced Glitch Text Effect */
         .glitch-text {
             position: relative;
             display: inline-block;
@@ -142,14 +137,15 @@
             0% { clip: rect(65px, 9999px, 100px, 0); } 5% { clip: rect(52px, 9999px, 74px, 0); } 10% { clip: rect(79px, 9999px, 85px, 0); } 15% { clip: rect(75px, 9999px, 5px, 0); } 20% { clip: rect(67px, 9999px, 61px, 0); } 25% { clip: rect(14px, 9999px, 79px, 0); } 30% { clip: rect(1px, 9999px, 66px, 0); } 35% { clip: rect(86px, 9999px, 30px, 0); } 40% { clip: rect(23px, 9999px, 98px, 0); } 45% { clip: rect(85px, 9999px, 72px, 0); } 50% { clip: rect(71px, 9999px, 75px, 0); } 55% { clip: rect(2px, 9999px, 48px, 0); } 60% { clip: rect(30px, 9999px, 16px, 0); } 65% { clip: rect(59px, 9999px, 50px, 0); } 70% { clip: rect(41px, 9999px, 62px, 0); } 75% { clip: rect(2px, 9999px, 82px, 0); } 80% { clip: rect(47px, 9999px, 73px, 0); } 85% { clip: rect(3px, 9999px, 27px, 0); } 90% { clip: rect(26px, 9999px, 55px, 0); } 95% { clip: rect(42px, 9999px, 97px, 0); } 100% { clip: rect(38px, 9999px, 49px, 0); }
         }
 
-        /* 3D Card effect */
+        /* Enhanced 3D Card effect */
         .card-3d {
             transform-style: preserve-3d;
-            transition: transform 0.5s ease;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
         }
 
         .card-3d:hover {
             transform: rotateY(10deg) rotateX(5deg) translateZ(10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
         }
 
         /* Custom scrollbar */
@@ -170,14 +166,14 @@
             background: var(--tech-purple);
         }
 
-        /* Category badges and section cards */
+        /* Enhanced Category badges and section cards */
         .category-badge, .pillar-card {
             transition: all 0.3s ease;
         }
         
         .category-badge:hover, .pillar-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
         
         .cybersecurity { background: linear-gradient(45deg, var(--tech-teal), var(--tech-blue)); }
@@ -188,6 +184,71 @@
         .webdev { background: linear-gradient(45deg, #3b82f6, #06b6d4); }
         .sofware-eng { background: linear-gradient(45deg, #f59e0b, #ef4444); }
 
+        /* Enhanced visibility and contrast */
+        .enhanced-contrast {
+            color: #f8fafc;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .section-heading {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, var(--tech-teal), var(--tech-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        
+        .card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            color: #f1f5f9;
+        }
+        
+        .card p {
+            color: #cbd5e1;
+        }
+        
+        /* Improved button visibility */
+        .btn {
+            font-weight: 600;
+            border-width: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--tech-blue), var(--tech-purple));
+            border: none;
+        }
+        
+        .btn-outline {
+            border-color: var(--tech-teal);
+            color: var(--tech-teal);
+        }
+        
+        .btn-outline:hover {
+            background: var(--tech-teal);
+            color: #0f172a;
+            border-color: var(--tech-teal);
+        }
+        
+        /* Stats section improvements */
+        .stat {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .hero-title {
@@ -195,8 +256,25 @@
             }
             
             .tech-terminal {
-                padding: 1rem;
+                padding: 1.5rem;
             }
+            
+            .section-heading {
+                font-size: 2rem;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Glow effect for better visibility */
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+        }
+        
+        .glow-effect:hover {
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.7);
         }
     </style>
 </head>
@@ -209,12 +287,12 @@
             <div class="hero-content text-center">
                 <div class="max-w-4xl">
                     <div class="tech-terminal mb-8">
-                        <h1 class="text-4xl md:text-6xl font-bold code-font mb-6 hero-title">
+                        <h1 class="text-4xl md:text-6xl font-bold code-font mb-6 hero-title enhanced-contrast">
                             <span class="text-tech-teal">&gt;_ </span>
                             <span id="typewriter-text" class="text-white"></span>
-                            <span class="terminal-cursor"></span>
+                            <span class="terminal-cursor">|</span>
                         </h1>
-                        <p class="text-xl text-base-content/80 mb-8 hero-subtitle">
+                        <p class="text-xl text-slate-200 mb-8 hero-subtitle enhanced-contrast">
                             The ultimate community for developers, cybersecurity experts, and tech enthusiasts. 
                             Share knowledge, collaborate on projects, and advance your career.
                         </p>
@@ -227,30 +305,30 @@
                             <i data-lucide="sparkles" class="w-5 h-5"></i>Explore Categories
                         </a>
                     </div>
-                    <div class="stats shadow bg-base-200/50 backdrop-blur hero-stats">
+                    <div class="stats shadow bg-base-200/70 backdrop-blur hero-stats border border-slate-700 rounded-2xl">
                         <div class="stat">
                             <div class="stat-figure text-tech-teal">
                                 <i data-lucide="users" class="w-8 h-8"></i>
                             </div>
-                            <div class="stat-title">Active Members</div>
+                            <div class="stat-title text-slate-300">Active Members</div>
                             <div class="stat-value text-tech-teal">25K+</div>
-                            <div class="stat-desc">Jan 1st - Dec 31st</div>
+                            <div class="stat-desc text-slate-400">Jan 1st - Dec 31st</div>
                         </div>
                         <div class="stat">
                             <div class="stat-figure text-tech-purple">
                                 <i data-lucide="file-code" class="w-8 h-8"></i>
                             </div>
-                            <div class="stat-title">Code Repositories</div>
+                            <div class="stat-title text-slate-300">Code Repositories</div>
                             <div class="stat-value text-tech-purple">5.2K+</div>
-                            <div class="stat-desc">↗︎ 621 (22%)</div>
+                            <div class="stat-desc text-slate-400">↗︎ 621 (22%)</div>
                         </div>
                         <div class="stat">
                             <div class="stat-figure text-tech-pink">
                                 <i data-lucide="book-open" class="w-8 h-8"></i>
                             </div>
-                            <div class="stat-title">Tutorials</div>
+                            <div class="stat-title text-slate-300">Tutorials</div>
                             <div class="stat-value text-tech-pink">1.8K+</div>
-                            <div class="stat-desc">↗︎ 218 (14%)</div>
+                            <div class="stat-desc text-slate-400">↗︎ 218 (14%)</div>
                         </div>
                     </div>
                 </div>
@@ -259,48 +337,48 @@
 
         <!-- Our Core Pillars Section -->
         <section id="pillars" class="my-20" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-center mb-12">Our Core Pillars</h2>
+            <h2 class="section-heading">Our Core Pillars</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="card pillar-card bg-base-200 shadow-xl border border-base-300">
+                <div class="card pillar-card shadow-xl">
                     <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-teal/10 flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-tech-teal/20 flex items-center justify-center mb-4">
                             <i data-lucide="code-square" class="w-8 h-8 text-tech-teal"></i>
                         </div>
                         <h3 class="card-title text-xl font-bold">Software Engineering</h3>
-                        <p class="text-sm text-base-content/80">
+                        <p class="text-sm text-slate-300">
                             Master principles like design patterns, system architecture, and scalable software development.
                         </p>
                     </div>
                 </div>
-                <div class="card pillar-card bg-base-200 shadow-xl border border-base-300">
+                <div class="card pillar-card shadow-xl">
                     <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-pink/10 flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-tech-pink/20 flex items-center justify-center mb-4">
                             <i data-lucide="shield-check" class="w-8 h-8 text-tech-pink"></i>
                         </div>
                         <h3 class="card-title text-xl font-bold">Cybersecurity & Hacking</h3>
-                        <p class="text-sm text-base-content/80">
+                        <p class="text-sm text-slate-300">
                             Dive into ethical hacking, penetration testing, and protecting systems from threats.
                         </p>
                     </div>
                 </div>
-                <div class="card pillar-card bg-base-200 shadow-xl border border-base-300">
+                <div class="card pillar-card shadow-xl">
                     <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-purple/10 flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-tech-purple/20 flex items-center justify-center mb-4">
                             <i data-lucide="git-fork" class="w-8 h-8 text-tech-purple"></i>
                         </div>
                         <h3 class="card-title text-xl font-bold">Coding & DevOps</h3>
-                        <p class="text-sm text-base-content/80">
+                        <p class="text-sm text-slate-300">
                             Learn to write clean code and automate workflows with CI/CD, IaC, and monitoring tools.
                         </p>
                     </div>
                 </div>
-                <div class="card pillar-card bg-base-200 shadow-xl border border-base-300">
+                <div class="card pillar-card shadow-xl">
                     <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-green/10 flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-tech-green/20 flex items-center justify-center mb-4">
                             <i data-lucide="globe" class="w-8 h-8 text-tech-green"></i>
                         </div>
                         <h3 class="card-title text-xl font-bold">Web Development</h3>
-                        <p class="text-sm text-base-content/80">
+                        <p class="text-sm text-slate-300">
                             Build modern, responsive web applications using frameworks like React, Angular, and Vue.
                         </p>
                     </div>
@@ -310,7 +388,7 @@
 
         <!-- Categories Section -->
         <section id="categories" class="my-20" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-center mb-12">Explore Tech Categories</h2>
+            <h2 class="section-heading">Explore Tech Categories</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
                 <a href="/cybersecurity" class="category-badge cybersecurity text-center py-4 px-2 rounded-lg text-white font-semibold">
                     <i data-lucide="shield" class="w-8 h-8 mx-auto mb-2"></i>
@@ -339,35 +417,35 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card bg-base-200 shadow-xl border border-base-300 card-3d">
+                <div class="card shadow-xl card-3d">
                     <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-teal/10 flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-tech-teal/20 flex items-center justify-center mb-4">
                             <i data-lucide="terminal" class="w-8 h-8 text-tech-teal"></i>
                         </div>
                         <h3 class="card-title text-xl font-bold">Code Repository</h3>
-                        <p class="text-sm text-base-content/80">
+                        <p class="text-sm text-slate-300">
                             Share and discover code snippets, libraries, and complete projects.
                         </p>
                     </div>
                 </div>
-                <div class="card bg-base-200 shadow-xl border border-base-300 card-3d">
+                <div class="card shadow-xl card-3d">
                     <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-purple/10 flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-tech-purple/20 flex items-center justify-center mb-4">
                             <i data-lucide="book-open" class="w-8 h-8 text-tech-purple"></i>
                         </div>
                         <h3 class="card-title text-xl font-bold">Tutorials & Guides</h3>
-                        <p class="text-sm text-base-content/80">
+                        <p class="text-sm text-slate-300">
                             Learn from comprehensive tutorials and step-by-step guides.
                         </p>
                     </div>
                 </div>
-                <div class="card bg-base-200 shadow-xl border border-base-300 card-3d">
+                <div class="card shadow-xl card-3d">
                     <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-pink/10 flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-tech-pink/20 flex items-center justify-center mb-4">
                             <i data-lucide="users" class="w-8 h-8 text-tech-pink"></i>
                         </div>
                         <h3 class="card-title text-xl font-bold">Community Forum</h3>
-                        <p class="text-sm text-base-content/80">
+                        <p class="text-sm text-slate-300">
                             Connect with developers worldwide and get help with your projects.
                         </p>
                     </div>
@@ -377,54 +455,54 @@
 
         <!-- Trending Repositories -->
         <section class="my-20" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-center mb-12">Trending Code Repositories</h2>
+            <h2 class="section-heading">Trending Code Repositories</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="tech-terminal p-6">
                     <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-lg bg-tech-green/10 flex items-center justify-center mr-4">
+                        <div class="w-12 h-12 rounded-lg bg-tech-green/20 flex items-center justify-center mr-4">
                             <i data-lucide="github" class="w-6 h-6 text-tech-green"></i>
                         </div>
-                        <h3 class="text-xl font-bold">Cybersecurity CTF Toolkit</h3>
+                        <h3 class="text-xl font-bold text-white">Cybersecurity CTF Toolkit</h3>
                     </div>
-                    <p class="text-base-content/80 mb-4">
+                    <p class="text-slate-300 mb-4">
                         A collection of scripts and tools for Capture The Flag competitions and penetration testing.
                     </p>
                     <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="badge badge-outline">Python</span>
-                        <span class="badge badge-outline">Ethical Hacking</span>
-                        <span class="badge badge-outline">Security</span>
+                        <span class="badge badge-outline border-tech-green text-tech-green">Python</span>
+                        <span class="badge badge-outline border-tech-green text-tech-green">Ethical Hacking</span>
+                        <span class="badge badge-outline border-tech-green text-tech-green">Security</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <div class="flex items-center text-sm text-base-content/60">
+                        <div class="flex items-center text-sm text-slate-400">
                             <i data-lucide="star" class="w-4 h-4 mr-1"></i> 345
                             <i data-lucide="git-branch" class="w-4 h-4 ml-3 mr-1"></i> 68
                         </div>
-                        <a href="#" class="btn btn-sm btn-outline text-tech-green border-tech-green">
+                        <a href="#" class="btn btn-sm btn-outline text-tech-green border-tech-green hover:bg-tech-green hover:border-tech-green hover:text-slate-900">
                             View Repo <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
                         </a>
                     </div>
                 </div>
                 <div class="tech-terminal p-6">
                     <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-lg bg-tech-purple/10 flex items-center justify-center mr-4">
+                        <div class="w-12 h-12 rounded-lg bg-tech-purple/20 flex items-center justify-center mr-4">
                             <i data-lucide="github" class="w-6 h-6 text-tech-purple"></i>
                         </div>
-                        <h3 class="text-xl font-bold">Web Dev Starter Kit</h3>
+                        <h3 class="text-xl font-bold text-white">Web Dev Starter Kit</h3>
                     </div>
-                    <p class="text-base-content/80 mb-4">
+                    <p class="text-slate-300 mb-4">
                         A modern boilerplate for building single-page applications with React and Tailwind CSS.
                     </p>
                     <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="badge badge-outline">React</span>
-                        <span class="badge badge-outline">JavaScript</span>
-                        <span class="badge badge-outline">Tailwind</span>
+                        <span class="badge badge-outline border-tech-purple text-tech-purple">React</span>
+                        <span class="badge badge-outline border-tech-purple text-tech-purple">JavaScript</span>
+                        <span class="badge badge-outline border-tech-purple text-tech-purple">Tailwind</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <div class="flex items-center text-sm text-base-content/60">
+                        <div class="flex items-center text-sm text-slate-400">
                             <i data-lucide="star" class="w-4 h-4 mr-1"></i> 287
                             <i data-lucide="git-branch" class="w-4 h-4 ml-3 mr-1"></i> 51
                         </div>
-                        <a href="#" class="btn btn-sm btn-outline text-tech-purple border-tech-purple">
+                        <a href="#" class="btn btn-sm btn-outline text-tech-purple border-tech-purple hover:bg-tech-purple hover:border-tech-purple hover:text-white">
                             View Repo <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
                         </a>
                     </div>
@@ -434,38 +512,38 @@
 
         <!-- Featured Tutorials -->
         <section class="my-20" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-center mb-12">Featured Tutorials</h2>
+            <h2 class="section-heading">Featured Tutorials</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="card bg-base-200 shadow-xl image-full">
+                <div class="card shadow-xl image-full">
                     <figure><img src="https://placehold.co/1000x500/0f172a/94a3b8?text=Ethical+Hacking+101" alt="Ethical Hacking Tutorial" /></figure>
                     <div class="card-body">
-                        <h3 class="card-title">Ethical Hacking 101</h3>
-                        <p>Learn the basics of penetration testing and network security.</p>
+                        <h3 class="card-title text-white">Ethical Hacking 101</h3>
+                        <p class="text-slate-200">Learn the basics of penetration testing and network security.</p>
                         <div class="card-actions justify-end">
-                            <div class="badge badge-outline">Hacking</div>
-                            <div class="badge badge-outline">Beginner</div>
+                            <div class="badge badge-outline border-tech-pink text-tech-pink">Hacking</div>
+                            <div class="badge badge-outline border-tech-pink text-tech-pink">Beginner</div>
                         </div>
                     </div>
                 </div>
-                <div class="card bg-base-200 shadow-xl image-full">
+                <div class="card shadow-xl image-full">
                     <figure><img src="https://placehold.co/1000x500/0f172a/94a3b8?text=CI/CD+with+GitHub+Actions" alt="CI/CD Tutorial" /></figure>
                     <div class="card-body">
-                        <h3 class="card-title">CI/CD with GitHub Actions</h3>
-                        <p>Automate your software delivery pipeline with industry-standard tools.</p>
+                        <h3 class="card-title text-white">CI/CD with GitHub Actions</h3>
+                        <p class="text-slate-200">Automate your software delivery pipeline with industry-standard tools.</p>
                         <div class="card-actions justify-end">
-                            <div class="badge badge-outline">DevOps</div>
-                            <div class="badge badge-outline">Intermediate</div>
+                            <div class="badge badge-outline border-tech-purple text-tech-purple">DevOps</div>
+                            <div class="badge badge-outline border-tech-purple text-tech-purple">Intermediate</div>
                         </div>
                     </div>
                 </div>
-                <div class="card bg-base-200 shadow-xl image-full">
+                <div class="card shadow-xl image-full">
                     <figure><img src="https://placehold.co/1000x500/0f172a/94a3b8?text=React+State+Management" alt="React Tutorial" /></figure>
                     <div class="card-body">
-                        <h3 class="card-title">React State Management</h3>
-                        <p>A deep dive into managing state in complex React applications.</p>
+                        <h3 class="card-title text-white">React State Management</h3>
+                        <p class="text-slate-200">A deep dive into managing state in complex React applications.</p>
                         <div class="card-actions justify-end">
-                            <div class="badge badge-outline">Web Dev</div>
-                            <div class="badge badge-outline">Advanced</div>
+                            <div class="badge badge-outline border-tech-blue text-tech-blue">Web Dev</div>
+                            <div class="badge badge-outline border-tech-blue text-tech-blue">Advanced</div>
                         </div>
                     </div>
                 </div>
@@ -481,8 +559,8 @@
         <!-- Community Section -->
         <section class="my-20 text-center" data-aos="fade-up">
             <div class="tech-terminal p-8">
-                <h2 class="text-3xl font-bold mb-6">Join Our Tech Community</h2>
-                <p class="text-xl text-base-content/80 mb-8 max-w-2xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-white">Join Our Tech Community</h2>
+                <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
                     Connect with developers, cybersecurity experts, data scientists, and tech enthusiasts from around the world.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
@@ -498,14 +576,14 @@
 
         <!-- Newsletter Section -->
         <section class="my-20" data-aos="fade-up">
-            <div class="card bg-base-200 shadow-xl border border-tech-teal">
+            <div class="card shadow-xl border border-tech-teal">
                 <div class="card-body items-center text-center">
-                    <h2 class="card-title text-3xl font-bold mb-2">Stay Updated with Tech</h2>
-                    <p class="text-base-content/80 mb-6 max-w-md">
+                    <h2 class="card-title text-3xl font-bold mb-2 text-white">Stay Updated with Tech</h2>
+                    <p class="text-slate-300 mb-6 max-w-md">
                         Get the latest tech news, tutorials, and coding resources delivered to your inbox weekly.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-2 w-full max-w-md">
-                        <input type="email" placeholder="Your email address" class="input input-bordered w-full" />
+                        <input type="email" placeholder="Your email address" class="input input-bordered w-full bg-slate-800 border-slate-700 text-white" />
                         <button class="btn btn-primary glow-effect">Subscribe</button>
                     </div>
                 </div>
@@ -621,6 +699,5 @@
     </script>
 </body>
 </html>
-
 
 {{ end }}

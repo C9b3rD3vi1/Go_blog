@@ -11,7 +11,7 @@ import (
 )
 
 // --- Services ---
-//
+//// Use Preload("TechStacks") to eager load the many-to-many relationship
 func AdminServiceList(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
     if admin == nil || !admin.IsAdmin {
@@ -19,7 +19,14 @@ func AdminServiceList(c *fiber.Ctx) error {
     }
 
     var services []models.Services
-    database.DB.Order("created_at desc").Find(&services)
+    // Use Preload("TechStacks") to eager load the many-to-many relationship
+    result := database.DB.Preload("TechStacks").Order("created_at desc").Find(&services)
+    
+    if result.Error != nil {
+        // Handle the error appropriately, e.g., log it and return an error page.
+        // For now, let's just show a simple error.
+        return c.Status(500).SendString("Error loading services")
+    }
 
     return c.Render("admin/services", fiber.Map{
         "Title":    "Services",
@@ -27,6 +34,7 @@ func AdminServiceList(c *fiber.Ctx) error {
         "Services": services,
     })
 }
+
 
 func AdminNewServicePage(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
@@ -190,9 +198,4 @@ func AdminNewServiceForm(c *fiber.Ctx) error {
         "Title": "Add New Service",
         "Admin": admin.Username,
     })
-}
-
-
-func add(a, b int) int {
-    return a + b
 }

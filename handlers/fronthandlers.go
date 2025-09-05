@@ -20,9 +20,9 @@ func ServiceList(c *fiber.Ctx) error {
 
 // ServiceView displays a single service view
 func ServiceView(c *fiber.Ctx) error {
-    id := c.Params("id")
+    slug := c.Params("slug")
     var service models.Services
-    if err := database.DB.First(&service, id).Error; err != nil {
+    if err := database.DB.First(&service, slug).Error; err != nil {
         return c.Status(404).SendString("Service not found")
     }
 
