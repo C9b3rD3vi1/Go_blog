@@ -157,7 +157,7 @@
         <p class="error-message">{{ .Error }}</p>
         {{ end }}
 
-        <form action="/admin/posts/{{ .Post.ID }}/update" method="POST" enctype="multipart/form-data">
+        <form action="/admin/posts/update/{{ .Post.ID }}/" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" value="{{ .Post.Title }}" required>

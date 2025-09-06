@@ -5,6 +5,7 @@ go 1.23.6
 require (
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/pquerna/otp v1.5.0
+	github.com/yuin/goldmark v1.1.27
 	github.com/znbang/gofiber-layout v0.0.1
 	golang.org/x/crypto v0.23.0
 	gorm.io/datatypes v1.2.6

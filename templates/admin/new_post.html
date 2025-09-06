@@ -1,158 +1,102 @@
-{{ block "content" .}}
+{{ block "content" . }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title }}</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Embed this CSS or link it from a separate styles.css file */
-        :root {
-            --bg-color: #f4f7f9;
-            --container-bg: #ffffff;
-            --text-color: #333;
-            --header-color: #1c2b36;
-            --primary-color: #2e6ff2;
-            --cancel-color: #6c757d;
-            --border-color: #e0e0e0;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-            --input-bg: #f8f9fa;
-            --font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 2rem;
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-        }
-
-        .form-container {
-            max-width: 700px;
-            width: 100%;
-            background-color: var(--container-bg);
-            border-radius: 8px;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            padding: 2.5rem;
-        }
-
-        .form-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .form-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--header-color);
-            margin: 0;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--header-color);
-        }
-
-        .form-group input[type="text"],
-        .form-group textarea,
-        .form-group input[type="file"] {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            box-sizing: border-box; /* Ensures padding doesn't affect total width */
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #2558c7;
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--cancel-color);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--border-color);
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.6.0/dist/full.css" rel="stylesheet">
 </head>
-<body>
-    <main class="form-container">
-        <header class="form-header">
-            <h1 class="form-title">Create New Post</h1>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-10">
+
+    <main class="w-full max-w-3xl bg-white rounded-lg shadow-lg p-8">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Create New Post</h1>
         </header>
-        <form action="/admin/posts" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required>
+
+        <form action="/admin/posts" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <!-- Title -->
+            <div class="form-control w-full">
+                <label class="label" for="title">
+                    <span class="label-text font-semibold">Title</span>
+                </label>
+                <input type="text" id="title" name="title" required class="input input-bordered w-full">
             </div>
 
-            <div class="form-group">
-                <label for="content">Content:</label>
-                <textarea id="content" name="content" rows="12"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="tag">Tag:</label>
-                <input type="text" id="tag" name="tag">
+            <!-- Content -->
+            <div class="form-control w-full">
+                <label class="label" for="content">
+                    <span class="label-text font-semibold">Content</span>
+                </label>
+                <textarea id="content" name="content" rows="12" class="textarea textarea-bordered w-full"></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="image">Image:</label>
-                <input type="file" id="image" name="image">
+            <!-- Tags Multi-Select -->
+            <div class="form-control w-full">
+                <label class="label" for="tags">
+                    <span class="label-text font-semibold">Tags</span>
+                </label>
+                <div class="dropdown w-full">
+                    <input type="text" placeholder="Select tags..." id="tagInput" class="input input-bordered w-full cursor-pointer" readonly onclick="toggleDropdown()">
+                    <ul id="tagDropdown" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full hidden max-h-48 overflow-y-auto">
+                        {{ range .AllTags }}
+                        <li>
+                            <label class="cursor-pointer flex items-center gap-2">
+                                <input type="checkbox" name="tags" value="{{ .Name }}" class="checkbox checkbox-primary">
+                                {{ .Name }}
+                            </label>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </div>
+                <small class="text-gray-500 mt-1 block">Select multiple tags</small>
             </div>
 
-            <div class="form-actions">
-                <a href="/admin/posts" class="btn btn-secondary">Cancel</a>
+            <!-- Image -->
+            <div class="form-control w-full">
+                <label class="label" for="image">
+                    <span class="label-text font-semibold">Image</span>
+                </label>
+                <input type="file" id="image" name="image" class="file-input file-input-bordered w-full">
+            </div>
+
+            <!-- Actions -->
+            <div class="flex justify-end gap-3">
+                <a href="/admin/posts" class="btn btn-outline btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save Post</button>
             </div>
         </form>
     </main>
+
+    <script>
+        const tagInput = document.getElementById('tagInput');
+        const tagDropdown = document.getElementById('tagDropdown');
+
+        function toggleDropdown() {
+            tagDropdown.classList.toggle('hidden');
+        }
+
+        // Update input placeholder with selected tags
+        const checkboxes = tagDropdown.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const selected = Array.from(checkboxes)
+                    .filter(chk => chk.checked)
+                    .map(chk => chk.value)
+                    .join(', ');
+                tagInput.value = selected;
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!tagDropdown.contains(e.target) && e.target !== tagInput) {
+                tagDropdown.classList.add('hidden');
+            }
+        });
+    </script>
+
 </body>
 </html>
 {{ end }}
