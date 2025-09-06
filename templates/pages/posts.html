@@ -4,36 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Latest Posts</title>
+    <title>Blog - Latest Insights</title>
     <link rel="stylesheet" href="/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <style>
 :root {
-    --bg-color: #1a1a2e; /* Dark background */
-    --text-color: #e0e0e0; /* Light gray text */
-    --card-bg: #22223b; /* Slightly lighter card background */
-    --accent-color: #9253a1; /* Purple accent */
-    --link-color: #4a4e69; /* Grayish-blue link */
+    --bg-color: #f8f9fa;
+    --text-color: #212529;
+    --card-bg: #ffffff;
+    --accent-color: #007bff;
+    --link-color: #6c757d;
     --font-family: 'Inter', sans-serif;
-}
-
-body {
-    font-family: var(--font-family);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    margin: 0;
-    padding: 2rem;
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
+    --heading-font-family: 'Playfair Display', serif;
 }
 
 .blog-container {
     max-width: 1200px;
     width: 100%;
+    margin: 0 auto;            /* ensures central alignment */
+    display: flex;
+    flex-direction: column;
+    align-items: center;       /* keeps child content centered */
 }
 
 /* Header Styling */
@@ -43,15 +37,19 @@ body {
 }
 
 .blog-title {
-    font-size: 3rem;
+    font-family: var(--heading-font-family);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    color: var(--accent-color);
-    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.1;
 }
 
 .blog-subtitle {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
     color: var(--link-color);
+    max-width: 600px;
+    margin: 1rem auto 0;
 }
 
 /* Post Grid Layout */
@@ -64,20 +62,23 @@ body {
 /* Individual Post Card Styling */
 .post-card {
     background-color: var(--card-bg);
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .post-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .post-image-container {
     width: 100%;
-    height: 200px;
+    height: 180px;
     overflow: hidden;
 }
 
@@ -86,17 +87,25 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.5s ease;
+}
+
+.post-card:hover .post-image {
+    transform: scale(1.05);
 }
 
 .post-content {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .post-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 600;
     margin-top: 0;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .post-title a {
@@ -111,37 +120,134 @@ body {
 
 .post-excerpt {
     color: var(--link-color);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    flex-grow: 1;
 }
 
 .read-more {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     color: var(--accent-color);
     text-decoration: none;
     font-weight: 500;
     transition: transform 0.2s ease;
+    margin-top: auto;
+}
+
+.read-more::after {
+    content: '→';
+    margin-left: 6px;
 }
 
 .read-more:hover {
-    transform: translateX(5px);
+    transform: translateX(3px);
+}
+
+.post-meta {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border-top: 1px solid #e9ecef;
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+
+.tag {
+    background-color: #e9ecef;
+    color: var(--accent-color);
+    padding: 0.2rem 0.6rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.tag:hover {
+    background-color: #dee2e6;
 }
 
 .no-posts {
     text-align: center;
     color: var(--link-color);
-    grid-column: 1 / -1; /* Center the message across the grid */
+    grid-column: 1 / -1;
+    font-size: 1.25rem;
+    padding: 3rem 0;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none; /* hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.popup-content input {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.popup-content button[type="submit"] {
+    padding: 0.5rem 1rem;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.popup-content button[type="submit"]:hover {
+    background: #0056b3; /* darker accent on hover */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {
-        padding: 1rem;
+        padding: 2rem 1rem;
     }
-    .blog-title {
-        font-size: 2.5rem;
-    }
-    .blog-subtitle {
-        font-size: 1rem;
+
+    .posts-grid {
+        gap: 1.5rem;
     }
 }
 </style>
@@ -149,8 +255,8 @@ body {
 
     <main class="blog-container">
         <header class="blog-header">
-            <h1 class="blog-title">Our Latest Insights</h1>
-            <p class="blog-subtitle">Stay up-to-date with product updates, company news, and industry trends.</p>
+            <h1 class="blog-title">Fresh Perspectives.</h1>
+            <p class="blog-subtitle">Dive into our latest posts on product innovation, industry news, and expert insights.</p>
         </header>
 
         <section class="posts-grid">
@@ -164,15 +270,68 @@ body {
                 <div class="post-content">
                     <h2 class="post-title"><a href="/posts/{{ .Slug }}">{{ .Title }}</a></h2>
                     <p class="post-excerpt">{{ .Content }}</p>
-                    <a href="/posts/{{ .Slug }}" class="read-more">Read more →</a>
+                    <a href="/posts/{{ .Slug }}" class="read-more">Read more</a>
+                </div>
+                
+                <div class="post-meta">
+                    {{ if .Tags }}
+                        <div class="tags">
+                            {{ range .Tags }}
+                                <span class="tag">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                    {{ end }}
                 </div>
             </article>
             {{ else }}
-                <p class="no-posts">No posts published yet.</p>
+                <p class="no-posts">No posts published yet. Please check back soon!</p>
             {{ end }}
         </section>
 
     </main>
+    
+    <!-- Scroll-triggered Popup -->
+    <div id="scroll-popup" class="popup-overlay">
+        <div class="popup-content">
+            <button id="scroll-popup-close" class="popup-close">&times;</button>
+            <h2>Stay Updated!</h2>
+            <p>Subscribe to get our latest blog posts and insights delivered to your inbox.</p>
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    
+    <script>
+        const popup = document.getElementById('scroll-popup');
+        const closeBtn = document.getElementById('scroll-popup-close');
+    
+        // Show popup when user scrolls 50% down
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const halfway = document.body.scrollHeight / 2;
+    
+            if (scrollPosition >= halfway && !popup.classList.contains('shown')) {
+                popup.style.display = 'flex';
+                popup.classList.add('shown'); // ensure it only appears once
+            }
+        });
+    
+        // Close popup
+        closeBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+    
+        // Close when clicking outside content
+        popup.addEventListener('click', (e) => {
+            if (e.target.id === 'scroll-popup') {
+                popup.style.display = 'none';
+            }
+        });
+    </script>
+
 </body>
 </html>
 {{ end }}
