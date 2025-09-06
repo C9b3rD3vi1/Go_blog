@@ -13,5 +13,9 @@ func SetupPublicRoutes(app *fiber.App) {
     // Public Project routes
     app.Get("/projects", handlers.ProjectList)        // List all projects (public)
     app.Get("/projects/:slug", handlers.ProjectView)  // View single project by slug
+    
+    // Public Post routes
+    app.Get("/posts", handlers.PublicPostList)              // List all posts (public)
+    app.Get("/posts/:slug", handlers.PublicPostDetail)        // View single post by slug
 
 }

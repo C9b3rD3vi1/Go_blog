@@ -1,73 +1,176 @@
 package handlers
 
 import (
-	"encoding/json"
+	"strings"
 
-	//"fmt"
-	"net/http"
-
+	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/C9b3rD3vi1/Go_blog/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
-// Define the routes
-func PostHandler(w http.ResponseWriter, r *http.Request) {
-	// Handle the request
+// --- Posts ---
+
+// List all posts
+func AdminPostList(c *fiber.Ctx) error {
+	admin := config.GetCurrentUser(c)
+	if admin == nil || !admin.IsAdmin {
+		return c.Redirect("/admin/login")
+	}
+
+	var posts []models.Post
+	if err := database.DB.Order("created_at desc").Find(&posts).Error; err != nil {
+		return c.Status(500).SendString("Error fetching posts")
+	}
+
+	return c.Render("admin/posts", fiber.Map{
+		"Title": "Admin Post List",
+		"Admin": admin,
+		"Posts": posts,
+	})
+}
+
+// Show new post form
+func AdminNewPostForm(c *fiber.Ctx) error {
+	admin := config.GetCurrentUser(c)
+	if admin == nil || !admin.IsAdmin {
+		return c.Redirect("/admin/login")
+	}
+
+	return c.Render("admin/new_post", fiber.Map{
+		"Title": "Add New Post",
+		"Admin": admin,
+	})
+}
+
+// Handle post creation
+func AdminCreatePost(c *fiber.Ctx) error {
+	admin := config.GetCurrentUser(c)
+	if admin == nil || !admin.IsAdmin {
+		return c.Redirect("/admin/login")
+	}
+
+	title := c.FormValue("title")
+	content := c.FormValue("content")
+	tag := c.FormValue("tag")
+
+	// Upload image
+	imageURL, _ := utils.UploadImage(c, "image")
+
+	// Generate slug
+	slug := utils.UniqueSlug(database.DB, "posts", title)
+
+	post := models.Post{
+		Title:    title,
+		Content:  content,
+		Slug:     slug,
+		ImageURL: imageURL,
+		Tags:     []string{tag},
+		Author: admin.Username,
+	}
+
+	if err := database.DB.Create(&post).Error; err != nil {
+		return c.Status(500).SendString("Error saving post")
+	}
+
+	return c.Redirect("/admin/posts")
+}
+
+
+// View single post
+func AdminViewPosts(c *fiber.Ctx) error {
+	admin := config.GetCurrentUser(c)
+	if admin == nil || !admin.IsAdmin {
+		return c.Redirect("/admin/login")
+	}
+
+	slug := c.Params("slug")
 	var post models.Post
-	//post := models.CreateSamplePost()
-
-	err := json.NewDecoder(r.Body).Decode(&post)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+	if err := database.DB.Where("slug = ?", slug).First(&post).Error; err != nil {
+		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
 	}
 
-	// Set category base on Category
-	//post.Category = post.CategoryID
-
-	// save the post to the database
-	result := database.DB.Create(&post)
-
-	if result.Error != nil {
-		http.Error(w, result.Error.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(post)
-
-}
-
-// ShowPostHandler handles the request to show a post
-func ShowPostHandler(c *fiber.Ctx) error {
-	post := models.CreateSamplePost() // or fetch from DB
-
-	return c.Render("post", post)
-}
-
-func PostHandlerFunc(c *fiber.Ctx) error {
-	//	post := models.CreateSamplePost() // or fetch from DB
-
-	return c.Render("pages/post", fiber.Map{
-		//"post": post,
+	return c.Render("admin/view_post", fiber.Map{
+		"Title": "View Post",
+		"Admin": admin,
+		"Post":  post,
 	})
 }
 
-
-
-func GitHubStatsHandler(c *fiber.Ctx) error {
-	resp, err := http.Get("https://api.github.com/repos/C9b3rD3vi1/Go_blog/contributors")
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"error": "GitHub API error"})
+// Show edit form
+func AdminEditPostsForm(c *fiber.Ctx) error {
+	admin := config.GetCurrentUser(c)
+	if admin == nil || !admin.IsAdmin {
+		return c.Redirect("/admin/login")
 	}
-	defer resp.Body.Close()
 
-	var contributors []map[string]interface{}
-	json.NewDecoder(resp.Body).Decode(&contributors)
+	id := c.Params("id")
+	var post models.Post
+	if err := database.DB.First(&post, id).Error; err != nil {
+		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
+	}
 
-	return c.JSON(fiber.Map{
-		"contributors": len(contributors),
+	return c.Render("admin/edit_post", fiber.Map{
+		"Title": "Edit Post",
+		"Admin": admin,
+		"Post":  post,
 	})
+}
+
+// Update post
+func AdminUpdatePost(c *fiber.Ctx) error {
+	admin := config.GetCurrentUser(c)
+	if admin == nil || !admin.IsAdmin {
+		return c.Redirect("/admin/login")
+	}
+
+	id := c.Params("id")
+	var post models.Post
+	if err := database.DB.First(&post, id).Error; err != nil {
+		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
+	}
+
+	title := c.FormValue("title")
+	content := c.FormValue("content")
+	tags := strings.Split(c.FormValue("tags"), ",")
+
+	// Update fields
+	post.Title = title
+	post.Content = content
+	post.Tags = tags
+	post.Slug = utils.UniqueSlug(database.DB, "posts", title)
+
+	if imageURL, _ := utils.UploadImage(c, "image"); imageURL != "" {
+		post.ImageURL = imageURL
+	}
+
+	// Validation
+	if post.Title == "" || post.Slug == "" {
+		return c.Render("admin/edit_post", fiber.Map{
+			"Post":  post,
+			"Error": "Title and Slug are required",
+		})
+	}
+
+	if err := database.DB.Save(&post).Error; err != nil {
+		return c.Status(500).SendString("Error updating post")
+	}
+
+	return c.Redirect("/admin/posts")
+}
+
+// Delete post
+func AdminDeletePost(c *fiber.Ctx) error {
+	admin := config.GetCurrentUser(c)
+	if admin == nil || !admin.IsAdmin {
+		return c.Redirect("/admin/login")
+	}
+
+	id := c.Params("id")
+	if err := database.DB.Delete(&models.Post{}, id).Error; err != nil {
+		return c.Status(500).SendString("Error deleting post")
+	}
+
+	return c.Redirect("/admin/posts")
 }

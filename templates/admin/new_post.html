@@ -1,0 +1,158 @@
+{{ block "content" .}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Embed this CSS or link it from a separate styles.css file */
+        :root {
+            --bg-color: #f4f7f9;
+            --container-bg: #ffffff;
+            --text-color: #333;
+            --header-color: #1c2b36;
+            --primary-color: #2e6ff2;
+            --cancel-color: #6c757d;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --input-bg: #f8f9fa;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 2rem;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container {
+            max-width: 700px;
+            width: 100%;
+            background-color: var(--container-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 2.5rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--header-color);
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--header-color);
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            box-sizing: border-box; /* Ensures padding doesn't affect total width */
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #2558c7;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--cancel-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <main class="form-container">
+        <header class="form-header">
+            <h1 class="form-title">Create New Post</h1>
+        </header>
+        <form action="/admin/posts" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" rows="12"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="tag">Tag:</label>
+                <input type="text" id="tag" name="tag">
+            </div>
+
+            <div class="form-group">
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image">
+            </div>
+
+            <div class="form-actions">
+                <a href="/admin/posts" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save Post</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
+{{ end }}

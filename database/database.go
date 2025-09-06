@@ -25,9 +25,15 @@ func InitDB() (*gorm.DB, error) {
 	// Log the database connection
 	log.Println("Connected to the database")
 {}
+
+   // Drop table
+	//db.Migrator().DropTable(&models.Post{})
+
+	
+	
 	// Migrate the schema
-	if err := db.AutoMigrate(&models.Post{}, &models.Category{}, &models.User{}, &models.Comment{},
-	 &models.BlogPost{}, &models.Projects{}, &models.Services{}, &models.TechStack{}); err != nil {
+	if err := db.AutoMigrate(&models.Post{}, &models.User{}, &models.Comment{},
+ &models.Projects{}, &models.Services{}, &models.TechStack{}); err != nil {
 		log.Fatal("Failed to migrate the database schema:", err)
 		return nil, err
 	}

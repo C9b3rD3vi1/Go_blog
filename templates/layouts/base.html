@@ -52,11 +52,12 @@
                         <li><a href="/" class="hover:text-primary">Home</a></li>
                         <li><a href="/projects" class="hover:text-primary">Projects</a></li>
                         <li><a href="/services" class="hover:text-primary">Services</a></li>
+                        <li><a href="/posts" class="hover:text-primary">Posts</a></li>
                         <li><a href="/about" class="hover:text-primary">About</a></li>
                         <li><a href="/contact" class="hover:text-primary">Contact</a></li>
                         <div class="pl-4">
                             {{- if .IsLoggedIn -}}
-                            <li><a href="/dashboard" class="btn btn-primary btn-sm">Dashboard</a></li>
+                            <li><a href="/logout" class="btn btn-primary btn-sm">Logout</a></li>
                             {{- else -}}
                             <li class="flex-row gap-2">
                                 <a href="/login" class="btn btn-ghost btn-sm">Log In</a>

@@ -1,0 +1,178 @@
+{{ block "content" .}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Latest Posts</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<style>
+:root {
+    --bg-color: #1a1a2e; /* Dark background */
+    --text-color: #e0e0e0; /* Light gray text */
+    --card-bg: #22223b; /* Slightly lighter card background */
+    --accent-color: #9253a1; /* Purple accent */
+    --link-color: #4a4e69; /* Grayish-blue link */
+    --font-family: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+}
+
+.blog-container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Header Styling */
+.blog-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.blog-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.blog-subtitle {
+    font-size: 1.25rem;
+    color: var(--link-color);
+}
+
+/* Post Grid Layout */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Individual Post Card Styling */
+.post-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.post-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.post-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.post-content {
+    padding: 1.5rem;
+}
+
+.post-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.post-title a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+    color: var(--accent-color);
+}
+
+.post-excerpt {
+    color: var(--link-color);
+    margin-bottom: 1.25rem;
+}
+
+.read-more {
+    display: inline-block;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.read-more:hover {
+    transform: translateX(5px);
+}
+
+.no-posts {
+    text-align: center;
+    color: var(--link-color);
+    grid-column: 1 / -1; /* Center the message across the grid */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    .blog-title {
+        font-size: 2.5rem;
+    }
+    .blog-subtitle {
+        font-size: 1rem;
+    }
+}
+</style>
+<body>
+
+    <main class="blog-container">
+        <header class="blog-header">
+            <h1 class="blog-title">Our Latest Insights</h1>
+            <p class="blog-subtitle">Stay up-to-date with product updates, company news, and industry trends.</p>
+        </header>
+
+        <section class="posts-grid">
+            {{ range .Posts }}
+            <article class="post-card">
+                {{ if .ImageURL }}
+                    <div class="post-image-container">
+                        <img src="{{ .ImageURL }}" alt="{{ .Title }}" class="post-image">
+                    </div>
+                {{ end }}
+                <div class="post-content">
+                    <h2 class="post-title"><a href="/posts/{{ .Slug }}">{{ .Title }}</a></h2>
+                    <p class="post-excerpt">{{ .Content }}</p>
+                    <a href="/posts/{{ .Slug }}" class="read-more">Read more →</a>
+                </div>
+            </article>
+            {{ else }}
+                <p class="no-posts">No posts published yet.</p>
+            {{ end }}
+        </section>
+
+    </main>
+</body>
+</html>
+{{ end }}
