@@ -1,137 +1,113 @@
 {{ define "content" }}
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Admin Login | Hacker Hub</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="author" content="C9b3rD3vi1" />
-        <meta
-            name="description"
-            content="Login to the Hacker Hub admin dashboard"
-        />
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Login | Hacker Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="C9b3rD3vi1" />
+    <meta name="description" content="Login to the Hacker Hub admin dashboard" />
 
-        <!-- TailwindCSS + DaisyUI -->
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css"
-            rel="stylesheet"
-        />
-    </head>
+    <!-- TailwindCSS + DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css" rel="stylesheet" />
+</head>
 
-    <body
-        class="bg-black text-[#00ff88] font-mono min-h-screen flex items-center justify-center"
-    >
-        <div
-            class="w-full max-w-md bg-base-200 border border-[#00ff88]/20 shadow-xl rounded px-6 py-8 space-y-6"
-        >
-            <!-- Title -->
-            <div class="text-center">
-                <h1 class="text-2xl font-bold">🔐 Hacker Hub Admin</h1>
-                <p class="text-sm text-base-content/70">Access Control Panel</p>
-            </div>
-
-            <!-- Flash Messages -->
-            {{ if .Success }}
-            <div
-                id="flash-success"
-                class="alert alert-success text-sm font-semibold text-center"
-            >
-                {{ .Success }}
-            </div>
-            {{ end }} {{ if .Error }}
-            <div
-                id="flash-error"
-                class="alert alert-error text-sm font-semibold text-center"
-            >
-                {{ .Error }}
-            </div>
-            {{ end }}
-
-            <!-- Login Form -->
-            <form method="POST" action="/admin/login" class="space-y-4">
-                <!-- Email -->
-                <div>
-                    <label for="email" class="block text-sm mb-1 font-bold"
-                        >Email</label
-                    >
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        class="input input-bordered w-full bg-base-100 text-white"
-                        placeholder="admin@example.com"
-                        required
-                    />
-                </div>
-
-                <!-- Password -->
-                <div>
-                    <label for="password" class="block text-sm mb-1 font-bold"
-                        >Password</label
-                    >
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        class="input input-bordered w-full bg-base-100 text-white"
-                        placeholder="********"
-                        required
-                    />
-                </div>
-
-                <!-- 2FA Code (optional) -->
-
-                <!-- Remember Me -->
-                <div class="flex items-center gap-2">
-                    <input
-                        type="checkbox"
-                        id="remember"
-                        name="remember"
-                        class="checkbox checkbox-sm checkbox-accent"
-                    />
-                    <label for="remember" class="text-sm">Remember me</label>
-                </div>
-
-                <!-- Submit -->
-                <button
-                    type="submit"
-                    class="btn btn-primary w-full hover:scale-[1.01] transition-transform"
-                >
-                    Login
-                </button>
-            </form>
-
-            <!-- Footer -->
-            <p
-                class="text-center text-xs text-base-content/60 pt-4 border-t border-[#00ff88]/20"
-            >
-                &copy; {{ now }} Hacker Hub — All shells reserved.
-            </p>
+<body class="bg-black text-[#00ff88] font-mono min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md bg-base-200 border border-[#00ff88]/20 shadow-xl rounded px-6 py-8 space-y-6">
+        <!-- Title -->
+        <div class="text-center">
+            <h1 class="text-2xl font-bold">🔐 Hacker Hub Admin</h1>
+            <p class="text-sm text-base-content/70">Access Control Panel</p>
         </div>
 
-        <!-- Lucide Icons -->
-        <script src="https://unpkg.com/lucide@latest"></script>
-        <script>
-            lucide.createIcons();
-        </script>
+        <!-- Flash Messages -->
+        {{ if .Success }}
+        <div id="flash-success" class="alert alert-success text-sm font-semibold text-center">
+            {{ .Success }}
+        </div>
+        {{ end }} 
+        {{ if .Error }}
+        <div id="flash-error" class="alert alert-error text-sm font-semibold text-center">
+            {{ .Error }}
+        </div>
+        {{ end }}
 
-        <!-- Flash Auto Dismiss -->
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const alerts = document.querySelectorAll(".alert");
-                alerts.forEach((alert) => {
-                    setTimeout(() => {
-                        alert.classList.add(
-                            "opacity-0",
-                            "transition-opacity",
-                            "duration-500",
-                        );
-                        setTimeout(() => alert.remove(), 500);
-                    }, 4000);
-                });
+        <!-- Login Form -->
+        <form method="POST" action="/admin/login" class="space-y-4">
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm mb-1 font-bold">Email</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    class="input input-bordered w-full 
+                           bg-[#0d0d0d] text-[#00ff88] placeholder-gray-400
+                           focus:outline-none focus:ring-2 focus:ring-[#00ff88] focus:border-[#00ff88]"
+                    placeholder="admin@example.com"
+                    required
+                />
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label for="password" class="block text-sm mb-1 font-bold">Password</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="input input-bordered w-full 
+                           bg-[#0d0d0d] text-[#00ff88] placeholder-gray-400
+                           focus:outline-none focus:ring-2 focus:ring-[#00ff88] focus:border-[#00ff88]"
+                    placeholder="********"
+                    required
+                />
+            </div>
+
+            <!-- Remember Me -->
+            <div class="flex items-center gap-2">
+                <input
+                    type="checkbox"
+                    id="remember"
+                    name="remember"
+                    class="checkbox checkbox-sm border-[#00ff88] [--chkbg:#00ff88] [--chkfg:black]"
+                />
+                <label for="remember" class="text-sm">Remember me</label>
+            </div>
+
+            <!-- Submit -->
+            <button
+                type="submit"
+                class="btn w-full border border-[#00ff88] bg-[#0d0d0d] text-[#00ff88]
+                       hover:bg-[#00ff88] hover:text-black hover:scale-[1.02] transition-transform"
+            >
+                Login
+            </button>
+        </form>
+
+        <!-- Footer -->
+        <p class="text-center text-xs text-base-content/60 pt-4 border-t border-[#00ff88]/20">
+            &copy; {{ now }} Hacker Hub — All shells reserved.
+        </p>
+    </div>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script> lucide.createIcons(); </script>
+
+    <!-- Flash Auto Dismiss -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const alerts = document.querySelectorAll(".alert");
+            alerts.forEach((alert) => {
+                setTimeout(() => {
+                    alert.classList.add("opacity-0", "transition-opacity", "duration-500");
+                    setTimeout(() => alert.remove(), 500);
+                }, 4000);
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 </html>
 {{ end }}

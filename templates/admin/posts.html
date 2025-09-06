@@ -22,18 +22,60 @@
           --border-color: #e0e0e0;
           --shadow-color: rgba(0, 0, 0, 0.05);
           --font-family: 'Inter', sans-serif;
+          --sidebar-width: 250px;
+          --sidebar-bg: #2c3e50;
+          --sidebar-link: #ecf0f1;
+          --sidebar-hover: #34495e;
       }
 
       body {
           font-family: var(--font-family);
           background-color: var(--bg-color);
           margin: 0;
-          padding: 2rem;
           color: var(--text-color);
       }
 
+      .dashboard-layout {
+          display: flex;
+          min-height: 100vh;
+      }
+
+      .sidebar {
+          width: var(--sidebar-width);
+          background-color: var(--sidebar-bg);
+          color: var(--sidebar-link);
+          padding: 2rem 1rem;
+          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+          flex-shrink: 0;
+      }
+
+      .sidebar-nav ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+      }
+
+      .sidebar-nav a {
+          display: block;
+          padding: 1rem;
+          margin-bottom: 0.5rem;
+          border-radius: 8px;
+          text-decoration: none;
+          color: var(--sidebar-link);
+          transition: background-color 0.3s, color 0.3s;
+      }
+      .sidebar-nav a:hover, .sidebar-nav a.active {
+          background-color: var(--sidebar-hover);
+          color: #ffffff;
+      }
+      
+      .main-content {
+          flex-grow: 1;
+          padding: 2rem;
+          box-sizing: border-box;
+      }
+
       .admin-container {
-          max-width: 1000px;
           margin: 0 auto;
           background-color: var(--container-bg);
           border-radius: 8px;
@@ -136,47 +178,64 @@
     </style>
 </head>
 <body>
-    <main class="admin-container">
-        <header class="admin-header">
-            <h1 class="admin-title">Manage Posts</h1>
-            <a href="/admin/posts/new" class="new-post-btn">
-                ➕ New Post
-            </a>
-        </header>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/admin/dashboard" class="active">Dashboard</a></li>
+                    <li><a href="/admin/projects">Projects</a></li>
+                    <li><a href="/admin/services">Services</a></li>
+                    <li><a href="/admin/techstacks">Techstacks</a></li>
+                    <li><a href="/admin/tags">Tags</a></li>
+                    <li><a href="/admin/users">Users</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-        <div class="posts-list">
-            <table class="posts-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Slug</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{ range .Posts }}
-                    <tr>
-                        <td>{{ .Title }}</td>
-                        <td>{{ .Slug }}</td>
-                        <td>
-                            <div class="post-actions">
-                                <a href="/admin/posts/{{ .Slug }}">View</a>
-                                <a href="/admin/posts/edit/{{ .ID }}">Edit</a>
-                                <form action="/admin/posts/delete/{{ .ID }}" method="POST" style="display:inline">
-                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this post? This action cannot be undone.')">Delete</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    {{ else }}
-                    <tr>
-                        <td colspan="3" class="no-posts">No posts yet.</td>
-                    </tr>
-                    {{ end }}
-                </tbody>
-            </table>
-        </div>
-    </main>
+        <main class="main-content">
+            <div class="admin-container">
+                <header class="admin-header">
+                    <h1 class="admin-title">Manage Posts</h1>
+                    <a href="/admin/posts/new" class="new-post-btn">
+                        ➕ New Post
+                    </a>
+                </header>
+
+                <div class="posts-list">
+                    <table class="posts-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Slug</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ range .Posts }}
+                            <tr>
+                                <td>{{ .Title }}</td>
+                                <td>{{ .Slug }}</td>
+                                <td>
+                                    <div class="post-actions">
+                                        <a href="/admin/posts/{{ .Slug }}">View</a>
+                                        <a href="/admin/posts/edit/{{ .ID }}">Edit</a>
+                                        <form action="/admin/posts/delete/{{ .ID }}" method="POST" style="display:inline">
+                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this post? This action cannot be undone.')">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{ else }}
+                            <tr>
+                                <td colspan="3" class="no-posts">No posts yet.</td>
+                            </tr>
+                            {{ end }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
 {{ end }}
