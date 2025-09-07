@@ -17,5 +17,9 @@ func SetupPublicRoutes(app *fiber.App) {
     // Public Post routes
     app.Get("/posts", handlers.PublicPostList)              // List all posts (public)
     app.Get("/posts/:slug", handlers.PublicPostDetail)        // View single post by slug
+    
+    // Public GitHub Stats route
+    app.Get("/github-stats", handlers.GitHubStatsHandler)
+    app.Get("/github-user-stats",handlers.GitHubUserStatsHandler)
 
 }
