@@ -9,6 +9,7 @@ require (
 	github.com/yuin/goldmark v1.1.27
 	github.com/znbang/gofiber-layout v0.0.1
 	golang.org/x/crypto v0.23.0
+	golang.org/x/net v0.21.0
 	gorm.io/driver/sqlite v1.5.7
 	gorm.io/gorm v1.30.0
 )
