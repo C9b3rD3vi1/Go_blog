@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"gorm.io/gorm"
+	"github.com/google/uuid"
 )
 
 // Slugify converts text into a URL-friendly slug
@@ -46,4 +47,8 @@ func UniqueSlug(db *gorm.DB, table string, title string) string {
 		return slug
 	}
 	return base
+}
+
+func UUID() string {
+	return uuid.New().String()
 }

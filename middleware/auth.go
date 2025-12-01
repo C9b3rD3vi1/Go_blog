@@ -6,41 +6,59 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/gofiber/fiber/v2"
-	//		"github.com/gofiber/fiber/v2/middleware/session"
-	//	 "github.com/gofiber/fiber/v2/utils"
+	"github.com/google/uuid"
 )
 
 func RequireAdminAuth(c *fiber.Ctx) error {
-    // Get session
     sess, err := config.Store.Get(c)
     if err != nil {
         return c.Redirect("/admin/login")
     }
 
-    // ✅ match key with CreateUserSession
-    userID := sess.Get("user_id")
-    if userID == nil {
+    // Must match session name
+    idVal := sess.Get("user_id")
+    if idVal == nil {
         return c.Redirect("/admin/login")
     }
 
-    // Fetch user from DB
+    // Convert to UUID
+    userID, err := uuid.Parse(idVal.(string))
+    if err != nil {
+        return c.Redirect("/admin/login")
+    }
+
+    // Fetch admin
     var user models.User
-    if err := database.DB.First(&user, userID).Error; err != nil {
+    if err := database.DB.First(&user, "id = ?", userID).Error; err != nil {
         return c.Redirect("/admin/login")
     }
 
-    // Check if user is actually an admin
+    // Check admin flag
     if !user.IsAdmin {
-        return c.SendStatus(fiber.StatusForbidden) // 403
+        return c.SendStatus(fiber.StatusForbidden)
     }
 
-    // ✅ store back in context for downstream handlers
+    // Preserve user in context
     c.Locals("user", &user)
 
     return c.Next()
 }
 
 
+
+func AdminAuthMiddleware(c *fiber.Ctx) error {
+    user := c.Locals("user")
+    if user == nil {
+        return c.Redirect("/login")
+    }
+
+    u := user.(*models.User)
+    if !u.IsAdmin {
+        return c.Status(403).SendString("Forbidden")
+    }
+
+    return c.Next()
+}
 
 
 // LogoutUser handles user logout

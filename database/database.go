@@ -5,6 +5,7 @@ import (
 
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"gorm.io/driver/sqlite"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -27,13 +28,20 @@ func InitDB() (*gorm.DB, error) {
 {}
 
    // Drop table
-	//db.Migrator().DropTable(&models.Post{})
+   //db.Migrator().DropTable(&models.User{},&models.ContactMessage{},)
 
 	
 	
 	// Migrate the schema
-	if err := db.AutoMigrate(&models.Post{}, &models.User{}, &models.Comment{}, 
- &models.Projects{}, &models.Services{}, &models.Tag{}, &models.TechStack{}); err != nil {
+	if err := db.AutoMigrate(
+		&models.Post{}, 
+		&models.User{}, 
+		&models.Comment{}, 
+		&models.Projects{}, 
+		&models.Services{}, 
+		&models.Tag{},
+	 	&models.ContactMessage{},
+		&models.TechStack{}); err != nil {
 		log.Fatal("Failed to migrate the database schema:", err)
 		return nil, err
 	}
@@ -54,7 +62,8 @@ func CreateAdminUser(db *gorm.DB) error {
     }
 
     admin := models.User{
-        Username: "admin",
+    	ID: uuid.New(),
+    	Username: "admin",
         Email:    "admin@example.com",
         Password: "admin123", // Change this in production!
         IsAdmin:  true,

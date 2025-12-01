@@ -1,0 +1,52 @@
+{{block "content" .}}
+
+<div class="max-w-2xl mx-auto mt-10 bg-white shadow-xl rounded-xl p-6 border border-gray-100">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6">{{ .Title }}</h2>
+
+  <form method="POST" class="space-y-4">
+
+    <div>
+      <label class="block text-gray-700 text-sm font-medium">Name</label>
+      <input type="text" name="name" required
+             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+    </div>
+
+    <div>
+      <label class="block text-gray-700 text-sm font-medium">Email</label>
+      <input type="email" name="email" required
+             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+    </div>
+    
+    <div>
+      <label class="block text-gray-700 text-sm font-medium">Phone</label>
+      <input type="tel" name="phone" required
+             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+    </div>
+    
+    <div>
+      <label class="block text-gray-700 text-sm font-medium">Address</label>
+      <input type="address" name="address" required
+             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+    </div>
+
+    <div>
+      <label class="block text-gray-700 text-sm font-medium">Password</label>
+      <input type="password" name="password" required
+             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+    </div>
+
+    <div>
+      <label class="inline-flex items-center">
+        <input type="checkbox" name="is_admin" class="form-checkbox text-teal-600"/>
+        <span class="ml-2 text-gray-700">Admin</span>
+      </label>
+    </div>
+
+    <button type="submit" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium">
+      Create User
+    </button>
+  </form>
+</div>
+
+
+{{ end }}

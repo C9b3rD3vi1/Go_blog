@@ -1,0 +1,27 @@
+{{ block "content" .}}
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-yellow-400 font-mono px-4">
+  
+  <!-- 400 Error Code -->
+  <h1 class="text-6xl md:text-8xl font-extrabold animate-pulse text-yellow-500">400</h1>
+
+  <!-- Error message -->
+  <p class="text-lg md:text-xl mt-4 text-yellow-300 animate-fade-in">
+    Bad Request.<br> The server could not understand your request.
+  </p>
+
+  <!-- Back Home Button -->
+  <a href="/" class="mt-6 inline-flex items-center gap-2 border border-yellow-400 text-yellow-200 px-4 py-2 rounded hover:bg-yellow-700 hover:text-white transition-all duration-300">
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    Back to Home
+  </a>
+
+  <!-- Optional ASCII fallback -->
+  <pre class="mt-10 text-yellow-400 text-sm leading-tight hidden md:block select-none animate-pulse">
+												╔══════════════════════════════╗
+												║         400 ERROR            ║
+												║     Bad Request!             ║
+												║  Check your input format.    ║
+												╚══════════════════════════════╝
+  </pre>
+</div>
+{{ end }}

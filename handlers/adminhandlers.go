@@ -22,11 +22,13 @@ func AdminDashboard(c *fiber.Ctx) error {
     var projects []models.Projects
     var services []models.Services
     var users []models.User
+    var messages []models.ContactMessage
 
     database.DB.Order("created_at desc").Find(&posts)
     database.DB.Order("created_at desc").Find(&projects)
     database.DB.Order("created_at desc").Find(&users)
     database.DB.Order("created_at desc").Find(&services)
+    database.DB.Order("created_at desc").Find(&messages)
 
     return c.Render("admin/dashboard", fiber.Map{
         "Title":    "Admin Dashboard",
@@ -35,6 +37,7 @@ func AdminDashboard(c *fiber.Ctx) error {
         "Projects": projects,
         "Services": services,
         "Users":    users,
+        "Messages": messages,
     })
 }
 

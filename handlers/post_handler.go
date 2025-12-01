@@ -113,7 +113,7 @@ func AdminViewPosts(c *fiber.Ctx) error {
 
 	slug := c.Params("slug")
 	var post models.Post
-	if err := database.DB.Where("slug = ?", slug).First(&post).Error; err != nil {
+	if err := database.DB.Preload("Tags").Where("slug = ?", slug).First(&post).Error; err != nil {
 		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
 	}
 
@@ -125,6 +125,7 @@ func AdminViewPosts(c *fiber.Ctx) error {
 }
 
 
+
 // Show edit form
 func AdminEditPostsForm(c *fiber.Ctx) error {
 	admin := config.GetCurrentUser(c)
@@ -134,7 +135,7 @@ func AdminEditPostsForm(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 	var post models.Post
-	if err := database.DB.First(&post, id).Error; err != nil {
+	if err := database.DB.Preload("Tags").First(&post, id).Error; err != nil {
 		return c.Status(404).Render("errors/404", fiber.Map{"Message": "Post not found"})
 	}
 
@@ -144,6 +145,7 @@ func AdminEditPostsForm(c *fiber.Ctx) error {
 		"Post":  post,
 	})
 }
+
 
 // Update post
 func AdminUpdatePost(c *fiber.Ctx) error {
@@ -240,5 +242,3 @@ func AdminFetchTags(c *fiber.Ctx) error {
 	})
 }
 
-
-// Fetch all tags and render them in the template

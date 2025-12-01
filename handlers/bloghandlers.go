@@ -5,10 +5,13 @@ import (
 	"html/template"
 	"math"
 	"strconv"
+	"path/filepath"
 
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
+	"github.com/C9b3rD3vi1/Go_blog/utils"
 	"github.com/gofiber/fiber/v2"
+	//"github.com/google/uuid"
 )
 
 func BlogHandler(c *fiber.Ctx) error {
@@ -80,21 +83,18 @@ func CreateBlogPostHandler(c *fiber.Ctx) error {
 	slug := c.FormValue("slug")
 	excerpt := c.FormValue("excerpt")
 	content := c.FormValue("content")
-	imageURL := c.FormValue("image_url")
 	author := c.FormValue("author")
-	//published := c.FormValue("published")
+	imageURL := ""
 
-	// Basic validation
 	if title == "" || slug == "" || excerpt == "" {
 		return c.Render("admin/create_blog", fiber.Map{
-			"error": "Title, Slug, and Excerpt are required",
+			"Error": "Title, Slug, and Excerpt are required",
 		})
 	}
 
-	// Ensure slug is unique
 	var exists models.BlogPost
 	if err := database.DB.Where("slug = ?", slug).First(&exists).Error; err == nil {
-		return c.Render("pages/create_blog", fiber.Map{
+		return c.Render("admin/create_blog", fiber.Map{
 			"Error": "Slug already exists. Choose a different one.",
 		})
 	}
@@ -102,31 +102,33 @@ func CreateBlogPostHandler(c *fiber.Ctx) error {
 	// Handle image upload
 	file, err := c.FormFile("image")
 	if err == nil {
-		path := fmt.Sprintf("./uploads/%s", file.Filename)
+		ext := filepath.Ext(file.Filename)
+		filename := fmt.Sprintf("%s%s", utils.UUID(), ext)
+		path := fmt.Sprintf("./uploads/%s", filename)
 		if err := c.SaveFile(file, path); err != nil {
 			return c.Render("admin/create_blog", fiber.Map{"Error": "Failed to upload image."})
 		}
-		imageURL = "/uploads/" + file.Filename
+		imageURL = "/uploads/" + filename
 	}
 
-	blogPosts := models.BlogPost{
+	blogPost := models.BlogPost{
 		Title:    title,
 		Slug:     slug,
 		Excerpt:  excerpt,
 		Content:  content,
 		ImageURL: imageURL,
 		Author:   author,
-		//Published: time.Now().Format("2006-01-02"),
 	}
 
-	if err := database.DB.Create(&blogPosts).Error; err != nil {
+	if err := database.DB.Create(&blogPost).Error; err != nil {
 		return c.Render("admin/create_blog", fiber.Map{
-			"error": "Failed to create blog post",
+			"Error": "Failed to create blog post",
 		})
 	}
 
 	return c.Redirect("/blog")
 }
+
 
 func BlogDetailsHandler(c *fiber.Ctx) error {
 	slug := c.Params("slug")
@@ -153,3 +155,5 @@ func BlogDetailsHandler(c *fiber.Ctx) error {
 		"Post": safePost,
 	})
 }
+
+

@@ -1,113 +1,95 @@
 package auth
 
 import (
-	//"fmt"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
-
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/models"
-
-	//"github.com/gofiber/fiber/v2/middleware/session"
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Define the routes
+// UserRegisterHandler handles new user registration
 func UserRegisterHandler(c *fiber.Ctx) error {
-	// Get form values
-	Fullname := c.FormValue("fullname")
-	Username := strings.TrimSpace(c.FormValue("username"))
-	Email := strings.TrimSpace(c.FormValue("email"))
-	Password := strings.TrimSpace(c.FormValue("password"))
-	PasswordConfirm := strings.TrimSpace(c.FormValue("password_confirm"))
+	fullname := strings.TrimSpace(c.FormValue("fullname"))
+	username := strings.TrimSpace(c.FormValue("username"))
+	email := strings.TrimSpace(c.FormValue("email"))
+	password := strings.TrimSpace(c.FormValue("password"))
+	passwordConfirm := strings.TrimSpace(c.FormValue("password_confirm"))
 
-	// validate to make sure all fields are filled
-	if Fullname == "" || Username == "" || Email == "" || Password == "" || PasswordConfirm == "" {
-		return c.Render("pages/register", fiber.Map{
-			"error": "All fields are required",
-		})
+	// Validate
+	if fullname == "" || username == "" || email == "" || password == "" || passwordConfirm == "" {
+		return c.Render("pages/register", fiber.Map{"Error": "All fields are required"})
+	}
+	if password != passwordConfirm {
+		return c.Render("pages/register", fiber.Map{"Error": "Passwords do not match"})
 	}
 
-	// Check if passwords match
-	if Password != PasswordConfirm {
-		return c.Render("pages/register", fiber.Map{
-			"error": "Passwords dont match",
-		})
-	}
-
-	// Hash the password
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(Password), bcrypt.DefaultCost)
+	// Hash password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return c.Status(500).SendString("Error hashing password")
 	}
 
-	// Create a new user
+	// Check if email or username already exists
+	var existing models.User
+	if err := database.DB.Where("email = ? OR username = ?", email, username).First(&existing).Error; err == nil {
+		return c.Render("pages/register", fiber.Map{"Error": "Email or username already taken"})
+	}
+
 	user := models.User{
-		FullName: Fullname,
-		Username: Username,
-		Email:    Email,
+		FullName: fullname,
+		Username: username,
+		Email:    email,
 		Password: string(hashedPassword),
 	}
 
-	// Save the user to the database
-	result := database.DB.Create(&user)
-	if result.Error != nil {
+	if err := database.DB.Create(&user).Error; err != nil {
 		return c.Status(500).SendString("Error creating user")
 	}
-	// Redirect to the login page
+
 	return c.Redirect("/login")
 }
 
 // UserLoginHandler handles user login
 func UserLoginHandler(c *fiber.Ctx) error {
-	// Get form values
-	//username := strings.TrimSpace(c.FormValue("username"))
 	email := strings.TrimSpace(c.FormValue("email"))
 	password := strings.TrimSpace(c.FormValue("password"))
 
-	// Find user in the database, using username
 	var user models.User
-
-	result := database.DB.Where("email = ?", email).First(&user)
-	if result.Error != nil {
-		return c.Render("/login", fiber.Map{
-			"error": "Invalid email address!! Please try again",
-		})
+	if err := database.DB.Where("email = ?", email).First(&user).Error; err != nil {
+		return c.Render("pages/login", fiber.Map{"Error": "Invalid email or password"})
 	}
 
-	// Check hashedPassword password and compared to stored password
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	if err != nil {
-		return c.Render("/pages/login", fiber.Map{
-			"error": "Invalid username or password !! Please try again",
-		})
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return c.Render("pages/login", fiber.Map{"Error": "Invalid email or password"})
 	}
 
-	// Create session
+	// Store session (UUID-safe)
 	sess, err := config.Store.Get(c)
 	if err != nil {
-		return err
+		return c.Status(500).SendString("Session error")
 	}
-	// create and store user in session
-	sess.Set("userID", user.ID)
+
+	sess.Set("userID", user.ID.String()) // store UUID as string
 	sess.Set("username", user.Username)
 	sess.Set("_ip", c.IP())
 
 	if err := sess.Save(); err != nil {
-		return err
+		return c.Status(500).SendString("Session save error")
 	}
 
 	return c.Redirect("/")
 }
 
-// LogoutHandler handles user logout
+// UserLogoutHandler logs out the user
 func UserLogoutHandler(c *fiber.Ctx) error {
 	sess, err := config.Store.Get(c)
 	if err != nil {
-		return err
+		return c.Status(500).SendString("Session error")
 	}
+
 	sess.Destroy()
-	return c.Redirect("pages/login")
+	return c.Redirect("/login")
 }

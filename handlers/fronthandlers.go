@@ -22,12 +22,14 @@ func ServiceList(c *fiber.Ctx) error {
 func ServiceView(c *fiber.Ctx) error {
     slug := c.Params("slug")
     var service models.Services
-    if err := database.DB.First(&service, slug).Error; err != nil {
-        return c.Status(404).SendString("Service not found")
+    if err := database.DB.Preload("TechStacks").Where("slug = ?", slug).First(&service).Error; err != nil {
+        return c.Status(404).Render("errors/404", fiber.Map{
+            "Message": "Service not found",
+        })
     }
 
     return c.Render("pages/service_view", fiber.Map{
         "Service": service,
-        "Admin":   false, // public view
+        "Admin":   false,
     })
 }

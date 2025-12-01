@@ -2,13 +2,14 @@ package utils
 
 import (
 	"strings"
+	"github.com/google/uuid"
     "encoding/json"
     "github.com/C9b3rD3vi1/Go_blog/models"
     
 )
 
 // Template helper functions
-func HasTechStack(project *models.Projects, techStackID uint) bool {
+func HasTechStack(project *models.Projects, techStackID uuid.UUID) bool {
     for _, ts := range project.TechStacks {
         if ts.ID == techStackID {
             return true
@@ -37,4 +38,13 @@ func Add(a int, b int) int {
 
 func Trim(s string) string {
     return strings.Trim(s, " ")
+}
+
+
+func Seq(start, end int) []int {
+    s := make([]int, end-start+1)
+    for i := range s {
+        s[i] = start + i
+    }
+    return s
 }

@@ -2,10 +2,12 @@ package models
 
 import (
 	"time"
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Projects struct {
-    ID          uint      `gorm:"primaryKey"`
+    ID          uuid.UUID `gorm:"primaryKey"`
     Title       string    `gorm:"not null"`
     Slug        string    `gorm:"uniqueIndex;not null"`
     Description string    `gorm:"type:text"`
@@ -62,7 +64,7 @@ type Projects struct {
 // Service model (renamed to singular for convention)
 // Service model
 type Services struct {
-	ID          uint      `gorm:"primaryKey"`
+	ID          uuid.UUID `gorm:"primaryKey"`
 	Title       string    `gorm:"size:200;not null"`
 	Slug        string    `gorm:"uniqueIndex;not null"`
 	Description string    `gorm:"type:text"`
@@ -89,7 +91,7 @@ type Services struct {
 
 // TechStack model (shared between Projects & Services)
 type TechStack struct {
-	ID        uint      `gorm:"primaryKey"`
+	ID        uuid.UUID `gorm:"primaryKey"`
 	Name      string    `gorm:"size:100;uniqueIndex"`
 	IconURL   string    `gorm:"type:text"` // optional: icon/logo for frontend display
 	Category  string `gorm:"size:100"`          // Language, Framework, Database, Tool, etc
@@ -101,4 +103,21 @@ type TechStack struct {
 	// Reverse relations (optional)
 	Projects []Projects `gorm:"many2many:project_techstacks;"`
 	Services []Services `gorm:"many2many:service_techstacks;"`
+}
+
+
+
+
+func (u *Projects) BeforeCreate(tx *gorm.DB) (err error) {
+    if u.ID == uuid.Nil {
+        u.ID = uuid.New()
+    }
+    return
+}
+
+func (u *Services) BeforeCreate(tx *gorm.DB) (err error) {
+    if u.ID == uuid.Nil {
+        u.ID = uuid.New()
+    }
+    return
 }

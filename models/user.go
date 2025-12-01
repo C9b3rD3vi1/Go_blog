@@ -3,17 +3,19 @@ package models
 import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"github.com/google/uuid"
 )
 
 // User struct represents a user entity with personal and contact details.
 type User struct {
+	ID              uuid.UUID `gorm:"primaryKey"`
 	FullName        string `gorm:"unique;not null"`
-	ID              int    `gorm:"primaryKey"`
 	Username        string `gorm:"unique;not null"`
 	Email           string `gorm:"unique;not null"`
 	Password        string `gorm:"required"`
 	PasswordConfirm string
 	Address         string
+	Phone           string
 	TwoFASecret     string // save TOTP secret here
 	IsActive        bool
 
@@ -25,16 +27,45 @@ type User struct {
 
 // Comment struct represents a comment entity with user and post details.
 type Comment struct {
-	ID      int `gorm:"primaryKey"`
+	ID      uuid.UUID `gorm:"primaryKey"`
 	Content string
 	// UserID is the foreign key for the user
-	UserID int
-	User   User
+	UserID uuid.UUID `gorm:"not null"`
+	User   User `gorm:"foreignKey:UserID"`
 	// PostID is the foreign key for the post
-	PostID int
-	Post   Post
+	PostID uuid.UUID `gorm:"not null"`
+	Post   Post `gorm:"foreignKey:PostID"`
 
 	gorm.Model
+}
+
+
+// ContactMessage struct represents a contact message entity with user and contact details.
+type ContactMessage struct {
+	ID      uuid.UUID `gorm:"primaryKey"`
+	Name    string
+	Email   string
+	Subject string
+	Message string
+	
+	IsRead bool `gorm:"default:false"`
+	
+	gorm.Model
+}
+
+
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+    if u.ID == uuid.Nil {
+        u.ID = uuid.New()
+    }
+    return
+}
+
+func (u *ContactMessage) BeforeCreate(tx *gorm.DB) (err error) {
+    if u.ID == uuid.Nil {
+        u.ID = uuid.New()
+    }
+    return
 }
 
 

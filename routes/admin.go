@@ -21,9 +21,14 @@ func SetupAdminRoutes(app *fiber.App) {
     admin.Get("/profile", handlers.AdminProfile)
 
     // User management
+    // Users
     admin.Get("/users", handlers.AdminUserList)
-    admin.Get("/users/new", handlers.AdminCreateUser)
-    admin.Post("/users/new", handlers.AdminCreateUser)
+    admin.Get("/users/create", handlers.AdminCreateUser)
+    admin.Post("/users/create", handlers.AdminCreateUser)
+    admin.Get("/users/:id", handlers.AdminViewUser)
+    admin.Get("/users/:id/edit", handlers.AdminUserEditPage)
+    admin.Post("/users/:id/edit", handlers.AdminUserEdit)
+    admin.Post("/users/:id/delete", handlers.AdminDeleteUser)
 
     // Posts
     // Posts CRUD
@@ -72,4 +77,11 @@ func SetupAdminRoutes(app *fiber.App) {
     app.Get("/admin/tags",	handlers.AdminListTags)        // list all tags
     app.Post("/admin/tags", handlers.AdminCreateTag)      // create new tag
     app.Post("/admin/tags/delete/:id", handlers.AdminDeleteTag) // delete tag
+    
+    
+    admin.Get("/contacts", handlers.AdminContactList)
+    admin.Get("/contacts/:id", handlers.AdminContactView)
+    admin.Post("/contacts/:id/delete", handlers.AdminContactDelete)
+    admin.Post("/contacts/:id/read", handlers.AdminContactMarkRead)
+    admin.Post("/contacts/:id/unread", handlers.AdminContactMarkUnread)
 }

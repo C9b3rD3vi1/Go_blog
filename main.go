@@ -39,6 +39,7 @@ func main() {
 	engine.AddFunc("trim", utils.Trim)
 	engine.AddFunc("add", utils.Add)
 	engine.AddFunc("split", utils.SplitString)
+	engine.AddFunc("seq", utils.Seq)
 	// time add function
 	engine.AddFunc("now", func() string {
 		return time.Now().Format("2006-01-02 15:04:05")
@@ -54,7 +55,8 @@ func main() {
 	//load static files
 	app.Static("/static", "./static")
 	app.Static("/uploads", "./uploads")
-
+	
+	
 	// initialize session
 	config.InitSession()
 
@@ -98,7 +100,7 @@ func main() {
 
 	// contact
 	app.Get("/contact", handlers.UserContactHandlerForm)
-	//app.Post("/contact", handlers.UserContactHandler)
+	app.Post("/contact", handlers.UserContactHandler)
 
 	// about us page
 	app.Get("/about", handlers.AboutUsHandler)

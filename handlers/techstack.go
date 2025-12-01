@@ -6,6 +6,7 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/models"
 	"github.com/C9b3rD3vi1/Go_blog/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 // --- LIST ---
@@ -46,26 +47,32 @@ func AdminCreateTechStack(c *fiber.Ctx) error {
 		return c.Redirect("/admin/login")
 	}
 
-	// Upload image
 	iconURL, err := utils.UploadImage(c, "icon")
 	if err != nil {
-		return c.Status(500).SendString("Error uploading image")
+		return c.Status(500).Render("error/500", fiber.Map{
+			"Error": "Error uploading icon",
+			"Admin": admin,
+		})
 	}
 
-	tech := models.TechStack{
-		Name:    c.FormValue("name"),
-		IconURL: iconURL,
-	}
-
-	if tech.Name == "" {
+	name := c.FormValue("name")
+	if name == "" {
 		return c.Render("admin/new_techstack", fiber.Map{
 			"Error": "Tech Stack name is required",
 			"Admin": admin,
 		})
 	}
 
+	tech := models.TechStack{
+		Name:    name,
+		IconURL: iconURL,
+	}
+
 	if err := database.DB.Create(&tech).Error; err != nil {
-		return c.Status(500).SendString("Error saving tech stack")
+		return c.Status(500).Render("error/500", fiber.Map{
+			"Error": "Error saving tech stack",
+			"Admin": admin,
+		})
 	}
 
 	return c.Redirect("/admin/techstacks")
@@ -78,10 +85,21 @@ func AdminEditTechStackForm(c *fiber.Ctx) error {
 		return c.Redirect("/admin/login")
 	}
 
-	id := c.Params("id")
+	idStr := c.Params("id")
+	techID, err := uuid.Parse(idStr)
+	if err != nil {
+		return c.Status(400).Render("error/400", fiber.Map{
+			"Error": "Invalid Tech Stack ID",
+			"Admin": admin,
+		})
+	}
+
 	var tech models.TechStack
-	if err := database.DB.First(&tech, id).Error; err != nil {
-		return c.Status(404).SendString("Tech stack not found")
+	if err := database.DB.First(&tech, "id = ?", techID).Error; err != nil {
+		return c.Status(404).Render("error/404", fiber.Map{
+			"Error": "Tech Stack not found",
+			"Admin": admin,
+		})
 	}
 
 	return c.Render("admin/edit_techstack", fiber.Map{
@@ -97,19 +115,23 @@ func AdminUpdateTechStack(c *fiber.Ctx) error {
 		return c.Redirect("/admin/login")
 	}
 
-	id := c.Params("id")
-	var tech models.TechStack
-	if err := database.DB.First(&tech, id).Error; err != nil {
-		return c.Status(404).SendString("Tech stack not found")
-	}
-	
-	iconURL, err := utils.UploadImage(c, "icon")
+	idStr := c.Params("id")
+	techID, err := uuid.Parse(idStr)
 	if err != nil {
-		return c.Status(500).SendString("Error uploading image")
+		return c.Status(400).SendString("Invalid Tech Stack ID")
 	}
 
+	var tech models.TechStack
+	if err := database.DB.First(&tech, "id = ?", techID).Error; err != nil {
+		return c.Status(404).SendString("Tech stack not found")
+	}
+
+	iconURL, _ := utils.UploadImage(c, "icon")
+
 	tech.Name = c.FormValue("name")
-	tech.IconURL = iconURL
+	if iconURL != "" {
+		tech.IconURL = iconURL
+	}
 
 	if err := database.DB.Save(&tech).Error; err != nil {
 		return c.Status(500).SendString("Error updating tech stack")
@@ -125,9 +147,20 @@ func AdminDeleteTechStack(c *fiber.Ctx) error {
 		return c.Redirect("/admin/login")
 	}
 
-	id := c.Params("id")
-	if err := database.DB.Delete(&models.TechStack{}, id).Error; err != nil {
-		return c.Status(500).SendString("Error deleting tech stack")
+	idStr := c.Params("id")
+	techID, err := uuid.Parse(idStr)
+	if err != nil {
+		return c.Status(400).Render("error/400", fiber.Map{
+			"Error": "Invalid Tech Stack ID",
+			"Admin": admin,
+		})
+	}
+
+	if err := database.DB.Delete(&models.TechStack{}, "id = ?", techID).Error; err != nil {
+		return c.Status(500).Render("error/500", fiber.Map{
+			"Error": "Error deleting tech stack",
+			"Admin": admin,
+		})
 	}
 
 	return c.Redirect("/admin/techstacks")
