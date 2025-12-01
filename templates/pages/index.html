@@ -1,725 +1,598 @@
 {{ block "content" .}}
 
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tech Hub | Developer Community & Resources</title>
+    <title>CyberDev Hub | Nickson Wekongo - Cybersecurity & DevOps Community</title>
+    <meta name="description" content="Join Nickson Wekongo's cybersecurity and DevOps community. Learn ethical hacking, cloud security, DevOps automation, and advance your tech career.">
     
-    <!-- Third-party CSS and JS libraries -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css" rel="stylesheet" />
+    <!-- Simplified dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Animation Libraries -->
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
     <style>
-        /* Custom CSS Variables */
         :root {
-            --primary-glow: hsl(var(--p));
-            --accent-glow: hsl(var(--a));
+            --tech-navy: #0f172a;
+            --tech-slate: #1e293b;
             --tech-blue: #2563eb;
             --tech-teal: #0ea5e9;
             --tech-purple: #8b5cf6;
-            --tech-pink: #ec4899;
             --tech-green: #10b981;
+            --tech-amber: #f59e0b;
+            --tech-red: #ef4444;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
         }
 
-        /* Base Body and Font Styles */
         body {
-               font-family: 'Inter', sans-serif;
-               background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%); /* light cyan to white */
-               overflow-x: hidden;
-               color: #1e293b; /* dark slate for good visibility */
-           }
-
-        .code-font {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--tech-navy) 0%, var(--tech-slate) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
-        /* Enhanced Tech Terminal Effect */
-        .tech-terminal {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--tech-teal);
-            box-shadow: 0 0 25px rgba(14, 165, 233, 0.4);
-            border-radius: 12px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--tech-blue) 0%, var(--tech-purple) 50%, var(--tech-teal) 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .tech-card {
+            background: rgba(30, 41, 59, 0.6);
             backdrop-filter: blur(10px);
-        }
-
-        .tech-terminal::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--tech-teal), transparent);
-            animation: scanline 3s linear infinite;
-        }
-
-        @keyframes scanline {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Enhanced Matrix Background */
-        .matrix-bg {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .matrix-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(transparent 90%, rgba(14, 165, 233, 0.1) 100%);
-            animation: matrixRain 20s linear infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes matrixRain {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
-        }
-
-        /* Enhanced Glitch Text Effect */
-        .glitch-text {
-            position: relative;
-            display: inline-block;
-        }
-
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .glitch-text::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--tech-pink);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-
-        .glitch-text::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--tech-teal);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(42px, 9999px, 44px, 0); } 5% { clip: rect(12px, 9999px, 59px, 0); } 10% { clip: rect(48px, 9999px, 29px, 0); } 15% { clip: rect(42px, 9999px, 73px, 0); } 20% { clip: rect(63px, 9999px, 27px, 0); } 25% { clip: rect(34px, 9999px, 55px, 0); } 30% { clip: rect(86px, 9999px, 73px, 0); } 35% { clip: rect(20px, 9999px, 20px, 0); } 40% { clip: rect(26px, 9999px, 60px, 0); } 45% { clip: rect(25px, 9999px, 66px, 0); } 50% { clip: rect(57px, 9999px, 98px, 0); } 55% { clip: rect(5px, 9999px, 46px, 0); } 60% { clip: rect(82px, 9999px, 31px, 0); } 65% { clip: rect(54px, 9999px, 27px, 0); } 70% { clip: rect(28px, 9999px, 99px, 0); } 75% { clip: rect(45px, 9999px, 69px, 0); } 80% { clip: rect(23px, 9999px, 85px, 0); } 85% { clip: rect(54px, 9999px, 84px, 0); } 90% { clip: rect(45px, 9999px, 47px, 0); } 95% { clip: rect(24px, 9999px, 23px, 0); } 100% { clip: rect(32px, 9999px, 92px, 0); }
-        }
-
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 100px, 0); } 5% { clip: rect(52px, 9999px, 74px, 0); } 10% { clip: rect(79px, 9999px, 85px, 0); } 15% { clip: rect(75px, 9999px, 5px, 0); } 20% { clip: rect(67px, 9999px, 61px, 0); } 25% { clip: rect(14px, 9999px, 79px, 0); } 30% { clip: rect(1px, 9999px, 66px, 0); } 35% { clip: rect(86px, 9999px, 30px, 0); } 40% { clip: rect(23px, 9999px, 98px, 0); } 45% { clip: rect(85px, 9999px, 72px, 0); } 50% { clip: rect(71px, 9999px, 75px, 0); } 55% { clip: rect(2px, 9999px, 48px, 0); } 60% { clip: rect(30px, 9999px, 16px, 0); } 65% { clip: rect(59px, 9999px, 50px, 0); } 70% { clip: rect(41px, 9999px, 62px, 0); } 75% { clip: rect(2px, 9999px, 82px, 0); } 80% { clip: rect(47px, 9999px, 73px, 0); } 85% { clip: rect(3px, 9999px, 27px, 0); } 90% { clip: rect(26px, 9999px, 55px, 0); } 95% { clip: rect(42px, 9999px, 97px, 0); } 100% { clip: rect(38px, 9999px, 49px, 0); }
-        }
-
-        /* Enhanced 3D Card effect */
-        .card-3d {
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-        }
-
-        .card-3d:hover {
-            transform: rotateY(10deg) rotateX(5deg) translateZ(10px);
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--tech-teal);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--tech-purple);
-        }
-
-        /* Enhanced Category badges and section cards */
-        .category-badge, .pillar-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
         }
-        
-        .category-badge:hover, .pillar-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .cybersecurity { background: linear-gradient(45deg, var(--tech-teal), var(--tech-blue)); }
-        .development { background: linear-gradient(45deg, var(--tech-purple), var(--tech-pink)); }
-        .programming { background: linear-gradient(45deg, var(--tech-green), var(--tech-teal)); }
-        .hacking { background: linear-gradient(45deg, #ef4444, #f59e0b); }
-        .devops { background: linear-gradient(45deg, #8b5cf6, #ec4899); }
-        .webdev { background: linear-gradient(45deg, #3b82f6, #06b6d4); }
-        .sofware-eng { background: linear-gradient(45deg, #f59e0b, #ef4444); }
-        .cloud { background: linear-gradient(45deg, #00b0ff, #00ffbf); }
 
-        /* Enhanced visibility and contrast */
-        .enhanced-contrast {
-            color: #f8fafc;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        .tech-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--tech-teal);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
         }
-        
-        .section-heading {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 3rem;
-            background: linear-gradient(90deg, var(--tech-teal), var(--tech-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-        }
-        
-        .card {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-        }
-        
-        .card-title {
-            color: #f1f5f9;
-        }
-        
-        .card p {
-            color: #cbd5e1;
-        }
-        
-        /* Improved button visibility */
-        .btn {
+
+        .cert-badge {
+            background: linear-gradient(45deg, var(--tech-purple), var(--tech-blue));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
             font-weight: 600;
-            border-width: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        .btn-primary {
-            background: linear-gradient(45deg, var(--tech-blue), var(--tech-purple));
-            border: none;
+
+        .live-demo {
+            position: relative;
+            overflow: hidden;
         }
-        
-        .btn-outline {
-            border-color: var(--tech-teal);
-            color: var(--tech-teal);
+
+        .live-demo::before {
+            content: 'LIVE DEMO';
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background: var(--tech-red);
+            color: white;
+            padding: 0.25rem 2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+            z-index: 10;
         }
-        
-        .btn-outline:hover {
-            background: var(--tech-teal);
-            color: #0f172a;
-            border-color: var(--tech-teal);
+
+        .typewriter {
+            border-right: 2px solid var(--tech-teal);
+            animation: blink 1s infinite;
         }
-        
-        /* Stats section improvements */
-        .stat {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        @keyframes blink {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: var(--tech-teal); }
         }
-        
-        .stat-value {
-            font-size: 2.5rem;
+
+        .skill-meter {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            overflow: hidden;
+            height: 0.5rem;
+        }
+
+        .skill-level {
+            height: 100%;
+            border-radius: 1rem;
+            transition: width 2s ease-in-out;
+        }
+
+        .display-text {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
+            line-height: 1.1;
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .tech-terminal {
-                padding: 1.5rem;
-            }
-            
-            .section-heading {
-                font-size: 2rem;
-            }
-            
-            .stat-value {
-                font-size: 1.8rem;
-            }
-        }
-        
-        /* Glow effect for better visibility */
-        .glow-effect {
-            box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
-        }
-        
-        .glow-effect:hover {
-            box-shadow: 0 0 25px rgba(37, 99, 235, 0.7);
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col matrix-bg">
+<body class="min-h-screen">
 
-    <main class="flex-1 container mx-auto px-4 py-8 lg:py-12 relative z-10">
-        <!-- Hero Section -->
-        <section class="hero min-h-screen" data-aos="fade-up">
-            <div class="hero-content text-center">
-                <div class="max-w-4xl">
-                    <div class="tech-terminal mb-8">
-                        <h1 class="text-4xl md:text-6xl font-bold code-font mb-6 hero-title enhanced-contrast">
-                            <span class="text-tech-teal">&gt;_ </span>
-                            <span id="typewriter-text" class="text-white"></span>
-                            <span class="terminal-cursor">|</span>
-                        </h1>
-                        <p class="text-xl text-slate-200 mb-8 hero-subtitle enhanced-contrast">
-                            The ultimate community for developers, cybersecurity experts, and tech enthusiasts. 
-                            Share knowledge, collaborate on projects, and advance your career.
-                        </p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12 hero-buttons">
-                        <a href="/register" class="btn btn-primary btn-lg gap-2 glow-effect">
-                            <i data-lucide="user-plus" class="w-5 h-5"></i>Join Free
-                        </a>
-                        <a href="#categories" class="btn btn-outline btn-lg gap-2">
-                            <i data-lucide="sparkles" class="w-5 h-5"></i>Explore Categories
-                        </a>
-                    </div>
-                    <div class="stats shadow bg-base-200/70 backdrop-blur hero-stats border border-slate-700 rounded-2xl">
-                        <div class="stat">
-                            <div class="stat-figure text-tech-teal">
-                                <i data-lucide="users" class="w-8 h-8"></i>
-                            </div>
-                            <div class="stat-title text-slate-300">Active Members</div>
-                            <div class="stat-value text-tech-teal">25K+</div>
-                            <div class="stat-desc text-slate-400">Jan 1st - Dec 31st</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-figure text-tech-purple">
-                                <i data-lucide="file-code" class="w-8 h-8"></i>
-                            </div>
-                            <div class="stat-title text-slate-300">Code Repositories</div>
-                            <div class="stat-value text-tech-purple">5.2K+</div>
-                            <div class="stat-desc text-slate-400">↗︎ 621 (22%)</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-figure text-tech-pink">
-                                <i data-lucide="book-open" class="w-8 h-8"></i>
-                            </div>
-                            <div class="stat-title text-slate-300">Tutorials</div>
-                            <div class="stat-value text-tech-pink">1.8K+</div>
-                            <div class="stat-desc text-slate-400">↗︎ 218 (14%)</div>
-                        </div>
-                    </div>
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="container mx-auto text-center max-w-6xl">
+            <!-- Personal Introduction -->
+            <div class="flex items-center justify-center mb-8">
+                <img src="https://placehold.co/100x100/1e293b/0ea5e9?text=NW" alt="Nickson Wekongo" class="w-20 h-20 rounded-full border-4 border-blue-500 mr-4">
+                <div class="text-left">
+                    <h1 class="text-2xl font-bold">Nickson Wekongo</h1>
+                    <p class="text-slate-400">Fortinet Certified Cybersecurity Professional & DevOps Engineer</p>
                 </div>
             </div>
-        </section>
 
-        <!-- Our Core Pillars Section -->
-        <section id="pillars" class="my-20" data-aos="fade-up">
-            <h2 class="section-heading">Our Core Pillars</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="card pillar-card shadow-xl">
-                    <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-teal/20 flex items-center justify-center mb-4">
-                            <i data-lucide="code-square" class="w-8 h-8 text-tech-teal"></i>
-                        </div>
-                        <h3 class="card-title text-xl font-bold">Software Engineering</h3>
-                        <p class="text-sm text-slate-300">
-                            Master principles like design patterns, system architecture, and scalable software development.
-                        </p>
-                    </div>
-                </div>
-                <div class="card pillar-card shadow-xl">
-                    <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-pink/20 flex items-center justify-center mb-4">
-                            <i data-lucide="shield-check" class="w-8 h-8 text-tech-pink"></i>
-                        </div>
-                        <h3 class="card-title text-xl font-bold">Cybersecurity & Hacking</h3>
-                        <p class="text-sm text-slate-300">
-                            Dive into ethical hacking, penetration testing, and protecting systems from threats.
-                        </p>
-                    </div>
-                </div>
-                <div class="card pillar-card shadow-xl">
-                    <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-purple/20 flex items-center justify-center mb-4">
-                            <i data-lucide="git-fork" class="w-8 h-8 text-tech-purple"></i>
-                        </div>
-                        <h3 class="card-title text-xl font-bold">Coding & DevOps</h3>
-                        <p class="text-sm text-slate-300">
-                            Learn to write clean code and automate workflows with CI/CD, IaC, and monitoring tools.
-                        </p>
-                    </div>
-                </div>
-                <div class="card pillar-card shadow-xl">
-                    <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-green/20 flex items-center justify-center mb-4">
-                            <i data-lucide="globe" class="w-8 h-8 text-tech-green"></i>
-                        </div>
-                        <h3 class="card-title text-xl font-bold">Web Development</h3>
-                        <p class="text-sm text-slate-300">
-                            Build modern, responsive web applications using frameworks like React, Angular, and Vue.
-                        </p>
-                    </div>
-                </div>
+            <!-- Main Headline -->
+            <h1 class="display-text mb-6">
+                Building Secure, Scalable
+                <span class="bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 bg-clip-text text-transparent">
+                    Systems
+                </span>
+            </h1>
+
+            <!-- Dynamic Typewriter -->
+            <div class="text-xl text-slate-300 mb-8 h-8">
+                <span class="typewriter">Specializing in Cybersecurity, Cloud Infrastructure & DevOps Automation</span>
             </div>
-        </section>
 
-        <!-- Categories Section -->
-        <section id="categories" class="my-20" data-aos="fade-up">
-            <h2 class="section-heading">Explore Tech Categories</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
-                <a href="/cybersecurity" class="category-badge cybersecurity text-center py-4 px-2 rounded-lg text-white font-semibold">
-                    <i data-lucide="shield" class="w-8 h-8 mx-auto mb-2"></i>
-                    <span>Cybersecurity</span>
+            <!-- Certifications Badges -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <span class="cert-badge">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    Fortinet Certified Associate
+                </span>
+                <span class="cert-badge">
+                    <i data-lucide="cloud" class="w-4 h-4"></i>
+                    AWS Security Fundamentals
+                </span>
+                <span class="cert-badge">
+                    <i data-lucide="database" class="w-4 h-4"></i>
+                    Oracle Cloud Certified
+                </span>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                <a href="#projects" class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold inline-flex items-center justify-center bg-green-600 hover:bg-green-700">
+                    <i data-lucide="rocket" class="w-5 h-5 mr-2"></i>
+                    View Live Projects
                 </a>
-                <a href="/webdev" class="category-badge webdev text-center py-4 px-2 rounded-lg text-white font-semibold">
-                    <i data-lucide="monitor-dot" class="w-8 h-8 mx-auto mb-2"></i>
-                    <span>Web Dev</span>
-                </a>
-                <a href="/hacking" class="category-badge hacking text-center py-4 px-2 rounded-lg text-white font-semibold">
-                    <i data-lucide="bug" class="w-8 h-8 mx-auto mb-2"></i>
-                    <span>Hacking</span>
-                </a>
-                <a href="/sofware-eng" class="category-badge sofware-eng text-center py-4 px-2 rounded-lg text-white font-semibold">
-                    <i data-lucide="box-select" class="w-8 h-8 mx-auto mb-2"></i>
-                    <span>Software Engineering</span>
-                </a>
-                <a href="/devops" class="category-badge devops text-center py-4 px-2 rounded-lg text-white font-semibold">
-                    <i data-lucide="server" class="w-8 h-8 mx-auto mb-2"></i>
-                    <span>DevOps</span>
-                </a>
-                <a href="/cloud" class="category-badge cloud text-center py-4 px-2 rounded-lg text-white font-semibold">
-                    <i data-lucide="cloud" class="w-8 h-8 mx-auto mb-2"></i>
-                    <span>Cloud</span>
+                <a href="#tutorials" class="px-8 py-4 rounded-lg text-lg font-semibold border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white transition inline-flex items-center justify-center">
+                    <i data-lucide="book-open" class="w-5 h-5 mr-2"></i>
+                    Learn from Tutorials
                 </a>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card shadow-xl card-3d">
-                    <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-teal/20 flex items-center justify-center mb-4">
-                            <i data-lucide="terminal" class="w-8 h-8 text-tech-teal"></i>
-                        </div>
-                        <h3 class="card-title text-xl font-bold">Code Repository</h3>
-                        <p class="text-sm text-slate-300">
-                            Share and discover code snippets, libraries, and complete projects.
-                        </p>
-                    </div>
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-400">25+</div>
+                    <div class="text-sm text-slate-400">Projects Built</div>
                 </div>
-                <div class="card shadow-xl card-3d">
-                    <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-purple/20 flex items-center justify-center mb-4">
-                            <i data-lucide="book-open" class="w-8 h-8 text-tech-purple"></i>
-                        </div>
-                        <h3 class="card-title text-xl font-bold">Tutorials & Guides</h3>
-                        <p class="text-sm text-slate-300">
-                            Learn from comprehensive tutorials and step-by-step guides.
-                        </p>
-                    </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-purple-400">15+</div>
+                    <div class="text-sm text-slate-400">Certifications</div>
                 </div>
-                <div class="card shadow-xl card-3d">
-                    <div class="card-body items-center text-center">
-                        <div class="w-16 h-16 rounded-full bg-tech-pink/20 flex items-center justify-center mb-4">
-                            <i data-lucide="users" class="w-8 h-8 text-tech-pink"></i>
-                        </div>
-                        <h3 class="card-title text-xl font-bold">Community Forum</h3>
-                        <p class="text-sm text-slate-300">
-                            Connect with developers worldwide and get help with your projects.
-                        </p>
-                    </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-400">99.5%</div>
+                    <div class="text-sm text-slate-400">Uptime Record</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-amber-400">3+</div>
+                    <div class="text-sm text-slate-400">Years Experience</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Trending Repositories -->
-        <section class="my-20" data-aos="fade-up">
-            <h2 class="section-heading">Trending Code Repositories</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="tech-terminal p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-lg bg-tech-green/20 flex items-center justify-center mr-4">
-                            <i data-lucide="github" class="w-6 h-6 text-tech-green"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">Cybersecurity CTF Toolkit</h3>
-                    </div>
-                    <p class="text-slate-300 mb-4">
-                        A collection of scripts and tools for Capture The Flag competitions and penetration testing.
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="badge badge-outline border-tech-green text-tech-green">Python</span>
-                        <span class="badge badge-outline border-tech-green text-tech-green">Ethical Hacking</span>
-                        <span class="badge badge-outline border-tech-green text-tech-green">Security</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center text-sm text-slate-400">
-                            <i data-lucide="star" class="w-4 h-4 mr-1"></i> 345
-                            <i data-lucide="git-branch" class="w-4 h-4 ml-3 mr-1"></i> 68
-                        </div>
-                        <a href="#" class="btn btn-sm btn-outline text-tech-green border-tech-green hover:bg-tech-green hover:border-tech-green hover:text-slate-900">
-                            View Repo <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="tech-terminal p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-lg bg-tech-purple/20 flex items-center justify-center mr-4">
-                            <i data-lucide="github" class="w-6 h-6 text-tech-purple"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">Web Dev Starter Kit</h3>
-                    </div>
-                    <p class="text-slate-300 mb-4">
-                        A modern boilerplate for building single-page applications with React and Tailwind CSS.
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="badge badge-outline border-tech-purple text-tech-purple">React</span>
-                        <span class="badge badge-outline border-tech-purple text-tech-purple">JavaScript</span>
-                        <span class="badge badge-outline border-tech-purple text-tech-purple">Tailwind</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center text-sm text-slate-400">
-                            <i data-lucide="star" class="w-4 h-4 mr-1"></i> 287
-                            <i data-lucide="git-branch" class="w-4 h-4 ml-3 mr-1"></i> 51
-                        </div>
-                        <a href="#" class="btn btn-sm btn-outline text-tech-purple border-tech-purple hover:bg-tech-purple hover:border-tech-purple hover:text-white">
-                            View Repo <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-
-        <!-- Featured Tutorials -->
-        <section class="my-20" data-aos="fade-up">
-            <h2 class="section-heading">Featured Tutorials</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="card shadow-xl image-full">
-                    <figure><img src="https://placehold.co/1000x500/0f172a/94a3b8?text=Ethical+Hacking+101" alt="Ethical Hacking Tutorial" /></figure>
-                    <div class="card-body">
-                        <h3 class="card-title text-white">Ethical Hacking 101</h3>
-                        <p class="text-slate-200">Learn the basics of penetration testing and network security.</p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline border-tech-pink text-tech-pink">Hacking</div>
-                            <div class="badge badge-outline border-tech-pink text-tech-pink">Beginner</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card shadow-xl image-full">
-                    <figure><img src="https://placehold.co/1000x500/0f172a/94a3b8?text=CI/CD+with+GitHub+Actions" alt="CI/CD Tutorial" /></figure>
-                    <div class="card-body">
-                        <h3 class="card-title text-white">CI/CD with GitHub Actions</h3>
-                        <p class="text-slate-200">Automate your software delivery pipeline with industry-standard tools.</p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline border-tech-purple text-tech-purple">DevOps</div>
-                            <div class="badge badge-outline border-tech-purple text-tech-purple">Intermediate</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card shadow-xl image-full">
-                    <figure><img src="https://placehold.co/1000x500/0f172a/94a3b8?text=React+State+Management" alt="React Tutorial" /></figure>
-                    <div class="card-body">
-                        <h3 class="card-title text-white">React State Management</h3>
-                        <p class="text-slate-200">A deep dive into managing state in complex React applications.</p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline border-tech-blue text-tech-blue">Web Dev</div>
-                            <div class="badge badge-outline border-tech-blue text-tech-blue">Advanced</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-10">
-                <a href="/tutorials" class="btn btn-outline btn-wide gap-2">
-                    <i data-lucide="book-open" class="w-5 h-5"></i>Browse All Tutorials
-                </a>
-            </div>
-        </section>
-
-        <!-- Community Section -->
-        <section class="my-20 text-center" data-aos="fade-up">
-            <div class="tech-terminal p-8">
-                <h2 class="text-3xl font-bold mb-6 text-white">Join Our Tech Community</h2>
-                <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-                    Connect with developers, cybersecurity experts, data scientists, and tech enthusiasts from around the world.
+    <!-- Expertise Section -->
+    <section id="expertise" class="py-20 px-4 bg-slate-900/50">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">Technical Expertise</h2>
+                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+                    Deep specialization across cybersecurity, cloud infrastructure, and DevOps automation
                 </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="/forum" class="btn btn-outline btn-lg gap-2">
-                        <i data-lucide="message-square" class="w-5 h-5"></i>Visit Forum
-                    </a>
-                    <a href="/slack" class="btn btn-primary btn-lg gap-2 glow-effect">
-                        <i data-lucide="slack" class="w-5 h-5"></i>Join Slack
-                    </a>
-                </div>
             </div>
-        </section>
 
-        <!-- Newsletter Section -->
-        <section class="my-20" data-aos="fade-up">
-            <div class="card shadow-xl border border-tech-teal">
-                <div class="card-body items-center text-center">
-                    <h2 class="card-title text-3xl font-bold mb-2 text-white">Stay Updated with Tech</h2>
-                    <p class="text-slate-300 mb-6 max-w-md">
-                        Get the latest tech news, tutorials, and coding resources delivered to your inbox weekly.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-2 w-full max-w-md">
-                        <input type="email" placeholder="Your email address" class="input input-bordered w-full bg-slate-800 border-slate-700 text-white" />
-                        <button class="btn btn-primary glow-effect">Subscribe</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cybersecurity -->
+                <div class="tech-card rounded-xl p-6">
+                    <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="shield" class="w-6 h-6 text-red-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Cybersecurity</h3>
+                    <div class="space-y-3 mb-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Network Security</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-red-500" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Penetration Testing</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-red-500" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Vulnerability Assessment</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-red-500" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud & DevOps -->
+                <div class="tech-card rounded-xl p-6">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="cloud" class="w-6 h-6 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Cloud & DevOps</h3>
+                    <div class="space-y-3 mb-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>AWS/GCP</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-blue-500" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Docker & Kubernetes</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-blue-500" style="width: 82%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>CI/CD Pipelines</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-blue-500" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Development -->
+                <div class="tech-card rounded-xl p-6">
+                    <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="code" class="w-6 h-6 text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Development</h3>
+                    <div class="space-y-3 mb-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Python & Go</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-green-500" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>System Architecture</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-green-500" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>API Development</span>
+                                <span>87%</span>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-level bg-green-500" style="width: 87%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Live Projects Section -->
+    <section id="projects" class="py-20 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">Live Projects & Demos</h2>
+                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+                    Real-world applications showcasing cybersecurity, automation, and full-stack development
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- NetGuardIQ -->
+                <div class="tech-card rounded-xl overflow-hidden live-demo">
+                    <div class="h-48 bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
+                        <i data-lucide="shield-alert" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-3">NetGuardIQ</h3>
+                        <p class="text-slate-300 mb-4">
+                            Enterprise phishing simulation platform built with Go (Fiber), SQLite, and RBAC. 
+                            Used to train employees on security awareness and reduce social engineering risks.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">Go</span>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">SQLite</span>
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm">RBAC</span>
+                            <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">Security</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="https://github.com/C9b3rD3v11/NetGuardIQ" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 px-4 rounded text-center">
+                                View Code
+                            </a>
+                            <a href="/netguardiq-demo" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded text-center">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BashRecon -->
+                <div class="tech-card rounded-xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-amber-600 to-red-600 flex items-center justify-center">
+                        <i data-lucide="search" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-3">BashRecon</h3>
+                        <p class="text-slate-300 mb-4">
+                            Advanced penetration testing reconnaissance tool automating DNS enumeration, 
+                            port scanning, and service fingerprinting. Generates professional security reports.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-sm">Bash</span>
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm">Security</span>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Automation</span>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">PenTesting</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="https://github.com/C9b3rD3v11/BashRecon" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 px-4 rounded text-center">
+                                View Code
+                            </a>
+                            <a href="/bashrecon-demo" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded text-center">
+                                Try Tool
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-20 px-4 bg-slate-900/50">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="section-title mb-4">Professional Certifications</h2>
+                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+                    Industry-recognized credentials validating expertise across cybersecurity and cloud technologies
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Fortinet Certifications -->
+                <div class="tech-card rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mr-4">
+                            <i data-lucide="shield-check" class="w-6 h-6 text-orange-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Fortinet Certified</h3>
+                    </div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            Fortinet Certified Associate
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            NSE 1, 2, 3 Certified
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            FortiGate 7.6 Operator
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            FortiAnalyzer Analyst
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Cloud Certifications -->
+                <div class="tech-card rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
+                            <i data-lucide="cloud" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Cloud Platforms</h3>
+                    </div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            AWS Security Fundamentals
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            Oracle Cloud Certified
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            Google Cloud Skills
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            Public Cloud Security
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Security Certifications -->
+                <div class="tech-card rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mr-4">
+                            <i data-lucide="lock" class="w-6 h-6 text-red-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Security & Development</h3>
+                    </div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            TryHackMe Junior Penetration Tester
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            Linux Administration
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            Secure Software Development
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
+                            Bash Scripting Mastery
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="py-20 px-4">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h2 class="section-title mb-6">Join Our Tech Community</h2>
+            <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+                Connect with cybersecurity professionals, DevOps engineers, and developers. Share knowledge, collaborate on projects, and grow together.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="tech-card rounded-xl p-6">
+                    <i data-lucide="message-square" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-3">Tech Discussions</h3>
+                    <p class="text-slate-300">Join conversations about cybersecurity trends, DevOps practices, and new technologies.</p>
+                </div>
+                <div class="tech-card rounded-xl p-6">
+                    <i data-lucide="users" class="w-12 h-12 text-green-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-3">Project Collaboration</h3>
+                    <p class="text-slate-300">Find team members for open-source projects and security research.</p>
+                </div>
+                <div class="tech-card rounded-xl p-6">
+                    <i data-lucide="graduation-cap" class="w-12 h-12 text-purple-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-3">Learning Resources</h3>
+                    <p class="text-slate-300">Access tutorials, code samples, and security best practices.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/discord" class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold bg-purple-600 hover:bg-purple-700">
+                    Join Discord Community
+                </a>
+                <a href="/newsletter" class="px-8 py-4 rounded-lg text-lg font-semibold border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white transition">
+                    Subscribe to Newsletter
+                </a>
+            </div>
+        </div>
+    </section>
+
 
     <script>
-        // Initialize GSAP with ScrollTrigger plugin
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Initialize AOS
-        AOS.init({
-            offset: 120,
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true,
-        });
-
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Typing effect
-        const phrases = ["Software Engineering.", "Cybersecurity & Hacking.", "Coding & DevOps.", "Web Development."];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const typewriterElement = document.getElementById('typewriter-text');
-        
-        function typeWriter() {
-            const currentPhrase = phrases[phraseIndex];
-            
-            if (isDeleting) {
-                typewriterElement.textContent = currentPhrase.substring(0, charIndex--);
-            } else {
-                typewriterElement.textContent = currentPhrase.substring(0, charIndex++);
-            }
-
-            let typingSpeed = 100;
-            if (isDeleting) {
-                typingSpeed /= 2;
-            }
-
-            if (!isDeleting && charIndex === currentPhrase.length + 1) {
-                typingSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typingSpeed = 500;
-            }
-
-            setTimeout(typeWriter, typingSpeed);
-        }
-
-        // GSAP Animations
-        function startAnimations() {
-            // Hero section fade-in and scale up
-            gsap.from(".hero-title", {
-                duration: 1.5,
-                opacity: 0,
-                y: -50,
-                ease: "power3.out",
-                delay: 0.5
-            });
-            gsap.from(".hero-subtitle", {
-                duration: 1.5,
-                opacity: 0,
-                y: -50,
-                ease: "power3.out",
-                delay: 1
-            });
-            gsap.from(".hero-buttons", {
-                duration: 1.5,
-                opacity: 0,
-                y: -50,
-                ease: "power3.out",
-                delay: 1.5
-            });
-            gsap.from(".hero-stats", {
-                duration: 1.5,
-                opacity: 0,
-                y: -50,
-                ease: "power3.out",
-                delay: 2
-            });
-
-            // Start the typing animation after GSAP hero animation
-            setTimeout(typeWriter, 2500);
-
-            // Animate sections on scroll
-            gsap.utils.toArray('section').forEach((section, i) => {
-                const sectionContent = section.querySelector(':scope > *:not(h2)');
-                gsap.from(sectionContent, {
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 80%",
-                        end: "bottom top",
-                        toggleActions: "play none none reverse",
-                    },
-                    opacity: 0,
-                    y: 50,
-                    duration: 1.2,
-                    ease: "power3.out",
-                });
+        // Animate skill meters on scroll
+        function animateSkillMeters() {
+            const meters = document.querySelectorAll('.skill-level');
+            meters.forEach(meter => {
+                const width = meter.style.width;
+                meter.style.width = '0%';
+                setTimeout(() => {
+                    meter.style.width = width;
+                }, 500);
             });
         }
-        
-        window.addEventListener('load', () => {
-            startAnimations();
+
+        // Simple scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.tech-card');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = "1";
+                    element.style.transform = "translateY(0)";
+                }
+            });
+        }
+
+        // Initialize animation states
+        document.querySelectorAll('.tech-card').forEach(card => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(20px)";
+            card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
         });
 
-    </script>
-    
-    <script>
-      function animateCounter(id, endValue, duration = 1500) {
-        let el = document.getElementById(id);
-        let start = 0;
-        let startTime = null;
-    
-        function step(timestamp) {
-          if (!startTime) startTime = timestamp;
-          let progress = Math.min((timestamp - startTime) / duration, 1);
-          el.innerText = Math.floor(progress * endValue);
-          if (progress < 1) requestAnimationFrame(step);
+        // Typewriter effect
+        function typeWriter() {
+            const text = "Specializing in Cybersecurity, Cloud Infrastructure & DevOps Automation";
+            const element = document.querySelector('.typewriter');
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML = text.substring(0, i + 1);
+                    i++;
+                    setTimeout(type, 100);
+                }
+            }
+            type();
         }
-    
-        requestAnimationFrame(step);
-      }
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', () => {
+            animateOnScroll();
+            typeWriter();
+            setTimeout(animateSkillMeters, 1000);
+        });
     </script>
-
-
-
 </body>
 </html>
 

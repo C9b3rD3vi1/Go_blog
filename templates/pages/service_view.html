@@ -3,49 +3,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>{{ .Service.Title }} - Your SaaS</title>
+    <title>{{ .Service.Title }} - CyberDev Hub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #06b6d4;
-            --accent: #8b5cf6;
-            --light: #f8fafc;
-            --dark: #0f172a;
+            --tech-navy: #0f172a;
+            --tech-slate: #1e293b;
+            --tech-blue: #2563eb;
+            --tech-teal: #0ea5e9;
+            --tech-purple: #8b5cf6;
+            --tech-green: #10b981;
         }
         
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            color: #334155;
+            background: linear-gradient(135deg, var(--tech-navy) 0%, var(--tech-slate) 100%);
+            color: #f8fafc;
             overflow-x: hidden;
         }
 
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
         .content-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
             border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.5),
-                0 10px 30px -10px rgba(99, 102, 241, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+                0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(14, 165, 233, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transform: translateY(0);
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .content-card:hover::before {
+            left: 100%;
         }
 
         .content-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            border-color: rgba(14, 165, 233, 0.3);
             box-shadow: 
-                0 35px 60px -12px rgba(0, 0, 0, 0.15),
-                0 0 0 1px rgba(255, 255, 255, 0.6),
-                0 15px 40px -10px rgba(99, 102, 241, 0.2);
+                0 35px 60px -12px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(14, 165, 233, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .image-float {
@@ -54,23 +77,41 @@
             margin-bottom: 1.5rem;
             border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.3),
+                0 10px 10px -5px rgba(0, 0, 0, 0.1);
             transform: perspective(1000px) rotateY(-5deg);
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .image-float::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .image-float:hover {
-            transform: perspective(1000px) rotateY(0deg) scale(1.02);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: perspective(1000px) rotateY(0deg) scale(1.03);
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(14, 165, 233, 0.2);
         }
 
         h1 {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            background: linear-gradient(135deg, var(--tech-teal) 0%, var(--tech-purple) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             position: relative;
             display: inline-block;
+            font-weight: 800;
         }
 
         h1::after {
@@ -79,12 +120,12 @@
             bottom: -8px;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 3px;
+            background: linear-gradient(90deg, var(--tech-teal), var(--tech-purple));
             border-radius: 2px;
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s ease;
         }
 
         h1:hover::after {
@@ -94,15 +135,16 @@
         .back-button {
             display: inline-flex;
             align-items: center;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--tech-teal) 0%, var(--tech-blue) 100%);
             color: white;
-            padding: 0.6rem 1.2rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 0.75rem;
-            font-weight: 500;
-            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .back-button::before {
@@ -118,7 +160,7 @@
 
         .back-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 25px rgba(14, 165, 233, 0.4);
         }
 
         .back-button:hover::before {
@@ -127,28 +169,95 @@
 
         .animated-element {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .tech-badge {
+            background: linear-gradient(135deg, var(--tech-purple), var(--tech-blue));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        .tech-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(14, 165, 233, 0.3);
+            transform: translateX(8px);
         }
 
         .gradient-bg {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
-                        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%);
             z-index: -1;
+            pointer-events: none;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--tech-green) 0%, var(--tech-teal) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateY(-5deg); }
+            50% { transform: translateY(-10px) rotateY(-3deg); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
         }
 
         @media (max-width: 768px) {
@@ -163,26 +272,28 @@
             .image-float:hover {
                 transform: scale(1.02);
             }
+            
+            .content-card {
+                padding: 1.5rem !important;
+            }
         }
     </style>
 </head>
 <body class="min-h-screen antialiased flex flex-col">
     <div class="gradient-bg"></div>
     
-    <header class="bg-white/80 backdrop-blur-sm shadow-sm py-6 sticky top-0 z-10">
+    <header class="bg-slate-900/80 backdrop-blur-lg shadow-sm py-6 sticky top-0 z-10 border-b border-slate-700">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <a href="/services" class="back-button animated-element">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left mr-2">
-                    <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
-                </svg>
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>
                 <span class="text-sm">Back to Services</span>
             </a>
         </div>
     </header>
 
     <main class="flex-grow flex items-start py-12 md:py-16">
-        <div class="container mx-auto px-6 sm:px-8 lg:px-12">
-            <div class="content-card p-8 md:p-12 lg:p-16 animated-element">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="content-card p-8 md:p-12 lg:p-16 animated-element max-w-6xl mx-auto">
                 <div class="clearfix">
                     {{ if .Service.ImageURL }}
                         <div class="image-float w-full sm:w-1/2 md:w-2/5 floating">
@@ -190,46 +301,63 @@
                         </div>
                     {{ end }}
                     
-                    <h1 class="text-4xl sm:text-5xl font-extrabold mb-6 leading-tight animated-element">{{ .Service.Title }}</h1>
-                    <p class="text-slate-700 leading-relaxed text-lg animated-element">{{ .Service.Description }}</p>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight animated-element">{{ .Service.Title }}</h1>
+                    <p class="text-slate-300 leading-relaxed text-lg mb-8 animated-element text-justify">{{ .Service.Description }}</p>
                     
-                    <div class="mt-auto">
-                        {{ if .Service.TechStacks }}
-                        <div class="flex flex-wrap items-center gap-2 mb-4">
-                            {{ range .Service.TechStacks }}
-                                <span class="tech-badge inline-block text-xs font-medium px-3 py-1.5 rounded-full">{{ . }}</span>
-                            {{ end }}
-                        </div>
+                    {{ if .Service.TechStacks }}
+                    <div class="flex flex-wrap items-center gap-3 mb-8 animated-element">
+                        {{ range .Service.TechStacks }}
+                            <span class="tech-badge">{{ . }}</span>
                         {{ end }}
-                    <!-- Additional content with animations -->
-                    <div class="mt-10 pt-8 border-t border-slate-100">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-4 animated-element">Key Features</h2>
-                        <ul class="space-y-3 animated-element">
-                            <li class="flex items-start">
-                                <svg class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span class="text-slate-700">Advanced analytics and reporting</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span class="text-slate-700">Seamless third-party integrations</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="h-6 w-6 text-green-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span class="text-slate-700">Enterprise-grade security</span>
-                            </li>
-                        </ul>
+                    </div>
+                    {{ end }}
+                    
+                    <!-- Enhanced Features Section -->
+                    <div class="mt-10 pt-8 border-t border-slate-700">
+                        <h2 class="text-2xl font-bold text-white mb-6 animated-element flex items-center">
+                            <i data-lucide="zap" class="w-6 h-6 text-teal-400 mr-3"></i>
+                            Key Features
+                        </h2>
+                        <div class="space-y-4 animated-element">
+                            <div class="feature-item">
+                                <div class="flex items-start">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                    <span class="text-slate-200">Advanced Security & Threat Detection</span>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="flex items-start">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                    <span class="text-slate-200">High-Performance Architecture</span>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="flex items-start">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                    <span class="text-slate-200">Scalable Cloud Infrastructure</span>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="flex items-start">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                    <span class="text-slate-200">Automated Deployment & Monitoring</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="mt-8 animated-element">
-                        <button class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                            Get Started Today
-                        </button>
+                    <!-- Enhanced CTA Section -->
+                    <div class="mt-12 pt-8 border-t border-slate-700 animated-element">
+                        <div class="text-center">
+                            <h3 class="text-xl font-semibold text-white mb-4">Ready to Implement This Solution?</h3>
+                            <p class="text-slate-400 mb-6 max-w-2xl mx-auto">
+                                Let's discuss how we can integrate this technology into your infrastructure with enterprise-grade security and performance.
+                            </p>
+                            <button class="cta-button inline-flex items-center">
+                                <i data-lucide="message-circle" class="w-5 h-5 mr-2"></i>
+                                Start Conversation
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -243,56 +371,80 @@
             // Initialize GSAP animations
             gsap.registerPlugin(ScrollTrigger);
             
-            // Animate elements on page load
+            // Animate background gradient
             gsap.to('.gradient-bg', {
                 opacity: 1,
                 duration: 1.5,
                 ease: 'power2.out'
             });
             
+            // Animate main content elements
             gsap.to('.animated-element', {
                 opacity: 1,
                 y: 0,
-                stagger: 0.15,
-                duration: 0.8,
-                ease: 'power2.out',
-                delay: 0.3
+                stagger: 0.2,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 0.4
             });
             
-            // Create scroll-triggered animations
-            gsap.utils.toArray('.content-card').forEach(card => {
-                gsap.to(card, {
+            // Enhanced scroll animations
+            gsap.utils.toArray('.feature-item').forEach((item, index) => {
+                gsap.to(item, {
                     scrollTrigger: {
-                        trigger: card,
+                        trigger: item,
                         start: 'top 85%',
                         toggleActions: 'play none none reverse'
                     },
                     opacity: 1,
-                    y: 0,
+                    x: 0,
                     duration: 0.8,
+                    delay: index * 0.1,
                     ease: 'power2.out'
                 });
             });
             
-            // Add hover animation to the CTA button
-            const ctaButton = document.querySelector('button');
-            if (ctaButton) {
-                ctaButton.addEventListener('mouseenter', () => {
-                    gsap.to(ctaButton, {
+            // Button hover animations
+            const buttons = document.querySelectorAll('.back-button, .cta-button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    gsap.to(button, {
                         scale: 1.05,
                         duration: 0.3,
                         ease: 'power2.out'
                     });
                 });
                 
-                ctaButton.addEventListener('mouseleave', () => {
-                    gsap.to(ctaButton, {
+                button.addEventListener('mouseleave', () => {
+                    gsap.to(button, {
                         scale: 1,
                         duration: 0.3,
                         ease: 'power2.out'
                     });
                 });
-            }
+            });
+
+            // Image hover enhancement
+            const images = document.querySelectorAll('.image-float');
+            images.forEach(image => {
+                image.addEventListener('mouseenter', () => {
+                    gsap.to(image, {
+                        rotationY: 0,
+                        scale: 1.03,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                });
+                
+                image.addEventListener('mouseleave', () => {
+                    gsap.to(image, {
+                        rotationY: -5,
+                        scale: 1,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                });
+            });
         });
     </script>
 </body>

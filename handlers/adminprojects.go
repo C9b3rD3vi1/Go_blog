@@ -1,6 +1,10 @@
 package handlers
 
 import (
+	"encoding/json"
+	"time"
+	"fmt"
+	"mime/multipart"
 	"strings"
 
 	"github.com/C9b3rD3vi1/Go_blog/config"
@@ -44,47 +48,114 @@ func AdminNewProjectPage(c *fiber.Ctx) error {
 }
 
 
-// Handle project creation
+// Handle project creation with enhanced struct
 func AdminCreateProject(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
     if admin == nil || !admin.IsAdmin {
         return c.Redirect("/admin/login")
     }
 
-    title := c.FormValue("title")
-    description := c.FormValue("description")
-    link := c.FormValue("link")
-
-    // Get selected tech stack IDs from form (multiple checkboxes or select)
-    stackIDs := c.FormValue("techstacks") // returns comma-separated if select[multiple]
-    ids := strings.Split(stackIDs, ",")
-
-    var techStacks []models.TechStack
-    if len(ids) > 0 {
-        database.DB.Where("id IN ?", ids).Find(&techStacks)
-    }
-
-    // Upload image
-    imageURL, _ := utils.UploadImage(c, "image")
-
-    // Generate slug
-    slug := utils.UniqueSlug(database.DB, "projects", title)
-
+    // Parse form values
     project := models.Projects{
-        Title:       title,
-        Description: description,
-        Link:        link,
-        Slug:        slug,
-        TechStacks:  techStacks,
-        ImageURL:    imageURL,
+        Title:            c.FormValue("title"),
+        Description:      c.FormValue("description"),
+        LongDescription:  c.FormValue("long_description"),
+        ProblemStatement: c.FormValue("problem_statement"),
+        SolutionApproach: c.FormValue("solution_approach"),
+        KeyFeatures:      c.FormValue("key_features"),
+
+        Link:       c.FormValue("link"),
+        GithubLink: c.FormValue("github_link"),
+        DemoLink:   c.FormValue("demo_link"),
+        DocsLink:   c.FormValue("docs_link"),
+
+        Category:    c.FormValue("category"),
+        Difficulty:  c.FormValue("difficulty"),
+        ProjectType: c.FormValue("project_type"),
+        Tags:        c.FormValue("tags"),
+
+        DevelopmentTime: c.FormValue("development_time"),
+        TeamSize:       utils.ParseInt(c.FormValue("team_size")),
+        LinesOfCode:    c.FormValue("lines_of_code"),
+        Uptime:         c.FormValue("uptime"),
+        ResponseTime:   c.FormValue("response_time"),
+        UsersCount:     c.FormValue("users_count"),
+
+        Featured:  c.FormValue("featured") == "on",
+        Published: c.FormValue("published") == "on",
+        Status:    c.FormValue("status"),
     }
 
+    // Parse dates
+    if completionDate := c.FormValue("completion_date"); completionDate != "" {
+        if parsedDate, err := time.Parse("2006-01-02", completionDate); err == nil {
+            project.CompletionDate = &parsedDate
+        }
+    }
+
+    if startDate := c.FormValue("started_at"); startDate != "" {
+        if parsedDate, err := time.Parse("2006-01-02", startDate); err == nil {
+            project.StartedAt = &parsedDate
+        }
+    }
+
+    // TechStacks handling
+    stackIDs := c.FormValue("techstacks")
+    if stackIDs != "" {
+        ids := strings.Split(stackIDs, ",")
+        var techStacks []models.TechStack
+        database.DB.Where("id IN ?", ids).Find(&techStacks)
+        project.TechStacks = techStacks
+    }
+
+    // Upload main image
+    if imageURL, err := utils.UploadImage(c, "image"); err == nil && imageURL != "" {
+        project.ImageURL = imageURL
+    }
+
+    // ---------------------------
+    // FIXED: Upload multiple images from "gallery"
+    // ---------------------------
+
+    form, err := c.MultipartForm()
+    if err == nil && form.File != nil {
+        galleryFiles := form.File["gallery"]
+        var galleryURLs []string
+    
+        for idx, file := range galleryFiles {
+            tempField := fmt.Sprintf("gallery_%d", idx)
+    
+            // Insert file into the form under the temporary name
+            form.File[tempField] = []*multipart.FileHeader{file}
+    
+            // Call UploadImage normally
+            galleryURL, err := utils.UploadImage(c, tempField)
+            if err == nil {
+                galleryURLs = append(galleryURLs, galleryURL)
+            }
+    
+            // Remove temp field
+            delete(form.File, tempField)
+        }
+    
+        if len(galleryURLs) > 0 {
+            if galleryJSON, err := json.Marshal(galleryURLs); err == nil {
+                project.Gallery = string(galleryJSON)
+            }
+        }
+    }
+
+    // Unique slug
+    project.Slug = utils.UniqueSlug(database.DB, "projects", project.Title)
+
+    // Save to DB
     if err := database.DB.Create(&project).Error; err != nil {
-        return c.Status(500).SendString("Error saving project")
+        return c.Status(fiber.StatusInternalServerError).SendString("Error saving project: " + err.Error())
     }
 
     return c.Redirect("/admin/projects")
 }
+
 
 // List all projects
 func AdminProjectList(c *fiber.Ctx) error {

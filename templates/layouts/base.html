@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{{ block "title" . }}SaaS Portfolio{{ end }}</title>
+        <title>{{ block "title" . }}CyberDev Hub | Nickson Wekongo{{ end }}</title>
         
         <!-- favicon -->
         <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
@@ -18,7 +18,7 @@
         
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
         <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -26,65 +26,136 @@
         <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
         <style>
+            :root {
+                --tech-navy: #0f172a;
+                --tech-slate: #1e293b;
+                --tech-blue: #2563eb;
+                --tech-teal: #0ea5e9;
+                --tech-purple: #8b5cf6;
+                --tech-green: #10b981;
+                --tech-amber: #f59e0b;
+            }
+
             body {
                 font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, var(--tech-navy) 0%, var(--tech-slate) 100%);
+                color: #f8fafc;
             }
+
+            .code-font {
+                font-family: 'JetBrains Mono', monospace;
+            }
+
             .hero-section {
-                background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 30v-4H8v4H4v2h4v4h4v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4H8v4H4v2h4v4h4v-4h4v-2h-4zM36 46v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 46v-4H8v4H4v2h4v4h4v-4h4v-2h-4zM48 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 16v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM48 46v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+                background-image: 
+                    radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230ea5e9' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 30v-4H8v4H4v2h4v4h4v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4H8v4H4v2h4v4h4v-4h4v-2h-4zM36 46v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 46v-4H8v4H4v2h4v4h4v-4h4v-2h-4zM48 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 16v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM48 46v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
                 background-size: 60px 60px;
                 animation: move-pattern 20s linear infinite;
             }
+
             @keyframes move-pattern {
                 0% { background-position: 0 0; }
                 100% { background-position: 60px 60px; }
             }
+
+            .tech-card {
+                background: rgba(30, 41, 59, 0.6);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .tech-card:hover {
+                transform: translateY(-5px);
+                border-color: var(--tech-teal);
+                box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
+            }
+
+            .cert-badge {
+                background: linear-gradient(45deg, var(--tech-purple), var(--tech-blue));
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 2rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .typewriter {
+                border-right: 2px solid var(--tech-teal);
+                animation: blink 1s infinite;
+            }
+
+            @keyframes blink {
+                0%, 100% { border-color: transparent; }
+                50% { border-color: var(--tech-teal); }
+            }
+
+            .skill-meter {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 1rem;
+                overflow: hidden;
+                height: 0.5rem;
+            }
+
+            .skill-level {
+                height: 100%;
+                border-radius: 1rem;
+                transition: width 2s ease-in-out;
+            }
         </style>
     </head>
-    <body class="min-h-screen flex flex-col bg-base-100 text-base-content font-sans">
-        <header class="navbar bg-base-100 shadow-sm border-b border-base-200">
+    <body class="min-h-screen flex flex-col">
+        <header class="navbar bg-slate-900/80 backdrop-blur shadow-sm border-b border-slate-700 sticky top-0 z-50">
             <div class="container mx-auto px-4 flex justify-between items-center">
-                <a href="/" class="text-2xl font-bold text-primary flex items-center gap-2">
-                    <i data-lucide="sparkles" class="w-6 h-6 text-primary"></i>
-                    SaaS Studio
+                <a href="/" class="text-2xl font-bold text-white flex items-center gap-2">
+                    <i data-lucide="shield" class="w-6 h-6 text-teal-400"></i>
+                    <span>CyberDev</span>
+                    <span class="text-teal-400">Hub</span>
                 </a>
                 <div class="flex items-center space-x-2">
-                    <ul class="menu menu-horizontal px-1 hidden md:flex font-medium items-center">
-                        <li><a href="/" class="hover:text-primary">Home</a></li>
-                        <li><a href="/projects" class="hover:text-primary">Projects</a></li>
-                        <li><a href="/services" class="hover:text-primary">Services</a></li>
-                        <li><a href="/posts" class="hover:text-primary">Posts</a></li>
-                        <li><a href="/about" class="hover:text-primary">About</a></li>
-                        <li><a href="/contact" class="hover:text-primary">Contact</a></li>
+                    <ul class="menu menu-horizontal px-1 hidden md:flex font-medium items-center text-slate-300">
+                        <li><a href="/" class="hover:text-teal-400">Home</a></li>
+                        <li><a href="/projects" class="hover:text-teal-400">Projects</a></li>
+                        <li><a href="/services" class="hover:text-teal-400">Services</a></li>
+                        <li><a href="/posts" class="hover:text-teal-400">Blog</a></li>
+                        <li><a href="/about" class="hover:text-teal-400">About</a></li>
+                        <li><a href="/contact" class="hover:text-teal-400">Contact</a></li>
                         <div class="pl-4">
                             {{- if .IsLoggedIn -}}
-                            <li><a href="/logout" class="btn btn-primary btn-sm">Logout</a></li>
+                            <li><a href="/logout" class="btn btn-primary btn-sm bg-teal-600 border-teal-600 hover:bg-teal-700">Logout</a></li>
                             {{- else -}}
                             <li class="flex-row gap-2">
-                                <a href="/login" class="btn btn-ghost btn-sm">Log In</a>
-                                <a href="/register" class="btn btn-primary btn-sm">Sign Up</a>
+                                <a href="/login" class="btn btn-ghost btn-sm text-slate-300">Log In</a>
+                                <a href="/register" class="btn btn-primary btn-sm bg-teal-600 border-teal-600 hover:bg-teal-700">Sign Up</a>
                             </li>
                             {{- end -}}
                         </div>
                     </ul>
 
                     <div class="dropdown dropdown-end md:hidden">
-                        <label tabindex="0" class="btn btn-ghost">
+                        <label tabindex="0" class="btn btn-ghost text-slate-300">
                             <i data-lucide="menu" class="w-6 h-6"></i>
                         </label>
-                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/projects">Projects</a></li>
-                            <li><a href="/services">Services</a></li>
-                            <li><a href="/about">About</a></li>
-                            <li><a href="/contact">Contact</a></li>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-800 rounded-box w-52 text-slate-300">
+                            <li><a href="/" class="hover:text-teal-400">Home</a></li>
+                            <li><a href="/projects" class="hover:text-teal-400">Projects</a></li>
+                            <li><a href="/services" class="hover:text-teal-400">Services</a></li>
+                            <li><a href="/posts" class="hover:text-teal-400">Blog</a></li>
+                            <li><a href="/about" class="hover:text-teal-400">About</a></li>
+                            <li><a href="/contact" class="hover:text-teal-400">Contact</a></li>
                             {{- if .IsLoggedIn -}}
                             <div class="divider"></div>
-                            <li><a href="/dashboard">Dashboard</a></li>
-                            <li><a href="/logout" class="text-error">Logout</a></li>
+                            <li><a href="/dashboard" class="hover:text-teal-400">Dashboard</a></li>
+                            <li><a href="/logout" class="text-red-400">Logout</a></li>
                             {{- else -}}
                             <div class="divider"></div>
-                            <li><a href="/login">Login</a></li>
-                            <li><a href="/register">Sign Up</a></li>
+                            <li><a href="/login" class="hover:text-teal-400">Login</a></li>
+                            <li><a href="/register" class="hover:text-teal-400">Sign Up</a></li>
                             {{- end -}}
                         </ul>
                     </div>
@@ -92,105 +163,172 @@
             </div>
         </header>
 
-        <main class="flex-1 container mx-auto px-4 py-16">
+        <main class="flex-1 container mx-auto px-4 py-8">
             {{- block "content" . -}}
-            <section class="hero-section text-center py-20 rounded-box shadow-lg mb-16 bg-base-200" data-aos="fade-up" data-aos-duration="1000">
-                <div class="max-w-3xl mx-auto">
-                    <h1 class="text-5xl font-extrabold text-base-content leading-tight mb-4" data-aos="fade-up" data-aos-delay="200">
-                        Building the Future of Software, Together.
-                    </h1>
-                    <p class="text-xl text-base-content/80 mb-8" data-aos="fade-up" data-aos-delay="400">
-                        Crafting innovative and scalable software solutions that drive real results for your business.
-                    </p>
-                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4" data-aos="fade-up" data-aos-delay="600">
-                        <a href="/contact" class="btn btn-primary btn-lg shadow-lg">Get a Quote</a>
-                        <a href="/projects" class="btn btn-outline btn-lg">View Projects</a>
+            <!-- Default content that will be overridden by other templates -->
+            <section class="hero-section text-center py-20 rounded-box shadow-lg mb-16" data-aos="fade-up" data-aos-duration="1000">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Personal Introduction -->
+                    <div class="flex items-center justify-center mb-8">
+                        <img src="https://placehold.co/100x100/1e293b/0ea5e9?text=NW" alt="Nickson Wekongo" class="w-20 h-20 rounded-full border-4 border-teal-500 mr-4">
+                        <div class="text-left">
+                            <h1 class="text-2xl font-bold text-white">Nickson Wekongo</h1>
+                            <p class="text-slate-400">Fortinet Certified Cybersecurity Professional & DevOps Engineer</p>
+                        </div>
                     </div>
+
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4" data-aos="fade-up" data-aos-delay="200">
+                        Building 
+                        <span class="bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                            Secure
+                        </span>
+                        , Scalable Systems
+                    </h1>
+                    <div class="text-xl text-slate-300 mb-8 h-8" data-aos="fade-up" data-aos-delay="400">
+                        <span class="typewriter">Cybersecurity • Cloud Infrastructure • DevOps Automation</span>
+                    </div>
+                    
+                    <!-- Certifications Badges -->
+                    <div class="flex flex-wrap justify-center gap-3 mb-8" data-aos="fade-up" data-aos-delay="600">
+                        <span class="cert-badge">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            Fortinet Certified
+                        </span>
+                        <span class="cert-badge">
+                            <i data-lucide="cloud" class="w-4 h-4"></i>
+                            AWS Security
+                        </span>
+                        <span class="cert-badge">
+                            <i data-lucide="database" class="w-4 h-4"></i>
+                            Oracle Cloud
+                        </span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4" data-aos="fade-up" data-aos-delay="800">
+                        <a href="/projects" class="btn btn-primary btn-lg shadow-lg bg-teal-600 border-teal-600 hover:bg-teal-700">
+                            <i data-lucide="rocket" class="w-5 h-5 mr-2"></i>
+                            View Live Projects
+                        </a>
+                        <a href="/contact" class="btn btn-outline btn-lg border-slate-600 text-slate-300 hover:border-teal-400 hover:text-teal-400">
+                            <i data-lucide="mail" class="w-5 h-5 mr-2"></i>
+                            Get In Touch
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Quick Stats -->
+            <section class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto mb-16">
+                <div class="text-center tech-card rounded-xl p-6" data-aos="fade-up">
+                    <div class="text-2xl font-bold text-blue-400">25+</div>
+                    <div class="text-sm text-slate-400">Projects Built</div>
+                </div>
+                <div class="text-center tech-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-2xl font-bold text-purple-400">15+</div>
+                    <div class="text-sm text-slate-400">Certifications</div>
+                </div>
+                <div class="text-center tech-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-2xl font-bold text-green-400">99.5%</div>
+                    <div class="text-sm text-slate-400">Uptime Record</div>
+                </div>
+                <div class="text-center tech-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-2xl font-bold text-amber-400">3+</div>
+                    <div class="text-sm text-slate-400">Years Experience</div>
                 </div>
             </section>
             
             <section class="py-16">
-                <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">Our Core Services</h2>
+                <h2 class="text-4xl font-bold text-center mb-12 text-white" data-aos="fade-up">Core Expertise</h2>
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="card bg-base-200 shadow-xl border border-base-300 transition-all duration-300 hover:scale-105 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tech-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
                         <div class="card-body items-center text-center">
-                            <i data-lucide="layout" class="w-12 h-12 text-primary mb-4"></i>
-                            <h3 class="card-title text-xl font-semibold">Web Development</h3>
-                            <p class="text-sm text-base-content/80">
-                                Modern, responsive, and high-performance web applications tailored to your needs.
+                            <i data-lucide="shield" class="w-12 h-12 text-red-400 mb-4"></i>
+                            <h3 class="card-title text-xl font-semibold text-white">Cybersecurity</h3>
+                            <p class="text-sm text-slate-300">
+                                Fortinet-certified security professional specializing in network security, penetration testing, and vulnerability assessment.
                             </p>
                         </div>
                     </div>
-                    <div class="card bg-base-200 shadow-xl border border-base-300 transition-all duration-300 hover:scale-105 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="300">
+                    <div class="tech-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
                         <div class="card-body items-center text-center">
-                            <i data-lucide="smartphone" class="w-12 h-12 text-primary mb-4"></i>
-                            <h3 class="card-title text-xl font-semibold">Mobile App Development</h3>
-                            <p class="text-sm text-base-content/80">
-                                Native and cross-platform mobile apps for iOS and Android.
+                            <i data-lucide="cloud" class="w-12 h-12 text-blue-400 mb-4"></i>
+                            <h3 class="card-title text-xl font-semibold text-white">Cloud & DevOps</h3>
+                            <p class="text-sm text-slate-300">
+                                AWS, Docker, CI/CD pipelines, and infrastructure automation for scalable, secure deployments.
                             </p>
                         </div>
                     </div>
-                    <div class="card bg-base-200 shadow-xl border border-base-300 transition-all duration-300 hover:scale-105 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="400">
+                    <div class="tech-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="400">
                         <div class="card-body items-center text-center">
-                            <i data-lucide="cloud" class="w-12 h-12 text-primary mb-4"></i>
-                            <h3 class="card-title text-xl font-semibold">Cloud Solutions</h3>
-                            <p class="text-sm text-base-content/80">
-                                Scalable and secure cloud infrastructure and deployment services.
+                            <i data-lucide="code" class="w-12 h-12 text-green-400 mb-4"></i>
+                            <h3 class="card-title text-xl font-semibold text-white">Full-Stack Development</h3>
+                            <p class="text-sm text-slate-300">
+                                Python, Go, JavaScript - building secure, high-performance applications from concept to production.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
             
-            <section class="bg-primary text-primary-content py-16 px-8 rounded-box shadow-xl text-center" data-aos="fade-up">
-                <h2 class="text-4xl font-bold mb-4">Ready to Start Your Project?</h2>
+            <section class="bg-gradient-to-r from-teal-600 to-blue-600 text-white py-16 px-8 rounded-box shadow-xl text-center" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-4">Ready to Secure Your Systems?</h2>
                 <p class="text-xl mb-8">
-                    We're here to turn your ideas into a successful software product.
+                    Let's discuss your cybersecurity needs or DevOps requirements.
                 </p>
-                <a href="/contact" class="btn btn-secondary btn-lg shadow-lg">Let's Talk</a>
+                <a href="/contact" class="btn btn-secondary btn-lg shadow-lg bg-white text-slate-900 hover:bg-slate-100">
+                    <i data-lucide="message-circle" class="w-5 h-5 mr-2"></i>
+                    Start Conversation
+                </a>
             </section>
             
             {{- end -}}
         </main>
 
-        <footer class="footer bg-base-200 text-base-content p-10 mt-auto">
+        <footer class="footer bg-slate-900 text-slate-400 p-10 mt-auto border-t border-slate-800">
             <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 <aside>
-                    <a href="/" class="text-3xl font-bold text-primary flex items-center gap-2">
-                        <i data-lucide="sparkles" class="w-8 h-8 text-primary"></i>
-                        SaaS Studio
+                    <a href="/" class="text-2xl font-bold text-white flex items-center gap-2 mb-2">
+                        <i data-lucide="shield" class="w-6 h-6 text-teal-400"></i>
+                        CyberDev<span class="text-teal-400">Hub</span>
                     </a>
-                    <p class="text-sm mt-2">
-                        Crafting innovative software solutions for the modern world.
-                        <br/>&copy; 2025 SaaS Studio. All rights reserved.
+                    <p class="text-sm">
+                        Cybersecurity & DevOps expertise by Nickson Wekongo.
+                        <br/>&copy; 2025 CyberDev Hub. All rights reserved.
                     </p>
                 </aside> 
                 <nav>
-                    <header class="footer-title">Services</header> 
-                    <a class="link link-hover" href="/services#web-dev">Web Development</a>
-                    <a class="link link-hover" href="/services#mobile-dev">Mobile App Development</a>
-                    <a class="link link-hover" href="/services#cloud-solutions">Cloud Solutions</a>
-                    <a class="link link-hover" href="/services#consulting">Consulting</a>
+                    <header class="footer-title text-white">Services</header> 
+                    <a class="link link-hover hover:text-teal-400" href="/services#security">Security Consulting</a>
+                    <a class="link link-hover hover:text-teal-400" href="/services#devops">DevOps Automation</a>
+                    <a class="link link-hover hover:text-teal-400" href="/services#cloud">Cloud Solutions</a>
+                    <a class="link link-hover hover:text-teal-400" href="/services#development">Custom Development</a>
                 </nav> 
                 <nav>
-                    <header class="footer-title">Company</header> 
-                    <a class="link link-hover" href="/about">About Us</a>
-                    <a class="link link-hover" href="/contact">Contact</a>
-                    <a class="link link-hover" href="/careers">Careers</a>
-                    <a class="link link-hover" href="/press">Press Kit</a>
+                    <header class="footer-title text-white">Connect</header> 
+                    <a class="link link-hover hover:text-teal-400" href="/about">About Me</a>
+                    <a class="link link-hover hover:text-teal-400" href="/posts">Tech Blog</a>
+                    <a class="link link-hover hover:text-teal-400" href="/projects">Portfolio</a>
+                    <a class="link link-hover hover:text-teal-400" href="/contact">Contact</a>
                 </nav> 
                 <nav>
-                    <header class="footer-title">Legal</header> 
-                    <a class="link link-hover" href="/terms">Terms of use</a>
-                    <a class="link link-hover" href="/privacy">Privacy policy</a>
-                    <a class="link link-hover" href="/cookies">Cookie policy</a>
+                    <header class="footer-title text-white">Resources</header> 
+                    <a class="link link-hover hover:text-teal-400" href="https://github.com/C9b3rD3v11" target="_blank">GitHub</a>
+                    <a class="link link-hover hover:text-teal-400" href="/certifications">Certifications</a>
+                    <a class="link link-hover hover:text-teal-400" href="/tutorials">Tutorials</a>
+                    <a class="link link-hover hover:text-teal-400" href="/tools">Security Tools</a>
                 </nav>
             </div>
-            <div class="container mx-auto text-center mt-8 pt-4 border-t border-base-300">
+            <div class="container mx-auto text-center mt-8 pt-4 border-t border-slate-800">
                 <div class="flex justify-center gap-4">
-                    <a href="https://github.com/yourhandle" target="_blank" class="link link-hover"><i data-lucide="github" class="w-6 h-6"></i></a>
-                    <a href="https://twitter.com/yourhandle" target="_blank" class="link link-hover"><i data-lucide="twitter" class="w-6 h-6"></i></a>
-                    <a href="https://linkedin.com/in/yourhandle" target="_blank" class="link link-hover"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                    <a href="https://github.com/C9b3rD3v11" target="_blank" class="link link-hover hover:text-teal-400">
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/nicksonwekongo" target="_blank" class="link link-hover hover:text-teal-400">
+                        <i data-lucide="linkedin" class="w-6 h-6"></i>
+                    </a>
+                    <a href="mailto:nicksonwekongo@gmail.com" class="link link-hover hover:text-teal-400">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </a>
                 </div>
             </div>
         </footer>
@@ -198,6 +336,32 @@
         <script>
             AOS.init();
             lucide.createIcons();
+
+            // Animate skill meters on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                const skillLevels = document.querySelectorAll('.skill-level');
+                skillLevels.forEach(level => {
+                    const width = level.style.width;
+                    level.style.width = '0%';
+                    setTimeout(() => {
+                        level.style.width = width;
+                    }, 500);
+                });
+
+                // Typewriter effect
+                const text = "Cybersecurity • Cloud Infrastructure • DevOps Automation";
+                const element = document.querySelector('.typewriter');
+                let i = 0;
+                
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML = text.substring(0, i + 1);
+                        i++;
+                        setTimeout(type, 100);
+                    }
+                }
+                type();
+            });
         </script>
     </body>
 </html>

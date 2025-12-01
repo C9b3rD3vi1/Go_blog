@@ -1,66 +1,245 @@
-{{ define "content" }}
-<div class="max-w-2xl mx-auto bg-base-200 p-8 rounded-lg shadow-md">
-  <h2 class="text-3xl font-bold mb-4 text-primary flex items-center gap-2">
-    <i data-lucide="mail" class="w-6 h-6"></i> Contact Us
-  </h2>
+{{ block "content" .}}
+<div class="max-w-4xl mx-auto">
+  <!-- Header Section -->
+  <div class="text-center mb-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+      Get In 
+      <span class="bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+        Touch
+      </span>
+    </h1>
+    <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+      Have a project in mind? Need cybersecurity consulting? Let's discuss how we can work together to build something amazing.
+    </p>
+  </div>
 
-  {{ if .Success }}
-    <div class="alert alert-success mb-6">
-      <i data-lucide="check-circle" class="w-5 h-5"></i>
-      <span>Thanks for your message! We'll get back to you shortly.</span>
+  <div class="grid lg:grid-cols-3 gap-8">
+    <!-- Contact Information -->
+    <div class="lg:col-span-1">
+      <div class="tech-card rounded-xl p-6 h-full">
+        <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+          <i data-lucide="message-circle" class="w-6 h-6 text-teal-400"></i>
+          Contact Info
+        </h3>
+        
+        <div class="space-y-6">
+          <!-- Email -->
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-teal-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i data-lucide="mail" class="w-5 h-5 text-teal-400"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Email</h4>
+              <a href="mailto:nicksonwekongo@gmail.com" class="text-slate-300 hover:text-teal-400 transition-colors">
+                nicksonwekongo@gmail.com
+              </a>
+              <p class="text-sm text-slate-400 mt-1">Typically replies within 24 hours</p>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i data-lucide="map-pin" class="w-5 h-5 text-blue-400"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Location</h4>
+              <p class="text-slate-300">Nairobi, Kenya</p>
+              <p class="text-sm text-slate-400 mt-1">Available for remote work worldwide</p>
+            </div>
+          </div>
+
+          <!-- Availability -->
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <i data-lucide="clock" class="w-5 h-5 text-green-400"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Availability</h4>
+              <p class="text-slate-300">Open for new projects</p>
+              <p class="text-sm text-slate-400 mt-1">Cybersecurity & DevOps consulting</p>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div class="pt-4 border-t border-slate-700">
+            <h4 class="font-semibold text-white mb-3">Follow & Connect</h4>
+            <div class="flex gap-3">
+              <a href="https://github.com/C9b3rD3v11" target="_blank" class="w-10 h-10 bg-slate-700 hover:bg-slate-600 rounded-lg flex items-center justify-center transition-colors">
+                <i data-lucide="github" class="w-5 h-5 text-slate-300"></i>
+              </a>
+              <a href="https://linkedin.com/in/nicksonwekongo" target="_blank" class="w-10 h-10 bg-slate-700 hover:bg-slate-600 rounded-lg flex items-center justify-center transition-colors">
+                <i data-lucide="linkedin" class="w-5 h-5 text-slate-300"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  {{ end }}
 
-  <form method="POST" action="/contact" class="space-y-4">
-   <div class="form-control">
+    <!-- Contact Form -->
+    <div class="lg:col-span-2">
+      <div class="tech-card rounded-xl p-8">
+        {{ if .Success }}
+        <div class="alert alert-success mb-6 bg-green-500/20 border-green-500/50 text-green-400">
+          <i data-lucide="check-circle" class="w-5 h-5"></i>
+          <span class="font-medium">Thank you for your message!</span>
+          <span class="text-green-300">I'll get back to you within 24 hours.</span>
+        </div>
+        {{ end }}
 
-     <div class="form-control">
-  <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+        <h3 class="text-2xl font-bold text-white mb-2">Send a Message</h3>
+        <p class="text-slate-400 mb-6">Fill out the form below and I'll respond as soon as possible.</p>
+
+        <form method="POST" action="/contact" class="space-y-6">
+          <!-- Name & Email Row -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text text-slate-300 font-medium">Your Name</span>
+              </label>
+              <input 
+                type="text" 
+                name="name" 
+                placeholder="John Doe" 
+                class="input input-bordered bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-teal-500" 
+                required 
+              />
+            </div>
+
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text text-slate-300 font-medium">Email Address</span>
+              </label>
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="you@example.com" 
+                class="input input-bordered bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-teal-500" 
+                required 
+              />
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text text-slate-300 font-medium">Subject</span>
+            </label>
+            <select 
+              name="subject" 
+              class="select select-bordered bg-slate-800 border-slate-700 text-white focus:border-teal-500"
+            >
+              <option value="" disabled selected>What's this about?</option>
+              <option value="Cybersecurity Consulting">Cybersecurity Consulting</option>
+              <option value="DevOps Services">DevOps Services</option>
+              <option value="Project Collaboration">Project Collaboration</option>
+              <option value="Job Opportunity">Job Opportunity</option>
+              <option value="Technical Question">Technical Question</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text text-slate-300 font-medium">Your Message</span>
+            </label>
+            <textarea 
+              name="message" 
+              class="textarea textarea-bordered bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-teal-500 min-h-[140px]" 
+              placeholder="Tell me about your project, ask a question, or just say hello..."
+              required
+            ></textarea>
+          </div>
+
+          <!-- reCAPTCHA (keep your existing implementation) -->
+          <div class="form-control">
+            <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="btn btn-primary w-full bg-teal-600 border-teal-600 hover:bg-teal-700 gap-3 py-4 text-lg font-semibold"
+          >
+            <i data-lucide="send" class="w-5 h-5"></i> 
+            Send Message
+          </button>
+        </form>
+
+        <!-- Response Time Notice -->
+        <div class="mt-6 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+          <div class="flex items-start gap-3">
+            <i data-lucide="clock" class="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0"></i>
+            <div>
+              <p class="text-sm text-slate-300">
+                <span class="font-medium text-white">Quick Response Guarantee:</span> 
+                I typically respond to all messages within 24 hours. For urgent matters, 
+                please mention "URGENT" in your subject line.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services Quick Links -->
+  <div class="mt-16 text-center">
+    <h3 class="text-2xl font-bold text-white mb-8">How Can I Help You?</h3>
+    <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div class="tech-card rounded-xl p-6 text-center">
+        <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="shield" class="w-6 h-6 text-red-400"></i>
+        </div>
+        <h4 class="font-bold text-white mb-2">Cybersecurity</h4>
+        <p class="text-slate-400 text-sm">Security assessments, penetration testing, and secure architecture design</p>
+      </div>
+      
+      <div class="tech-card rounded-xl p-6 text-center">
+        <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="cloud" class="w-6 h-6 text-blue-400"></i>
+        </div>
+        <h4 class="font-bold text-white mb-2">DevOps & Cloud</h4>
+        <p class="text-slate-400 text-sm">Infrastructure automation, CI/CD pipelines, and cloud security</p>
+      </div>
+      
+      <div class="tech-card rounded-xl p-6 text-center">
+        <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="code" class="w-6 h-6 text-green-400"></i>
+        </div>
+        <h4 class="font-bold text-white mb-2">Custom Development</h4>
+        <p class="text-slate-400 text-sm">Full-stack applications, security tools, and automation scripts</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-     <label class="label">
-       <span class="label-text">Your Name</span>
-     </label>
-     <input type="text" name="name" placeholder="John Doe" class="input input-bordered" required />
-   </div>
+<style>
+.tech-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
 
-   <div class="form-control">
-     <label class="label">
-       <span class="label-text">Email Address</span>
-     </label>
-     <input type="email" name="email" placeholder="you@example.com" class="input input-bordered" required />
-   </div>
+.tech-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.1);
+}
 
-   <div class="form-control">
-     <label class="label">
-       <span class="label-text">Subject</span>
-     </label>
-     <input type="text" name="subject" placeholder="Bug report, feedback, etc." class="input input-bordered" />
-   </div>
+.form-control input:focus,
+.form-control textarea:focus,
+.form-control select:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 1px rgba(13, 148, 136, 0.2);
+}
+</style>
 
-   <div class="form-control">
-     <label class="label">
-       <span class="label-text">Your Message</span>
-     </label>
-     <textarea name="message" class="textarea textarea-bordered min-h-[120px]" placeholder="Write your message here..." required></textarea>
-   </div>
-
-   <button type="submit" class="btn btn-primary w-full gap-2">
-     <i data-lucide="send" class="w-4 h-4"></i> Send Message
-   </button>
- </form>
-
- <div class="divider my-6">OR</div>
-
- <div class="text-center space-y-2 text-sm text-base-content/80">
-   <p>
-     <i data-lucide="mail" class="inline w-4 h-4 mr-1 text-primary"></i>
-     <a href="mailto:admin@hackerhub.com" class="link link-hover">admin@hackerhub.com</a>
-   </p>
-   <p>
-     <i data-lucide="map-pin" class="inline w-4 h-4 mr-1 text-primary"></i>
-     Nairobi, Kenya
-   </p>
- </div>
-</div>
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+</script>
 {{ end }}

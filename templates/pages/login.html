@@ -1,46 +1,146 @@
-{{ define "content" }}
-<div class="max-w-md mx-auto bg-base-200 p-8 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-6 text-center text-primary">
-        Login to Hacker Hub
-    </h2>
-
-    <form method="POST" action="/login" class="space-y-5">
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">Email</span>
-            </label>
-            <input
-                type="email"
-                name="email"
-                placeholder="hackers@example.com"
-                class="input input-bordered"
-                required
-            />
+{{ block "content" .}}
+<div class="min-h-[80vh] flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2">
+                Welcome Back
+            </h1>
+            <p class="text-slate-400">
+                Sign in to your CyberDev Hub account
+            </p>
         </div>
 
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">Password</span>
-            </label>
-            <input
-                type="password"
-                name="password"
-                placeholder="••••••••"
-                class="input input-bordered"
-                required
-            />
+        <!-- Login Card -->
+        <div class="tech-card rounded-2xl p-8 shadow-xl">
+            <form method="POST" action="/login" class="space-y-6">
+                <!-- Email Field -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text text-slate-300 font-medium">Email Address</span>
+                    </label>
+                    <div class="relative">
+                        <i data-lucide="mail" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-500"></i>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="hacker@example.com"
+                            class="input input-bordered w-full pl-10 bg-slate-800 border-slate-600 text-white placeholder-slate-500 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition duration-200"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-control">
+                    <div class="flex items-center justify-between label">
+                        <span class="label-text text-slate-300 font-medium">Password</span>
+                        <a href="/forgot-password" class="text-sm text-teal-400 hover:text-teal-300 transition duration-200">
+                            Forgot password?
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <i data-lucide="lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-500"></i>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="••••••••"
+                            class="input input-bordered w-full pl-10 bg-slate-800 border-slate-600 text-white placeholder-slate-500 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition duration-200"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <!-- Remember Me Checkbox -->
+                <div class="form-control">
+                    <label class="cursor-pointer flex items-center space-x-3">
+                        <input type="checkbox" name="remember" class="checkbox checkbox-primary bg-slate-800 border-slate-600" />
+                        <span class="label-text text-slate-300">Remember this device</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="btn btn-primary w-full gap-3 bg-gradient-to-r from-teal-600 to-blue-600 border-none hover:from-teal-700 hover:to-blue-700 text-white font-semibold py-3 transition duration-200 transform hover:scale-[1.02]"
+                >
+                    <i data-lucide="log-in" class="w-5 h-5"></i> 
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider text-slate-600 text-xs my-6">OR CONTINUE WITH</div>
+
+            <!-- Social Login Options -->
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <button type="button" class="btn btn-outline border-slate-600 text-slate-300 hover:bg-slate-700 hover:border-slate-500 gap-2">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    GitHub
+                </button>
+                <button type="button" class="btn btn-outline border-slate-600 text-slate-300 hover:bg-slate-700 hover:border-slate-500 gap-2">
+                    <i data-lucide="key" class="w-4 h-4"></i>
+                    SSO
+                </button>
+            </div>
+
+            <!-- Registration Link -->
+            <div class="text-center pt-4 border-t border-slate-700">
+                <p class="text-slate-400 text-sm">
+                    Don't have an account?
+                    <a href="/register" class="text-teal-400 hover:text-teal-300 font-medium transition duration-200 ml-1">
+                        Create account
+                    </a>
+                </p>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-full gap-2">
-            <i data-lucide="log-in" class="w-4 h-4"></i> Login
-        </button>
-    </form>
-
-    <p class="mt-4 text-sm text-center">
-        Don't have an account?
-        <a href="pages/register" class="text-primary hover:underline"
-            >Register</a
-        >
-    </p>
+        <!-- Security Notice -->
+        <div class="mt-6 text-center">
+            <div class="flex items-center justify-center text-slate-500 text-xs gap-2">
+                <i data-lucide="shield-check" class="w-3 h-3"></i>
+                <span>Your data is encrypted and secure</span>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Add subtle animation to the login card
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginCard = document.querySelector('.tech-card');
+        loginCard.style.opacity = '0';
+        loginCard.style.transform = 'translateY(10px)';
+        
+        setTimeout(() => {
+            loginCard.style.transition = 'all 0.5s ease-out';
+            loginCard.style.opacity = '1';
+            loginCard.style.transform = 'translateY(0)';
+        }, 100);
+    });
+</script>
+
+<style>
+    .tech-card {
+        background: rgba(30, 41, 59, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .input:focus {
+        box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.2);
+    }
+    
+    .checkbox:checked {
+        box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.5);
+    }
+</style>
 {{ end }}

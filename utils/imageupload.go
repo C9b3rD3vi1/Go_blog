@@ -3,6 +3,7 @@ package utils
 import (
     "fmt"
     "time"
+    "strconv"
 
     "github.com/gofiber/fiber/v2"
 )
@@ -25,4 +26,14 @@ func UploadImage(c *fiber.Ctx, field string) (string, error) {
 
     // Return the public URL
     return "/uploads/" + filename, nil
+}
+
+
+// ParseInt safely parses string to int with default fallback
+func ParseInt(s string, defaultValue ...int) int {
+    val, err := strconv.Atoi(s)
+    if err != nil && len(defaultValue) > 0 {
+        return defaultValue[0]
+    }
+    return val
 }
