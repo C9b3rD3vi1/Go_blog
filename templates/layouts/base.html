@@ -284,51 +284,65 @@
             {{- end -}}
         </main>
 
-        <footer class="footer bg-slate-900 text-slate-400 p-10 mt-auto border-t border-slate-800">
-            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <aside>
-                    <a href="/" class="text-2xl font-bold text-white flex items-center gap-2 mb-2">
-                        <i data-lucide="shield" class="w-6 h-6 text-teal-400"></i>
-                        CyberDev<span class="text-teal-400">Hub</span>
-                    </a>
-                    <p class="text-sm">
-                        Cybersecurity & DevOps expertise by Nickson Wekongo.
-                        <br/>&copy; 2025 CyberDev Hub. All rights reserved.
-                    </p>
-                </aside> 
-                <nav>
-                    <header class="footer-title text-white">Services</header> 
-                    <a class="link link-hover hover:text-teal-400" href="/services#security">Security Consulting</a>
-                    <a class="link link-hover hover:text-teal-400" href="/services#devops">DevOps Automation</a>
-                    <a class="link link-hover hover:text-teal-400" href="/services#cloud">Cloud Solutions</a>
-                    <a class="link link-hover hover:text-teal-400" href="/services#development">Custom Development</a>
-                </nav> 
-                <nav>
-                    <header class="footer-title text-white">Connect</header> 
-                    <a class="link link-hover hover:text-teal-400" href="/about">About Me</a>
-                    <a class="link link-hover hover:text-teal-400" href="/posts">Tech Blog</a>
-                    <a class="link link-hover hover:text-teal-400" href="/projects">Portfolio</a>
-                    <a class="link link-hover hover:text-teal-400" href="/contact">Contact</a>
-                </nav> 
-                <nav>
-                    <header class="footer-title text-white">Resources</header> 
-                    <a class="link link-hover hover:text-teal-400" href="https://github.com/C9b3rD3v11" target="_blank">GitHub</a>
-                    <a class="link link-hover hover:text-teal-400" href="/certifications">Certifications</a>
-                    <a class="link link-hover hover:text-teal-400" href="/tutorials">Tutorials</a>
-                    <a class="link link-hover hover:text-teal-400" href="/tools">Security Tools</a>
-                </nav>
-            </div>
-            <div class="container mx-auto text-center mt-8 pt-4 border-t border-slate-800">
-                <div class="flex justify-center gap-4">
-                    <a href="https://github.com/C9b3rD3v11" target="_blank" class="link link-hover hover:text-teal-400">
-                        <i data-lucide="github" class="w-6 h-6"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/nicksonwekongo" target="_blank" class="link link-hover hover:text-teal-400">
-                        <i data-lucide="linkedin" class="w-6 h-6"></i>
-                    </a>
-                    <a href="mailto:nicksonwekongo@gmail.com" class="link link-hover hover:text-teal-400">
-                        <i data-lucide="mail" class="w-6 h-6"></i>
-                    </a>
+        <!-- Footer -->
+        <footer class="bg-slate-900/50 border-t border-white/5 py-12 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                                <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <span class="text-xl font-bold">Nickson Wekongo</span>
+                                <div class="text-xs text-slate-400">Senior Security Engineer</div>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm">
+                            Building secure, scalable infrastructure with expertise in cybersecurity, 
+                            cloud platforms, and DevOps automation.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-4">Connect</h3>
+                        <div class="space-y-3">
+                            <a href="https://github.com/C9b3rD3v11" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                GitHub
+                            </a>
+                            <a href="https://linkedin.com/in/nicksonwekongo" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                                <i data-lucide="linkedin" class="w-4 h-4"></i>
+                                LinkedIn
+                            </a>
+                            <a href="mailto:nicksonwekongo@gmail.com" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                Email
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-4">Resources</h3>
+                        <div class="space-y-3">
+                            <a href="/blog" class="block text-slate-400 hover:text-white transition-colors">Technical Blog</a>
+                            <a href="/projects" class="block text-slate-400 hover:text-white transition-colors">Open Source</a>
+                            <a href="/tutorials" class="block text-slate-400 hover:text-white transition-colors">Tutorials</a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-4">Services</h3>
+                        <div class="space-y-3">
+                            <a href="/security-audit" class="block text-slate-400 hover:text-white transition-colors">Security Audit</a>
+                            <a href="/devops-consulting" class="block text-slate-400 hover:text-white transition-colors">DevOps Consulting</a>
+                            <a href="/training" class="block text-slate-400 hover:text-white transition-colors">Technical Training</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-white/5 mt-12 pt-8 text-center text-slate-500 text-sm">
+                    <p>© 2024 Nickson Wekongo. All rights reserved. | Designed with precision for security and performance.</p>
                 </div>
             </div>
         </footer>

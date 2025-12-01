@@ -5,391 +5,583 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CyberDev Hub | Nickson Wekongo - Cybersecurity & DevOps Community</title>
-    <meta name="description" content="Join Nickson Wekongo's cybersecurity and DevOps community. Learn ethical hacking, cloud security, DevOps automation, and advance your tech career.">
+    <title>Nickson Wekongo | Senior Cybersecurity & DevOps Engineer</title>
+    <meta name="description" content="Senior Cybersecurity & DevOps Engineer specializing in cloud security, infrastructure automation, and enterprise system architecture. Fortinet Certified Professional with multi-cloud expertise.">
     
-    <!-- Simplified dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Advanced Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
     <style>
         :root {
-            --tech-navy: #0f172a;
-            --tech-slate: #1e293b;
-            --tech-blue: #2563eb;
+            --tech-navy: #0a0f23;
+            --tech-slate: #111827;
+            --tech-blue: #3b82f6;
             --tech-teal: #0ea5e9;
             --tech-purple: #8b5cf6;
             --tech-green: #10b981;
             --tech-amber: #f59e0b;
             --tech-red: #ef4444;
+            --tech-pink: #ec4899;
             --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
+            --text-secondary: #94a3b8;
         }
-
+    
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--tech-navy) 0%, var(--tech-slate) 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--tech-navy);
             color: var(--text-primary);
-            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+    
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(14, 165, 233, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+    
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--tech-blue), var(--tech-purple));
+            border-radius: 5px;
+        }
+    
+        /* Glass Effect */
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+    
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--tech-blue), var(--tech-teal), var(--tech-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    
+        /* Floating Animation */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+    
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    
+        /* Particle Background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .hero-gradient {
-            background: linear-gradient(135deg, var(--tech-blue) 0%, var(--tech-purple) 50%, var(--tech-teal) 100%);
-            background-size: 200% 200%;
-            animation: gradientShift 8s ease infinite;
+    
+        /* 3D Card Effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
         }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+    
+        .card-3d:hover {
+            transform: rotateY(10deg) rotateX(5deg) translateZ(10px);
         }
-
-        .tech-card {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+    
+        /* Tech Stack Grid */
+        .tech-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             transition: all 0.3s ease;
         }
-
-        .tech-card:hover {
+    
+        .tech-item:hover {
+            background: rgba(59, 130, 246, 0.2);
             transform: translateY(-5px);
-            border-color: var(--tech-teal);
-            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
         }
-
-        .cert-badge {
-            background: linear-gradient(45deg, var(--tech-purple), var(--tech-blue));
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+    
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .display-text {
+                font-size: 2.5rem !important;
+            }
+            
+            .section-title {
+                font-size: 2rem !important;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
         }
-
-        .live-demo {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .live-demo::before {
-            content: 'LIVE DEMO';
-            position: absolute;
-            top: 1rem;
-            right: -2rem;
-            background: var(--tech-red);
-            color: white;
-            padding: 0.25rem 2rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            transform: rotate(45deg);
-            z-index: 10;
-        }
-
-        .typewriter {
-            border-right: 2px solid var(--tech-teal);
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { border-color: transparent; }
-            50% { border-color: var(--tech-teal); }
-        }
-
-        .skill-meter {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            overflow: hidden;
-            height: 0.5rem;
-        }
-
-        .skill-level {
-            height: 100%;
-            border-radius: 1rem;
-            transition: width 2s ease-in-out;
-        }
-
-        .display-text {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            line-height: 1.1;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
+    
+        /* Loading Animation */
+        .loading-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--tech-blue), var(--tech-purple));
+            z-index: 9999;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
 
-<body class="min-h-screen">
+<body class="relative">
+    <!-- Loading Progress -->
+    <div class="loading-line"></div>
+
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
 
     <!-- Hero Section -->
-    <section class="min-h-screen flex items-center justify-center px-4 py-20">
-        <div class="container mx-auto text-center max-w-6xl">
-            <!-- Personal Introduction -->
-            <div class="flex items-center justify-center mb-8">
-                <img src="https://placehold.co/100x100/1e293b/0ea5e9?text=NW" alt="Nickson Wekongo" class="w-20 h-20 rounded-full border-4 border-blue-500 mr-4">
-                <div class="text-left">
-                    <h1 class="text-2xl font-bold">Nickson Wekongo</h1>
-                    <p class="text-slate-400">Fortinet Certified Cybersecurity Professional & DevOps Engineer</p>
+    <section id="home" class="min-h-screen flex items-center justify-center px-4 py-20 pt-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Column -->
+                <div class="space-y-8">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div>
+                        <span class="text-sm font-medium text-blue-400">Available for Opportunities</span>
+                    </div>
+
+                    <!-- Headline -->
+                    <h1 class="display-text text-5xl md:text-7xl font-bold leading-tight">
+                        Building <span class="gradient-text">Secure</span><br>
+                        Enterprise <span class="gradient-text">Infrastructure</span>
+                    </h1>
+
+                    <!-- Description -->
+                    <p class="text-xl text-slate-400 leading-relaxed">
+                        Senior Cybersecurity & DevOps Engineer with expertise in designing, securing, and automating 
+                        enterprise-scale cloud infrastructure. Specializing in multi-cloud security, DevSecOps, and 
+                        infrastructure as code.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 py-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold gradient-text">50+</div>
+                            <div class="text-sm text-slate-400">Production Projects</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold gradient-text">99.95%</div>
+                            <div class="text-sm text-slate-400">Uptime SLA</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold gradient-text">15+</div>
+                            <div class="text-sm text-slate-400">Certifications</div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/25 transition-all flex items-center gap-2">
+                            <i data-lucide="message-square" class="w-5 h-5"></i>
+                            Schedule Consultation
+                        </button>
+                        <button class="border border-slate-600 text-slate-300 px-8 py-3 rounded-lg font-semibold hover:border-slate-400 hover:text-white transition-all flex items-center gap-2">
+                            <i data-lucide="download" class="w-5 h-5"></i>
+                            Download CV
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Main Headline -->
-            <h1 class="display-text mb-6">
-                Building Secure, Scalable
-                <span class="bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 bg-clip-text text-transparent">
-                    Systems
-                </span>
-            </h1>
+                <!-- Right Column - Profile & Certifications -->
+                <div class="relative">
+                    <!-- Profile Card -->
+                    <div class="glass-dark p-8 rounded-3xl relative float">
+                        <div class="flex items-center gap-6 mb-8">
+                            <div class="relative">
+                                <img src="https://placehold.co/120x120/1e293b/0ea5e9?text=NW" alt="Nickson Wekongo" class="w-24 h-24 rounded-2xl border-4 border-blue-500/30">
+                                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-500 rounded-full border-4 border-slate-900 flex items-center justify-center">
+                                    <i data-lucide="check" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold">Nickson Wekongo</h2>
+                                <p class="text-slate-400">Senior Security & DevOps Engineer</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                    <span class="text-sm text-green-400">Open to Opportunities</span>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Dynamic Typewriter -->
-            <div class="text-xl text-slate-300 mb-8 h-8">
-                <span class="typewriter">Specializing in Cybersecurity, Cloud Infrastructure & DevOps Automation</span>
-            </div>
+                        <!-- Key Certifications -->
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="shield-check" class="w-5 h-5 text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold">Fortinet Certified</div>
+                                        <div class="text-sm text-slate-400">Associate Level</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-blue-400 code-font">VALID</span>
+                            </div>
 
-            <!-- Certifications Badges -->
-            <div class="flex flex-wrap justify-center gap-3 mb-12">
-                <span class="cert-badge">
-                    <i data-lucide="shield-check" class="w-4 h-4"></i>
-                    Fortinet Certified Associate
-                </span>
-                <span class="cert-badge">
-                    <i data-lucide="cloud" class="w-4 h-4"></i>
-                    AWS Security Fundamentals
-                </span>
-                <span class="cert-badge">
-                    <i data-lucide="database" class="w-4 h-4"></i>
-                    Oracle Cloud Certified
-                </span>
-            </div>
+                            <div class="flex items-center justify-between p-4 bg-purple-500/10 rounded-xl border border-purple-500/20">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="cloud" class="w-5 h-5 text-purple-400"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold">Multi-Cloud Certified</div>
+                                        <div class="text-sm text-slate-400">AWS | OCI | GCP</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-purple-400 code-font">VALID</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 bg-purple-500/10 rounded-xl border border-purple-500/20">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="security" class="w-5 h-5 text-red-400"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold">Jr Certified Pen Tester</div>
+                                        <div class="text-sm text-slate-400">Offensive Security | Defensive Security | Ethical Hacking | Pen Testing</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-purple-400 code-font">VALID</span>
+                            </div>
+                        </div>
 
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-                <a href="#projects" class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold inline-flex items-center justify-center bg-green-600 hover:bg-green-700">
-                    <i data-lucide="rocket" class="w-5 h-5 mr-2"></i>
-                    View Live Projects
-                </a>
-                <a href="#tutorials" class="px-8 py-4 rounded-lg text-lg font-semibold border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white transition inline-flex items-center justify-center">
-                    <i data-lucide="book-open" class="w-5 h-5 mr-2"></i>
-                    Learn from Tutorials
-                </a>
-            </div>
-
-            <!-- Quick Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-blue-400">25+</div>
-                    <div class="text-sm text-slate-400">Projects Built</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-purple-400">15+</div>
-                    <div class="text-sm text-slate-400">Certifications</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-green-400">99.5%</div>
-                    <div class="text-sm text-slate-400">Uptime Record</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-amber-400">3+</div>
-                    <div class="text-sm text-slate-400">Years Experience</div>
+                        <!-- Tech Stack Preview -->
+                        <div class="mt-8">
+                            <h3 class="font-semibold mb-4">Core Tech Stack</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-sm">Python</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-sm">Go</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-sm">Terraform</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-sm">Kubernetes</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-sm">AWS</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-sm">Fortinet</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Expertise Section -->
-    <section id="expertise" class="py-20 px-4 bg-slate-900/50">
-        <div class="container mx-auto max-w-6xl">
+    <section id="expertise" class="py-24 px-4 relative">
+        <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="section-title mb-4">Technical Expertise</h2>
-                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
-                    Deep specialization across cybersecurity, cloud infrastructure, and DevOps automation
+                <h2 class="section-title text-4xl md:text-5xl font-bold mb-6">Core Expertise</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Specialized in enterprise-grade security, cloud infrastructure, and DevOps automation
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Cybersecurity -->
-                <div class="tech-card rounded-xl p-6">
-                    <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                        <i data-lucide="shield" class="w-6 h-6 text-red-400"></i>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Security Engineering -->
+                <div class="glass-dark p-8 rounded-3xl card-3d">
+                    <div class="w-16 h-16 bg-red-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="shield" class="w-8 h-8 text-red-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Cybersecurity</h3>
-                    <div class="space-y-3 mb-4">
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>Network Security</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-red-500" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>Penetration Testing</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-red-500" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>Vulnerability Assessment</span>
-                                <span>88%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-red-500" style="width: 88%"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Security Engineering</h3>
+                    <ul class="space-y-3 text-slate-400 mb-6">
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Enterprise Network Security
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Penetration Testing & Red Teaming
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Vulnerability Management
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Security Compliance (ISO 27001)
+                        </li>
+                    </ul>
+                    <div class="text-sm text-slate-500 code-font">Fortinet | Nmap | Metasploit | OpenVAS</div>
                 </div>
 
                 <!-- Cloud & DevOps -->
-                <div class="tech-card rounded-xl p-6">
-                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                        <i data-lucide="cloud" class="w-6 h-6 text-blue-400"></i>
+                <div class="glass-dark p-8 rounded-3xl card-3d">
+                    <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="cloud" class="w-8 h-8 text-blue-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Cloud & DevOps</h3>
-                    <div class="space-y-3 mb-4">
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>AWS/GCP</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-blue-500" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>Docker & Kubernetes</span>
-                                <span>82%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-blue-500" style="width: 82%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>CI/CD Pipelines</span>
-                                <span>88%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-blue-500" style="width: 88%"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Cloud & DevOps</h3>
+                    <ul class="space-y-3 text-slate-400 mb-6">
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Multi-Cloud Architecture
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Infrastructure as Code
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            CI/CD Pipeline Design
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Container Orchestration
+                        </li>
+                    </ul>
+                    <div class="text-sm text-slate-500 code-font">AWS | GCP | Docker | Kubernetes | Terraform</div>
                 </div>
 
                 <!-- Development -->
-                <div class="tech-card rounded-xl p-6">
-                    <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                        <i data-lucide="code" class="w-6 h-6 text-green-400"></i>
+                <div class="glass-dark p-8 rounded-3xl card-3d">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="code" class="w-8 h-8 text-green-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">Development</h3>
-                    <div class="space-y-3 mb-4">
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>Python & Go</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-green-500" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>System Architecture</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-green-500" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>API Development</span>
-                                <span>87%</span>
-                            </div>
-                            <div class="skill-meter">
-                                <div class="skill-level bg-green-500" style="width: 87%"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Software Development</h3>
+                    <ul class="space-y-3 text-slate-400 mb-6">
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            System Architecture Design
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            API Development & Security
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Automation Scripting
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                            Database Optimization
+                        </li>
+                    </ul>
+                    <div class="text-sm text-slate-500 code-font">Python | Go | JavaScript | PostgreSQL | MongoDB</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Live Projects Section -->
-    <section id="projects" class="py-20 px-4">
-        <div class="container mx-auto max-w-6xl">
+    <!-- Tech Stack Section -->
+    <section class="py-24 px-4 bg-slate-900/30">
+        <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="section-title mb-4">Live Projects & Demos</h2>
-                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
-                    Real-world applications showcasing cybersecurity, automation, and full-stack development
+                <h2 class="section-title text-4xl md:text-5xl font-bold mb-6">Technology Stack</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Comprehensive expertise across modern development, security, and infrastructure technologies
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <!-- Programming Languages -->
+                <div class="tech-item">
+                    <i data-lucide="code-2" class="w-10 h-10 text-blue-400 mb-3"></i>
+                    <span class="font-medium">Python</span>
+                    <span class="text-xs text-slate-400 mt-1">Advanced</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="code" class="w-10 h-10 text-blue-400 mb-3"></i>
+                    <span class="font-medium">Go</span>
+                    <span class="text-xs text-slate-400 mt-1">Advanced</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="file-code" class="w-10 h-10 text-blue-400 mb-3"></i>
+                    <span class="font-medium">JavaScript</span>
+                    <span class="text-xs text-slate-400 mt-1">Proficient</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="terminal" class="w-10 h-10 text-blue-400 mb-3"></i>
+                    <span class="font-medium">Bash</span>
+                    <span class="text-xs text-slate-400 mt-1">Expert</span>
+                </div>
+
+                <!-- Cloud Platforms -->
+                <div class="tech-item">
+                    <i data-lucide="cloud" class="w-10 h-10 text-purple-400 mb-3"></i>
+                    <span class="font-medium">AWS</span>
+                    <span class="text-xs text-slate-400 mt-1">Certified</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="database" class="w-10 h-10 text-purple-400 mb-3"></i>
+                    <span class="font-medium">Oracle Cloud</span>
+                    <span class="text-xs text-slate-400 mt-1">Certified</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="server" class="w-10 h-10 text-purple-400 mb-3"></i>
+                    <span class="font-medium">Google Cloud</span>
+                    <span class="text-xs text-slate-400 mt-1">Proficient</span>
+                </div>
+
+                <!-- DevOps Tools -->
+                <div class="tech-item">
+                    <i data-lucide="package" class="w-10 h-10 text-green-400 mb-3"></i>
+                    <span class="font-medium">Docker</span>
+                    <span class="text-xs text-slate-400 mt-1">Expert</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="git-branch" class="w-10 h-10 text-green-400 mb-3"></i>
+                    <span class="font-medium">Kubernetes</span>
+                    <span class="text-xs text-slate-400 mt-1">Proficient</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="layers" class="w-10 h-10 text-green-400 mb-3"></i>
+                    <span class="font-medium">Terraform</span>
+                    <span class="text-xs text-slate-400 mt-1">Proficient</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="git-merge" class="w-10 h-10 text-green-400 mb-3"></i>
+                    <span class="font-medium">CI/CD</span>
+                    <span class="text-xs text-slate-400 mt-1">Expert</span>
+                </div>
+
+                <!-- Security Tools -->
+                <div class="tech-item">
+                    <i data-lucide="shield" class="w-10 h-10 text-red-400 mb-3"></i>
+                    <span class="font-medium">Fortinet</span>
+                    <span class="text-xs text-slate-400 mt-1">Certified</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="search" class="w-10 h-10 text-red-400 mb-3"></i>
+                    <span class="font-medium">Nmap</span>
+                    <span class="text-xs text-slate-400 mt-1">Expert</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="alert-triangle" class="w-10 h-10 text-red-400 mb-3"></i>
+                    <span class="font-medium">Metasploit</span>
+                    <span class="text-xs text-slate-400 mt-1">Proficient</span>
+                </div>
+                <div class="tech-item">
+                    <i data-lucide="eye" class="w-10 h-10 text-red-400 mb-3"></i>
+                    <span class="font-medium">OpenVAS</span>
+                    <span class="text-xs text-slate-400 mt-1">Proficient</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section id="projects" class="py-24 px-4 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="section-title text-4xl md:text-5xl font-bold mb-6">Featured Projects</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Enterprise-grade solutions demonstrating security, scalability, and automation expertise
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
                 <!-- NetGuardIQ -->
-                <div class="tech-card rounded-xl overflow-hidden live-demo">
-                    <div class="h-48 bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-                        <i data-lucide="shield-alert" class="w-16 h-16 text-white"></i>
+                <div class="glass-dark rounded-3xl overflow-hidden">
+                    <div class="relative h-64 bg-gradient-to-br from-purple-600 to-blue-600 overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB4PSIwIiB5PSIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+')] opacity-50"></div>
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 bg-red-500 text-white rounded-full text-xs font-bold">LIVE</span>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="shield-alert" class="w-20 h-20 text-white opacity-80"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3">NetGuardIQ</h3>
-                        <p class="text-slate-300 mb-4">
-                            Enterprise phishing simulation platform built with Go (Fiber), SQLite, and RBAC. 
-                            Used to train employees on security awareness and reduce social engineering risks.
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-4">NetGuardIQ Enterprise</h3>
+                        <p class="text-slate-400 mb-6">
+                            Complete phishing simulation and security awareness platform with RBAC, 
+                            detailed analytics, and automated campaign management. Built with Go, 
+                            PostgreSQL, and containerized deployment.
                         </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
+                        <div class="flex flex-wrap gap-2 mb-6">
                             <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">Go</span>
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">SQLite</span>
-                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm">RBAC</span>
-                            <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">Security</span>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">PostgreSQL</span>
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm">Docker</span>
+                            <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">Kubernetes</span>
                         </div>
                         <div class="flex gap-4">
-                            <a href="https://github.com/C9b3rD3v11/NetGuardIQ" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 px-4 rounded text-center">
-                                View Code
-                            </a>
-                            <a href="/netguardiq-demo" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded text-center">
+                            <button class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
                                 Live Demo
-                            </a>
+                            </button>
+                            <button class="flex-1 border border-slate-600 text-slate-300 py-3 rounded-lg font-semibold hover:border-slate-400 transition-all">
+                                View Source
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- BashRecon -->
-                <div class="tech-card rounded-xl overflow-hidden">
-                    <div class="h-48 bg-gradient-to-br from-amber-600 to-red-600 flex items-center justify-center">
-                        <i data-lucide="search" class="w-16 h-16 text-white"></i>
+                <div class="glass-dark rounded-3xl overflow-hidden">
+                    <div class="relative h-64 bg-gradient-to-br from-amber-600 to-red-600 overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6cmdiYSgwLDAsMCwwLjMpO3N0b3Atb3BhY2l0eToxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjpyZ2JhKDAsMCwwLDAuMyk7c3RvcC1vcGFjaXR5OjAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2cpIi8+PC9zdmc+')]"></div>
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">OPEN SOURCE</span>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="search" class="w-20 h-20 text-white opacity-80"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3">BashRecon</h3>
-                        <p class="text-slate-300 mb-4">
-                            Advanced penetration testing reconnaissance tool automating DNS enumeration, 
-                            port scanning, and service fingerprinting. Generates professional security reports.
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-4">BashRecon Professional</h3>
+                        <p class="text-slate-400 mb-6">
+                            Advanced penetration testing reconnaissance suite automating DNS enumeration, 
+                            port scanning, and vulnerability assessment. Generates comprehensive security 
+                            reports with executive summaries.
                         </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
+                        <div class="flex flex-wrap gap-2 mb-6">
                             <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-sm">Bash</span>
                             <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm">Security</span>
                             <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Automation</span>
-                            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">PenTesting</span>
+                            <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">CLI</span>
                         </div>
                         <div class="flex gap-4">
-                            <a href="https://github.com/C9b3rD3v11/BashRecon" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 px-4 rounded text-center">
-                                View Code
-                            </a>
-                            <a href="/bashrecon-demo" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded text-center">
-                                Try Tool
-                            </a>
+                            <button class="flex-1 bg-gradient-to-r from-amber-600 to-red-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                                Try Online
+                            </button>
+                            <button class="flex-1 border border-slate-600 text-slate-300 py-3 rounded-lg font-semibold hover:border-slate-400 transition-all">
+                                Documentation
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -397,200 +589,437 @@
         </div>
     </section>
 
-    <!-- Certifications Section -->
-    <section id="certifications" class="py-20 px-4 bg-slate-900/50">
-        <div class="container mx-auto max-w-6xl">
+    <!-- Experience Timeline -->
+    <!-- Architecture & Methodology -->
+    <section class="py-24 px-4">
+        <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="section-title mb-4">Professional Certifications</h2>
-                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
-                    Industry-recognized credentials validating expertise across cybersecurity and cloud technologies
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">System Architecture Methodology</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    A systematic, security-first approach to designing, deploying, and maintaining enterprise infrastructure
+                </p>
+            </div>
+    
+            <!-- Workflow Steps -->
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- 1. Assessment -->
+                <div class="glass p-8 rounded-2xl relative group hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                        1
+                    </div>
+                    <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="clipboard-check" class="w-8 h-8 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Assessment & Analysis</h3>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Security requirements analysis</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Infrastructure design specifications</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Compliance framework alignment</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <span class="text-sm text-blue-400 font-medium">Tools:</span>
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            <span class="px-2 py-1 bg-blue-500/10 text-blue-400 rounded text-xs">Nmap</span>
+                            <span class="px-2 py-1 bg-blue-500/10 text-blue-400 rounded text-xs">OWASP</span>
+                            <span class="px-2 py-1 bg-blue-500/10 text-blue-400 rounded text-xs">Risk Assessment</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- 2. Implementation -->
+                <div class="glass p-8 rounded-2xl relative group hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                        2
+                    </div>
+                    <div class="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="code" class="w-8 h-8 text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Secure Implementation</h3>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Infrastructure as Code deployment</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Security controls implementation</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                            <span>CI/CD pipeline configuration</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <span class="text-sm text-green-400 font-medium">Tools:</span>
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            <span class="px-2 py-1 bg-green-500/10 text-green-400 rounded text-xs">Terraform</span>
+                            <span class="px-2 py-1 bg-green-500/10 text-green-400 rounded text-xs">Docker</span>
+                            <span class="px-2 py-1 bg-green-500/10 text-green-400 rounded text-xs">GitHub Actions</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- 3. Security Hardening -->
+                <div class="glass p-8 rounded-2xl relative group hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-red-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                        3
+                    </div>
+                    <div class="w-16 h-16 bg-red-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="shield" class="w-8 h-8 text-red-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Security Hardening</h3>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Vulnerability assessment & scanning</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Penetration testing & red teaming</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Security monitoring setup</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <span class="text-sm text-red-400 font-medium">Tools:</span>
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            <span class="px-2 py-1 bg-red-500/10 text-red-400 rounded text-xs">Metasploit</span>
+                            <span class="px-2 py-1 bg-red-500/10 text-red-400 rounded text-xs">OpenVAS</span>
+                            <span class="px-2 py-1 bg-red-500/10 text-red-400 rounded text-xs">FortiAnalyzer</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- 4. Operations -->
+                <div class="glass p-8 rounded-2xl relative group hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                        4
+                    </div>
+                    <div class="w-16 h-16 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="settings" class="w-8 h-8 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Operations & Maintenance</h3>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Performance monitoring & optimization</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Automated security updates</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"></i>
+                            <span>Incident response procedures</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <span class="text-sm text-purple-400 font-medium">Tools:</span>
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            <span class="px-2 py-1 bg-purple-500/10 text-purple-400 rounded text-xs">Prometheus</span>
+                            <span class="px-2 py-1 bg-purple-500/10 text-purple-400 rounded text-xs">Grafana</span>
+                            <span class="px-2 py-1 bg-purple-500/10 text-purple-400 rounded text-xs">Ansible</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Workflow Visualization -->
+            <div class="mt-16 relative">
+                <div class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-green-500 via-red-500 to-purple-500 -translate-y-1/2"></div>
+                <div class="relative flex justify-between">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i data-lucide="clipboard-check" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <span class="text-sm font-medium text-blue-400">Assessment</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i data-lucide="code" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <span class="text-sm font-medium text-green-400">Implementation</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <span class="text-sm font-medium text-red-400">Hardening</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i data-lucide="settings" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <span class="text-sm font-medium text-purple-400">Operations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Showcase -->
+    <section id="certifications" class="py-24 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="section-title text-4xl md:text-5xl font-bold mb-6">Industry Certifications</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Validated expertise across cybersecurity, cloud platforms, and DevOps practices
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Fortinet Certifications -->
-                <div class="tech-card rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i data-lucide="shield-check" class="w-6 h-6 text-orange-400"></i>
-                        </div>
-                        <h3 class="text-lg font-bold">Fortinet Certified</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Fortinet Badge -->
+                <div class="glass-dark p-8 rounded-3xl text-center">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
+                        <i data-lucide="shield-check" class="w-10 h-10 text-white"></i>
                     </div>
-                    <ul class="space-y-2 text-slate-300">
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            Fortinet Certified Associate
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            NSE 1, 2, 3 Certified
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            FortiGate 7.6 Operator
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            FortiAnalyzer Analyst
-                        </li>
-                    </ul>
+                    <h3 class="text-xl font-bold mb-2">Fortinet Certified Associate</h3>
+                    <p class="text-slate-400 text-sm mb-4">Cybersecurity Professional</p>
+                    <div class="text-xs text-blue-400 code-font mb-4">VALID: NOV 2025 - NOV 2027</div>
+                    <div class="text-sm text-slate-500">Advanced network security and threat analysis</div>
                 </div>
 
-                <!-- Cloud Certifications -->
-                <div class="tech-card rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i data-lucide="cloud" class="w-6 h-6 text-blue-400"></i>
-                        </div>
-                        <h3 class="text-lg font-bold">Cloud Platforms</h3>
+                <!-- AWS Badge -->
+                <div class="glass-dark p-8 rounded-3xl text-center">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                        <i data-lucide="cloud" class="w-10 h-10 text-white"></i>
                     </div>
-                    <ul class="space-y-2 text-slate-300">
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            AWS Security Fundamentals
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            Oracle Cloud Certified
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            Google Cloud Skills
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            Public Cloud Security
-                        </li>
-                    </ul>
+                    <h3 class="text-xl font-bold mb-2">AWS Security Fundamentals</h3>
+                    <p class="text-slate-400 text-sm mb-4">Cloud Security Specialist</p>
+                    <div class="text-xs text-blue-400 code-font mb-4">COMPLETED: NOV 2025</div>
+                    <div class="text-sm text-slate-500">AWS IAM, KMS, Security Hub, and best practices</div>
                 </div>
 
-                <!-- Security Certifications -->
-                <div class="tech-card rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i data-lucide="lock" class="w-6 h-6 text-red-400"></i>
-                        </div>
-                        <h3 class="text-lg font-bold">Security & Development</h3>
+                <!-- Oracle Badge -->
+                <div class="glass-dark p-8 rounded-3xl text-center">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center">
+                        <i data-lucide="database" class="w-10 h-10 text-white"></i>
                     </div>
-                    <ul class="space-y-2 text-slate-300">
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            TryHackMe Junior Penetration Tester
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            Linux Administration
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            Secure Software Development
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="check" class="w-4 h-4 text-green-400 mr-2"></i>
-                            Bash Scripting Mastery
-                        </li>
-                    </ul>
+                    <h3 class="text-xl font-bold mb-2">Oracle Cloud Certified</h3>
+                    <p class="text-slate-400 text-sm mb-4">Infrastructure Associate</p>
+                    <div class="text-xs text-blue-400 code-font mb-4">COMPLETED: AUG 2025</div>
+                    <div class="text-sm text-slate-500">OCI architecture, networking, and security</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Community Section -->
-    <section id="community" class="py-20 px-4">
-        <div class="container mx-auto max-w-4xl text-center">
-            <h2 class="section-title mb-6">Join Our Tech Community</h2>
-            <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-                Connect with cybersecurity professionals, DevOps engineers, and developers. Share knowledge, collaborate on projects, and grow together.
+    <!-- CTA Section -->
+    <section class="py-24 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-teal-500/10"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8">
+                Let's Build <span class="gradient-text">Secure</span> Solutions
+            </h2>
+            <p class="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
+                Interested in enhancing your security posture or automating infrastructure? 
+                Let's discuss how we can collaborate on your next project.
             </p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="tech-card rounded-xl p-6">
-                    <i data-lucide="message-square" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
-                    <h3 class="text-xl font-bold mb-3">Tech Discussions</h3>
-                    <p class="text-slate-300">Join conversations about cybersecurity trends, DevOps practices, and new technologies.</p>
-                </div>
-                <div class="tech-card rounded-xl p-6">
-                    <i data-lucide="users" class="w-12 h-12 text-green-400 mx-auto mb-4"></i>
-                    <h3 class="text-xl font-bold mb-3">Project Collaboration</h3>
-                    <p class="text-slate-300">Find team members for open-source projects and security research.</p>
-                </div>
-                <div class="tech-card rounded-xl p-6">
-                    <i data-lucide="graduation-cap" class="w-12 h-12 text-purple-400 mx-auto mb-4"></i>
-                    <h3 class="text-xl font-bold mb-3">Learning Resources</h3>
-                    <p class="text-slate-300">Access tutorials, code samples, and security best practices.</p>
-                </div>
-            </div>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+            <a href="/contact"
+               class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-3 rounded-xl">
+                <i data-lucide="message-square" class="w-5 h-5"></i>
+                Schedule Consultation
+            </a>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/discord" class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold bg-purple-600 hover:bg-purple-700">
-                    Join Discord Community
-                </a>
-                <a href="/newsletter" class="px-8 py-4 rounded-lg text-lg font-semibold border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white transition">
-                    Subscribe to Newsletter
-                </a>
+                <button class="border border-slate-600 text-slate-300 px-10 py-4 rounded-xl font-semibold text-lg hover:border-slate-400 hover:text-white transition-all flex items-center justify-center gap-3">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                    Email Me
+                </button>
             </div>
         </div>
     </section>
 
 
+
+    <!-- JavaScript -->
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Animate skill meters on scroll
+        // Initialize GSAP
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        // Loading progress
+        window.addEventListener('load', () => {
+            const loadingLine = document.querySelector('.loading-line');
+            gsap.to(loadingLine, { width: '100%', duration: 0.5 });
+            setTimeout(() => {
+                gsap.to(loadingLine, { opacity: 0, duration: 0.3 });
+            }, 500);
+        });
+
+        // Particle system
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                // Animation
+                gsap.to(particle, {
+                    y: '+=100vh',
+                    duration: duration,
+                    delay: delay,
+                    repeat: -1,
+                    ease: 'none'
+                });
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Scroll animations
+        function initScrollAnimations() {
+            // Animate sections on scroll
+            gsap.utils.toArray('section').forEach((section, i) => {
+                const content = section.querySelector('div');
+                gsap.from(content, {
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: 'power3.out'
+                });
+            });
+
+            // Animate cards individually
+            gsap.utils.toArray('.tech-card, .glass-dark').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        end: 'bottom 15%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: 'power3.out'
+                });
+            });
+        }
+
+        // Skill meters animation
         function animateSkillMeters() {
             const meters = document.querySelectorAll('.skill-level');
             meters.forEach(meter => {
                 const width = meter.style.width;
                 meter.style.width = '0%';
-                setTimeout(() => {
-                    meter.style.width = width;
-                }, 500);
+                
+                ScrollTrigger.create({
+                    trigger: meter.parentElement.parentElement,
+                    start: 'top 85%',
+                    onEnter: () => {
+                        gsap.to(meter, {
+                            width: width,
+                            duration: 1.5,
+                            ease: 'power3.out'
+                        });
+                    }
+                });
             });
         }
 
-        // Simple scroll animations
-        function animateOnScroll() {
-            const elements = document.querySelectorAll('.tech-card');
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.style.opacity = "1";
-                    element.style.transform = "translateY(0)";
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    gsap.to(window, {
+                        duration: 1,
+                        scrollTo: {
+                            y: target,
+                            offsetY: 80
+                        },
+                        ease: 'power3.inOut'
+                    });
                 }
             });
-        }
-
-        // Initialize animation states
-        document.querySelectorAll('.tech-card').forEach(card => {
-            card.style.opacity = "0";
-            card.style.transform = "translateY(20px)";
-            card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
         });
 
-        // Typewriter effect
-        function typeWriter() {
-            const text = "Specializing in Cybersecurity, Cloud Infrastructure & DevOps Automation";
-            const element = document.querySelector('.typewriter');
-            let i = 0;
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            initScrollAnimations();
+            animateSkillMeters();
+            
+            // Typewriter effect
+            const texts = [
+                "Cybersecurity Engineering",
+                "Cloud Infrastructure",
+                "DevOps Automation",
+                "System Architecture"
+            ];
+            
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typewriterElement = document.querySelector('.typewriter');
             
             function type() {
-                if (i < text.length) {
-                    element.innerHTML = text.substring(0, i + 1);
-                    i++;
-                    setTimeout(type, 100);
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    typewriterElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typewriterElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(type, 2000);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    setTimeout(type, 500);
+                } else {
+                    setTimeout(type, isDeleting ? 50 : 100);
                 }
             }
+            
             type();
-        }
+        });
 
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', () => {
-            animateOnScroll();
-            typeWriter();
-            setTimeout(animateSkillMeters, 1000);
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+            // Implement mobile menu functionality
+            alert('Mobile menu implementation needed');
         });
     </script>
 </body>
