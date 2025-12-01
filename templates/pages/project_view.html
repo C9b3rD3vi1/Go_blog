@@ -4,7 +4,7 @@
   <div class="absolute inset-0 z-0 opacity-30 bg-[radial-gradient(circle_at_1px_1px,rgba(14,165,233,0.15)_1px,transparent_0)] [background-size:40px_40px]"></div>
   <div class="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-transparent to-purple-900/10 z-0"></div>
 
-  <div class="max-w-4xl mx-auto relative z-10">
+  <div class="max-w-6xl mx-auto relative z-10">
     <!-- Back to Projects Link -->
     <a href="/projects" class="inline-flex items-center text-sm font-medium text-slate-300 hover:text-blue-400 transition-all duration-300 group mb-8 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg px-4 py-2 border border-slate-700 hover:border-blue-500/30">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,17 +98,35 @@
 
       <!-- Key Features - SIMPLIFIED VERSION -->
       {{ if .Project.KeyFeatures }}
-      <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 shadow-xl hover:border-slate-600 transition-all duration-300">
-        <div class="flex items-center mb-6">
-          <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <div class="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-8 shadow-2xl hover:shadow-purple-500/10 transition-all duration-500">
+        <div class="flex items-center mb-8">
+          <div class="w-10 h-10 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-xl flex items-center justify-center mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h2 class="text-xl font-semibold text-white">Key Features</h2>
+          <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">Core Features</h2>
         </div>
-        <div class="text-slate-300 leading-relaxed">
-          <p>{{ .Project.KeyFeatures }}</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {{ $features := split .Project.KeyFeatures "," }}
+          {{ range $index, $feature := $features }}
+          <div class="group relative overflow-hidden">
+            <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 hover:border-purple-500/50 hover:bg-slate-800/80 transition-all duration-300 group-hover:scale-[1.02]">
+              <div class="flex items-start">
+                <div class="w-8 h-8 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                  <span class="text-purple-300 font-bold text-sm">{{ add $index 1 }}</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-white mb-2">{{ trim $feature }}</h3>
+                  <div class="h-1 w-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mb-3"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Glow effect -->
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10"></div>
+          </div>
+          {{ end }}
         </div>
       </div>
       {{ end }}

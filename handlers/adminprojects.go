@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"strings"
+	"gorm.io/gorm"
 
 	"github.com/C9b3rD3vi1/Go_blog/config"
 	"github.com/C9b3rD3vi1/Go_blog/database"
@@ -202,7 +203,8 @@ func AdminViewProject(c *fiber.Ctx) error {
     })
 }
 
-// Show edit form
+
+// Show edit form with tech stacks
 func AdminEditProjectForm(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
     if admin == nil || !admin.IsAdmin {
@@ -211,18 +213,25 @@ func AdminEditProjectForm(c *fiber.Ctx) error {
 
     id := c.Params("id")
     var project models.Projects
-    if err := database.DB.First(&project, id).Error; err != nil {
+    
+    // Preload TechStacks to show in form
+    if err := database.DB.Preload("TechStacks").First(&project, id).Error; err != nil {
         return c.Status(404).Render("errors/404", fiber.Map{"Message": "Project not found"})
     }
 
+    // Get all available tech stacks for dropdown
+    var allTechStacks []models.TechStack
+    database.DB.Find(&allTechStacks)
+
     return c.Render("admin/edit_project", fiber.Map{
-        "Title":   "Edit Project",
-        "Admin":   admin,
-        "Project": project,
+        "Title":        "Edit Project",
+        "Admin":        admin,
+        "Project":      project,
+        "TechStacks":   allTechStacks,
     })
 }
 
-// Handle project update
+// Handle project update with enhanced struct
 func AdminUpdateProject(c *fiber.Ctx) error {
     admin := config.GetCurrentUser(c)
     if admin == nil || !admin.IsAdmin {
@@ -235,17 +244,119 @@ func AdminUpdateProject(c *fiber.Ctx) error {
         return c.Status(404).Render("errors/404", fiber.Map{"Message": "Project not found"})
     }
 
+    // Update ALL fields consistently with create handler
     project.Title = c.FormValue("title")
     project.Description = c.FormValue("description")
+    project.LongDescription = c.FormValue("long_description")
+    project.ProblemStatement = c.FormValue("problem_statement")
+    project.SolutionApproach = c.FormValue("solution_approach")
+    project.KeyFeatures = c.FormValue("key_features")
+    
+    // Links
     project.Link = c.FormValue("link")
-
-    // Optional: update image if provided
-    if imageURL, _ := utils.UploadImage(c, "image"); imageURL != "" {
+    project.GithubLink = c.FormValue("github_link")
+    project.DemoLink = c.FormValue("demo_link")
+    project.DocsLink = c.FormValue("docs_link")
+    
+    // Categorization
+    project.Category = c.FormValue("category")
+    project.Difficulty = c.FormValue("difficulty")
+    project.ProjectType = c.FormValue("project_type")
+    project.Tags = c.FormValue("tags")
+    
+    // Stats & Metrics
+    project.DevelopmentTime = c.FormValue("development_time")
+    project.LinesOfCode = c.FormValue("lines_of_code")
+    project.Uptime = c.FormValue("uptime")
+    project.ResponseTime = c.FormValue("response_time")
+    project.UsersCount = c.FormValue("users_count")
+    
+    // Team size needs parsing
+    if teamSizeStr := c.FormValue("team_size"); teamSizeStr != "" {
+        project.TeamSize = utils.ParseInt(teamSizeStr)
+    }
+    
+    // Status
+    project.Featured = c.FormValue("featured") == "on"
+    project.Published = c.FormValue("published") == "on"
+    project.Status = c.FormValue("status")
+    
+    // Parse dates
+    if completionDate := c.FormValue("completion_date"); completionDate != "" {
+        if parsedDate, err := time.Parse("2006-01-02", completionDate); err == nil {
+            project.CompletionDate = &parsedDate
+        } else {
+            project.CompletionDate = nil // Clear if invalid
+        }
+    }
+    
+    if startDate := c.FormValue("started_at"); startDate != "" {
+        if parsedDate, err := time.Parse("2006-01-02", startDate); err == nil {
+            project.StartedAt = &parsedDate
+        } else {
+            project.StartedAt = nil // Clear if invalid
+        }
+    }
+    
+    // TechStacks - Need to handle relationship update
+    stackIDs := c.FormValue("techstacks")
+    if stackIDs != "" {
+        ids := strings.Split(stackIDs, ",")
+        var techStacks []models.TechStack
+        if len(ids) > 0 {
+            database.DB.Where("id IN ?", ids).Find(&techStacks)
+            
+            // Clear existing associations and set new ones
+            database.DB.Model(&project).Association("TechStacks").Clear()
+            project.TechStacks = techStacks
+        }
+    } else {
+        // Clear tech stacks if none selected
+        database.DB.Model(&project).Association("TechStacks").Clear()
+        project.TechStacks = nil
+    }
+    
+    // Update main image if provided
+    if imageURL, err := utils.UploadImage(c, "image"); err == nil && imageURL != "" {
         project.ImageURL = imageURL
     }
+    
+    // Handle gallery updates
+    form, err := c.MultipartForm()
+    if err == nil && form.File != nil {
+        galleryFiles := form.File["gallery"]
+        if len(galleryFiles) > 0 {
+            // Process new gallery images
+            var galleryURLs []string
+            
+            // Parse existing gallery if any
+            if project.Gallery != "" {
+                json.Unmarshal([]byte(project.Gallery), &galleryURLs)
+            }
+            
+            // Add new images
+            for idx, file := range galleryFiles {
+                tempField := fmt.Sprintf("gallery_%d", idx)
+                form.File[tempField] = []*multipart.FileHeader{file}
+                
+                galleryURL, err := utils.UploadImage(c, tempField)
+                if err == nil {
+                    galleryURLs = append(galleryURLs, galleryURL)
+                }
+                
+                delete(form.File, tempField)
+            }
+            
+            // Save updated gallery
+            if galleryJSON, err := json.Marshal(galleryURLs); err == nil {
+                project.Gallery = string(galleryJSON)
+            }
+        }
+    }
 
-    if err := database.DB.Save(&project).Error; err != nil {
-        return c.Status(500).SendString("Error updating project")
+    // Save all changes to database
+    if err := database.DB.Session(&gorm.Session{FullSaveAssociations: true}).Save(&project).Error; err != nil {
+        return c.Status(fiber.StatusInternalServerError).SendString("Error updating project: " + err.Error())
     }
 
     return c.Redirect("/admin/projects")

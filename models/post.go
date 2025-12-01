@@ -17,6 +17,7 @@ type Post struct {
     Tags      []Tag     `gorm:"many2many:post_tags;"`
     CreatedAt time.Time `gorm:"autoCreateTime"`
     UpdatedAt time.Time `gorm:"autoUpdateTime"`
+    Published bool      `gorm:"not null;default:true"`
 }
 
 // Tag represents a tag in the database

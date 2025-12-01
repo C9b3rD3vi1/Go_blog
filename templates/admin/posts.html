@@ -1,241 +1,134 @@
-{{ block "content" . }}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-      /* Embed this CSS or link it from a separate styles.css file */
-      :root {
-          --bg-color: #f4f7f9;
-          --container-bg: #ffffff;
-          --text-color: #333;
-          --header-bg: #1c2b36;
-          --header-text: #ffffff;
-          --primary-color: #2e6ff2;
-          --delete-color: #d9534f;
-          --border-color: #e0e0e0;
-          --shadow-color: rgba(0, 0, 0, 0.05);
-          --font-family: 'Inter', sans-serif;
-          --sidebar-width: 250px;
-          --sidebar-bg: #2c3e50;
-          --sidebar-link: #ecf0f1;
-          --sidebar-hover: #34495e;
-      }
-
-      body {
-          font-family: var(--font-family);
-          background-color: var(--bg-color);
-          margin: 0;
-          color: var(--text-color);
-      }
-
-      .dashboard-layout {
-          display: flex;
-          min-height: 100vh;
-      }
-
-      .sidebar {
-          width: var(--sidebar-width);
-          background-color: var(--sidebar-bg);
-          color: var(--sidebar-link);
-          padding: 2rem 1rem;
-          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-          flex-shrink: 0;
-      }
-
-      .sidebar-nav ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-      }
-
-      .sidebar-nav a {
-          display: block;
-          padding: 1rem;
-          margin-bottom: 0.5rem;
-          border-radius: 8px;
-          text-decoration: none;
-          color: var(--sidebar-link);
-          transition: background-color 0.3s, color 0.3s;
-      }
-      .sidebar-nav a:hover, .sidebar-nav a.active {
-          background-color: var(--sidebar-hover);
-          color: #ffffff;
-      }
-      
-      .main-content {
-          flex-grow: 1;
-          padding: 2rem;
-          box-sizing: border-box;
-      }
-
-      .admin-container {
-          margin: 0 auto;
-          background-color: var(--container-bg);
-          border-radius: 8px;
-          box-shadow: 0 4px 12px var(--shadow-color);
-          padding: 2rem;
-      }
-
-      .admin-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 2rem;
-          padding-bottom: 1rem;
-          border-bottom: 1px solid var(--border-color);
-      }
-
-      .admin-title {
-          font-size: 2rem;
-          font-weight: 700;
-          color: var(--header-bg);
-          margin: 0;
-      }
-
-      .new-post-btn {
-          background-color: var(--primary-color);
-          color: white;
-          padding: 0.75rem 1.5rem;
-          border-radius: 6px;
-          text-decoration: none;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          transition: background-color 0.3s;
-      }
-
-      .new-post-btn:hover {
-          background-color: #2558c7;
-      }
-
-      .posts-table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 0.95rem;
-          text-align: left;
-      }
-
-      .posts-table th, .posts-table td {
-          padding: 1rem;
-          border-bottom: 1px solid var(--border-color);
-      }
-
-      .posts-table thead th {
-          background-color: var(--bg-color);
-          font-weight: 600;
-          color: #666;
-          text-transform: uppercase;
-      }
-
-      .posts-table tbody tr:hover {
-          background-color: #fafafa;
-      }
-
-      .post-actions {
-          display: flex;
-          gap: 0.75rem;
-          align-items: center;
-      }
-
-      .post-actions a, .post-actions button {
-          text-decoration: none;
-          font-weight: 500;
-          background: none;
-          border: none;
-          cursor: pointer;
-          font-size: 1rem;
-          padding: 0;
-          color: var(--primary-color);
-          transition: color 0.3s;
-      }
-      
-      .post-actions button {
-        color: var(--delete-color);
-      }
-
-      .post-actions a:hover {
-          color: #1a4a9b;
-      }
-
-      .post-actions button:hover {
-          color: #b52b27;
-      }
-
-      .no-posts {
-          text-align: center;
-          color: #999;
-          font-style: italic;
-          padding: 2rem;
-      }
-    </style>
-</head>
-<body>
-    <div class="dashboard-layout">
-        <aside class="sidebar">
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="/admin/dashboard" class="active">Dashboard</a></li>
-                    <li><a href="/admin/projects">Projects</a></li>
-                    <li><a href="/admin/services">Services</a></li>
-                    <li><a href="/admin/techstacks">Techstacks</a></li>
-                    <li><a href="/admin/tags">Tags</a></li>
-                    <li><a href="/admin/users">Users</a></li>
-                </ul>
-            </nav>
-        </aside>
-
-        <main class="main-content">
-            <div class="admin-container">
-                <header class="admin-header">
-                    <h1 class="admin-title">Manage Posts</h1>
-                    <a href="/admin/posts/new" class="new-post-btn">
-                        ➕ New Post
-                    </a>
-                </header>
-
-                <div class="posts-list">
-                    <table class="posts-table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Slug</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{ range .Posts }}
-                            <tr>
-                                <td>{{ .Title }}</td>
-                                <td>{{ .Slug }}</td>
-                                <td>
-                                    <div class="post-actions">
-                                        <a href="/admin/posts/{{ .Slug }}">View</a>
-                                        <a href="/admin/posts/edit/{{ .ID }}">Edit</a>
-                                        <form action="/admin/posts/delete/{{ .ID }}" method="POST" style="display:inline">
-                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this post? This action cannot be undone.')">Delete</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            {{ else }}
-                            <tr>
-                                <td colspan="3" class="no-posts">No posts yet.</td>
-                            </tr>
-                            {{ end }}
-                        </tbody>
-                    </table>
-                </div>
+{{ block "content" .}}
+<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header with stats -->
+    <div class="mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Manage Posts</h1>
+                <p class="mt-2 text-sm text-gray-600">Create, edit, and manage your blog content</p>
             </div>
-        </main>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-lg">
+                    <span class="text-2xl font-bold text-blue-600">{{ len .Posts }}</span>
+                    <span class="text-sm text-gray-600">Posts</span>
+                </div>
+                <a href="/admin/posts/new" 
+                   class="inline-flex items-center gap-2 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-sm hover:shadow-md">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    New Post
+                </a>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+
+    <!-- Posts Table Container -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        {{ if .Posts }}
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Post
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">
+                            Slug
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-100">
+                    {{ range .Posts }}
+                    <tr class="hover:bg-gray-50 transition-colors duration-150">
+                        <!-- Post Title -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center mr-4">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">{{ .Title }}</div>
+                                    <div class="text-sm text-gray-500">{{ if .CreatedAt }}{{ .CreatedAt.Format "Jan 2, 2006" }}{{ end }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        
+                        <!-- Slug (hidden on mobile) -->
+                        <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                            <div class="flex items-center">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-gray-100 text-gray-800">
+                                    /{{ .Slug }}
+                                </span>
+                            </div>
+                        </td>
+                        
+                        <!-- Action Buttons -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center gap-2">
+                                <!-- View Button -->
+                                <a href="/admin/posts/{{ .Slug }}" 
+                                   class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors duration-150">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    View
+                                </a>
+                                
+                                <!-- Edit Button -->
+                                <a href="/admin/posts/edit/{{ .ID }}"
+                                   class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-green-600 bg-green-50 rounded-lg hover:bg-green-100 transition-colors duration-150">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                    Edit
+                                </a>
+                                
+                                <!-- Delete Button -->
+                                <form action="/admin/posts/delete/{{ .ID }}" 
+                                      method="POST" 
+                                      onsubmit="return confirm('Are you sure you want to delete this post? This action cannot be undone.')"
+                                      class="inline">
+                                    <button type="submit" 
+                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors duration-150">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </div>
+        {{ else }}
+        <!-- Empty State -->
+        <div class="py-16 text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No posts yet</h3>
+            <p class="text-gray-500 mb-6 max-w-md mx-auto">Get started by creating your first blog post.</p>
+            <a href="/admin/posts/new" 
+               class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Create Your First Post
+            </a>
+        </div>
+        {{ end }}
+    </div>
+</div>
 {{ end }}

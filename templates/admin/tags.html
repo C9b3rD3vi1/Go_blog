@@ -7,27 +7,31 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.6.0/dist/full.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center py-10">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-12">
 
-    <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Manage Tags</h1>
+    <div class="w-full max-w-4xl bg-white p-10 rounded-2xl shadow-2xl">
+        <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Tags</h1>
 
         <!-- Create Tag Form -->
-        <form action="/admin/tags" method="POST" class="flex gap-2 mb-6">
+        <form action="/admin/tags" method="POST" class="flex flex-col sm:flex-row gap-4 mb-8">
             <input type="text" name="name" placeholder="New tag name" required
-                   class="input input-bordered input-primary w-full">
-            <button type="submit" class="btn btn-primary">Add Tag</button>
+                   class="input input-bordered input-primary w-full flex-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button type="submit" class="btn btn-primary flex-shrink-0">
+                Add Tag
+            </button>
         </form>
 
-        <hr class="my-6">
+        <hr class="my-6 border-gray-300">
 
         <!-- Existing Tags -->
-        <ul class="space-y-2">
+        <ul class="space-y-3">
             {{ range .Tags }}
-            <li class="flex justify-between items-center bg-gray-50 p-3 rounded shadow-sm hover:bg-gray-100 transition">
-                <span class="font-medium text-gray-700">{{ .Name }}</span>
+            <li class="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm hover:bg-gray-100 transition duration-200">
+                <span class="font-semibold text-gray-700">{{ .Name }}</span>
                 <form action="/admin/tags/delete/{{ .ID }}" method="POST">
-                    <button type="submit" class="btn btn-sm btn-error" onclick="return confirm('Delete this tag?')">
+                    <button type="submit" 
+                            class="btn btn-sm btn-error hover:btn-outline transition duration-200" 
+                            onclick="return confirm('Delete this tag?')">
                         Delete
                     </button>
                 </form>
@@ -35,8 +39,10 @@
             {{ end }}
         </ul>
 
-        <div class="mt-8 text-center">
-            <a href="/admin/posts" class="btn btn-outline btn-secondary">Back to Posts</a>
+        <div class="mt-10 text-center">
+            <a href="/admin/posts" class="btn btn-outline btn-secondary hover:bg-gray-100 transition">
+                Back to Posts
+            </a>
         </div>
     </div>
 

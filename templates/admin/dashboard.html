@@ -1,42 +1,250 @@
-{{ define "content" }}
+{{ block "content" . }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>{{ .Title }}</title>
+    <title>{{ .Title }} | Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --border: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-tertiary: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 0.75rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: var(--text-primary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            color: #e2e8f0;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-logo {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
         .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            color: #cbd5e1;
             transition: all 0.2s ease;
-            color: #6b7280;
+            font-weight: 500;
+            margin: 0.25rem 0;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            background: rgba(99, 102, 241, 0.2);
+            color: #ffffff;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), #8b5cf6);
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .stat-icon {
+            padding: 0.75rem;
             border-radius: 0.75rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            color: var(--primary);
         }
-        .nav-link:hover { background-color: #f3f4f6; color: #1f2937; }
-        .stat-card, .content-card {
-            background-color: #ffffff;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            transition: all 0.2s ease; /* Added transition for hover effect */
+
+        /* Content Cards */
+        .content-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
         }
-        .stat-card:hover { transform: translateY(-4px); transition: transform 0.2s ease; }
-        .btn-action { border-radius: 0.5rem; }
-        .btn-edit { background-color: #4a90e2; color: white; }
-        .btn-edit:hover { background-color: #357bd8; }
-        .btn-delete { background-color: #e24a4a; color: white; }
-        .btn-delete:hover { background-color: #c93b3b; }
-        .section-title { font-size: 1.5rem; font-weight: 700; color: #1f2937; }
-        .section-subtitle { font-size: 1rem; color: #6b7280; }
-        .sidebar { transition: all 0.3s ease; }
+
+        .content-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--border);
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .data-table th {
+            background: var(--surface-alt);
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .data-table tr:hover {
+            background: var(--surface-alt);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-edit {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-edit:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Mobile sidebar overlay */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-100%);
-                position: absolute;
-                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
                 z-index: 50;
+                transform: translateX(-100%);
             }
             .sidebar.open {
                 transform: translateX(0);
@@ -45,219 +253,313 @@
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-gray-100">
-    <header class="w-full bg-white shadow px-8 py-4 flex justify-between items-center z-10 sticky top-0">
-        <div class="flex items-center gap-4">
-            <button id="sidebar-toggle" class="md:hidden p-2 rounded-md hover:bg-gray-100">
-                <span data-lucide="menu" class="w-6 h-6 text-gray-600"></span>
-            </button>
-            <h1 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
-                <span class="text-gray-500 text-sm font-normal">HackerHub Admin</span>
-            </h1>
-        </div>
-        <div class="flex items-center gap-4">
-            <span class="text-gray-600 text-sm hidden sm:block">👋 Welcome, {{ .Admin.Username }}</span>
-            <a href="/admin/logout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-sm font-medium rounded-lg">
-                Logout
-            </a>
-        </div>
-    </header>
+<body class="min-h-screen">
+  
+        <!-- Main Content -->
+        <main class="flex-1 p-4 md:p-6 lg:p-8">
+            <div class="max-w-7xl mx-auto">
+                <!-- Header Section -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-2">Dashboard Overview</h1>
+                    <p class="text-slate-600">Welcome back, {{ .Admin.Username }}. Here's what's happening with your content.</p>
+                </div>
 
-    <div class="flex flex-1">
-        <aside id="sidebar" class="sidebar w-72 bg-white shadow-lg flex flex-col pt-6 md:static">
-            <div class="px-6 mb-6">
-                <h2 class="text-2xl font-extrabold text-blue-600">⚡ HackerHub</h2>
-            </div>
-            <nav class="flex-1 px-6 space-y-2">
-                <a href="/admin/dashboard" class="nav-link flex items-center p-3 font-semibold bg-gray-100 text-gray-800">
-                    <span data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></span> Dashboard
-                </a>
-                <a href="/admin/posts" class="nav-link flex items-center p-3 font-semibold">
-                    <span data-lucide="book" class="w-5 h-5 mr-3"></span> Posts
-                </a>
-                <a href="/admin/projects" class="nav-link flex items-center p-3 font-semibold">
-                    <span data-lucide="folder-tree" class="w-5 h-5 mr-3"></span> Projects
-                </a>
-                <a href="/admin/services" class="nav-link flex items-center p-3 font-semibold">
-                    <span data-lucide="wrench" class="w-5 h-5 mr-3"></span> Services
-                </a>
-                <a href="/admin/techstacks" class="nav-link flex items-center p-3 font-semibold">
-                    <span data-lucide="laptop" class="w-5 h-5 mr-3"></span> Techstacks
-                </a>
-                <a href="/admin/tags" class="nav-link flex items-center p-3 font-semibold">
-                    <span data-lucide="tag" class="w-5 h-5 mr-3"></span> Tags
-                </a>
-                <a href="/admin/users" class="nav-link flex items-center p-3 font-semibold">
-                    <span data-lucide="users" class="w-5 h-5 mr-3"></span> Users
-                </a>
-            </nav>
-        </aside>
+                <!-- Search Bar -->
+                <div class="mb-8">
+                    <div class="relative max-w-md">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                        <input type="search" placeholder="Search content, users, or settings..." 
+                               class="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-slate-400" />
+                    </div>
+                </div>
 
-        <main class="flex-1 px-4 py-8 md:px-10 md:py-8 space-y-10 max-w-7xl mx-auto w-full">
-            <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-                <h2 class="text-3xl font-bold text-gray-800">Dashboard</h2>
-                <div class="relative w-full sm:w-80">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <span data-lucide="search" class="w-5 h-5 text-gray-400"></span>
-                    </span>
-                    <input type="search" placeholder="Search..."
-                           class="w-full pl-10 pr-4 py-2 rounded-full bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 text-sm" />
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="stat-card p-6 rounded-2xl flex items-center space-x-5">
-                    <div class="p-4 rounded-full bg-blue-100 text-blue-600">
-                        <span data-lucide="book" class="w-7 h-7"></span>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium text-gray-500">Posts</div>
-                        <div class="text-4xl font-extrabold text-gray-900 mt-1">{{ len .Posts }}</div>
-                    </div>
-                </div>
-                <div class="stat-card p-6 rounded-2xl flex items-center space-x-5">
-                    <div class="p-4 rounded-full bg-green-100 text-green-600">
-                        <span data-lucide="folder-tree" class="w-7 h-7"></span>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium text-gray-500">Projects</div>
-                        <div class="text-4xl font-extrabold text-gray-900 mt-1">{{ len .Projects }}</div>
-                    </div>
-                </div>
-                <div class="stat-card p-6 rounded-2xl flex items-center space-x-5">
-                    <div class="p-4 rounded-full bg-purple-100 text-purple-600">
-                        <span data-lucide="wrench" class="w-7 h-7"></span>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium text-gray-500">Services</div>
-                        <div class="text-4xl font-extrabold text-gray-900 mt-1">{{ len .Services }}</div>
-                    </div>
-                </div>
-                <div class="stat-card p-6 rounded-2xl flex items-center space-x-5">
-                    <div class="p-4 rounded-full bg-yellow-100 text-yellow-600">
-                        <span data-lucide="users" class="w-7 h-7"></span>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium text-gray-500">Users</div>
-                        <div class="text-4xl font-extrabold text-gray-900 mt-1">{{ len .Users }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                <div class="content-card p-6 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="section-title">Recent Posts</h3>
-                        <a href="/admin/posts" class="text-sm text-blue-600 hover:underline">View All</a>
-                    </div>
-                    <ul class="divide-y divide-gray-200">
-                        {{ range .Posts }}
-                        <li class="py-3 flex justify-between items-center">
-                            <span class="text-sm font-medium text-gray-800">{{ .Title }}</span>
-                            <div class="space-x-2 flex-shrink-0">
-                                <a href="/admin/posts/edit/{{ .ID }}" class="btn-action btn-edit px-4 py-1 text-xs font-semibold">Edit</a>
-                                <a href="/admin/posts/delete/{{ .ID }}" class="btn-action btn-delete px-4 py-1 text-xs font-semibold">Delete</a>
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="stat-icon">
+                                <i data-lucide="file-text" class="w-6 h-6"></i>
                             </div>
-                        </li>
-                        {{ else }}
-                        <li class="py-2 text-gray-500 text-center">No posts yet</li>
-                        {{ end }}
-                    </ul>
-                </div>
-
-                <div class="content-card p-6 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="section-title">Projects</h3>
-                        <a href="/admin/projects" class="text-sm text-blue-600 hover:underline">View All</a>
+                            <span class="text-sm font-medium text-slate-600">Total Posts</span>
+                        </div>
+                        <div class="text-3xl font-bold text-slate-900">{{ len .Posts }}</div>
+                        <div class="mt-2 text-sm text-slate-500">
+                            {{ $published := 0 }}
+                            {{ range .Posts }}
+                                {{ if .Published }}{{ $published = add $published 1 }}{{ end }}
+                            {{ end }}
+                            <span class="text-green-600 font-medium">{{ $published }}</span> published
+                        </div>
                     </div>
-                    <ul class="divide-y divide-gray-200">
-                        {{ range .Projects }}
-                        <li class="py-3 flex justify-between items-center">
-                            <span class="text-sm font-medium text-gray-800">{{ .Title }}</span>
-                            <div class="space-x-2 flex-shrink-0">
-                                <a href="/admin/projects/edit/{{ .ID }}" class="btn-action btn-edit px-4 py-1 text-xs font-semibold">Edit</a>
-                                <a href="/admin/projects/delete/{{ .ID }}" class="btn-action btn-delete px-4 py-1 text-xs font-semibold">Delete</a>
+
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); color: #10b981;">
+                                <i data-lucide="folder-git-2" class="w-6 h-6"></i>
                             </div>
-                        </li>
-                        {{ else }}
-                        <li class="py-2 text-gray-500 text-center">No projects yet</li>
-                        {{ end }}
-                    </ul>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                <div class="content-card p-6 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="section-title">Services</h3>
-                        <a href="/admin/services" class="text-sm text-blue-600 hover:underline">View All</a>
+                            <span class="text-sm font-medium text-slate-600">Projects</span>
+                        </div>
+                        <div class="text-3xl font-bold text-slate-900">{{ len .Projects }}</div>
+                        <div class="mt-2 text-sm text-slate-500">
+                            {{ $featured := 0 }}
+                            {{ range .Projects }}
+                                {{ if .Featured }}{{ $featured = add $featured 1 }}{{ end }}
+                            {{ end }}
+                            <span class="text-purple-600 font-medium">{{ $featured }}</span> featured
+                        </div>
                     </div>
-                    <ul class="divide-y divide-gray-200">
-                        {{ range .Services }}
-                        <li class="py-3 flex justify-between items-center">
-                            <span class="text-sm font-medium text-gray-800">{{ .Title }}</span>
-                            <div class="space-x-2 flex-shrink-0">
-                                <a href="/admin/services/edit/{{ .ID }}" class="btn-action btn-edit px-4 py-1 text-xs font-semibold">Edit</a>
-                                <a href="/admin/services/delete/{{ .ID }}" class="btn-action btn-delete px-4 py-1 text-xs font-semibold">Delete</a>
+
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%); color: #f59e0b;">
+                                <i data-lucide="settings" class="w-6 h-6"></i>
                             </div>
-                        </li>
-                        {{ else }}
-                        <li class="py-2 text-gray-500 text-center">No services yet</li>
-                        {{ end }}
-                    </ul>
+                            <span class="text-sm font-medium text-slate-600">Services</span>
+                        </div>
+                        <div class="text-3xl font-bold text-slate-900">{{ len .Services }}</div>
+                        <div class="mt-2 text-sm text-slate-500">All services active</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%); color: #ef4444;">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-sm font-medium text-slate-600">Users</span>
+                        </div>
+                        <div class="text-3xl font-bold text-slate-900">{{ len .Users }}</div>
+                        <div class="mt-2 text-sm text-slate-500">
+                            {{ $admins := 0 }}
+                            {{ range .Users }}
+                                {{ if .IsAdmin }}{{ $admins = add $admins 1 }}{{ end }}
+                            {{ end }}
+                            <span class="text-indigo-600 font-medium">{{ $admins }}</span> administrators
+                        </div>
+                    </div>
                 </div>
 
-                <div class="content-card p-6 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="section-title">Users</h3>
-                        <a href="/admin/users" class="text-sm text-blue-600 hover:underline">View All</a>
+                <!-- Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Recent Posts -->
+                    <div class="content-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900">Recent Posts</h3>
+                                <p class="text-sm text-slate-500">Latest content updates</p>
+                            </div>
+                            <a href="/admin/posts" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 flex items-center gap-1">
+                                View All <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div class="space-y-4">
+                            {{ range .Posts }}
+                            <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                                        <i data-lucide="file-text" class="w-4 h-4 text-slate-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-slate-900 text-sm">{{ .Title }}</h4>
+                                        <p class="text-xs text-slate-500">Posted {{ if .Published }}<span class="badge badge-success">Live</span>{{ else }}<span class="badge badge-warning">Draft</span>{{ end }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <a href="/admin/posts/edit/{{ .ID }}" class="btn btn-edit btn-sm">Edit</a>
+                                    <a href="/admin/posts/delete/{{ .ID }}" class="btn btn-delete btn-sm">Delete</a>
+                                </div>
+                            </div>
+                            {{ else }}
+                            <div class="text-center py-8 text-slate-500">
+                                <i data-lucide="file-x" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                                <p>No posts yet</p>
+                            </div>
+                            {{ end }}
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full divide-y divide-gray-200">
-                            <thead>
-                                <tr class="text-left text-xs text-gray-500 uppercase tracking-wider">
-                                    <th class="py-2 font-semibold">Username</th>
-                                    <th class="py-2 font-semibold">Email</th>
-                                    <th class="py-2 font-semibold text-center">Admin</th>
-                                    <th class="py-2 font-semibold text-center">Active</th>
-                                    <th class="py-2 font-semibold text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                {{ range .Users }}
-                                <tr>
-                                    <td class="py-2 text-sm text-gray-800">{{ .Username }}</td>
-                                    <td class="py-2 text-sm text-gray-800">{{ .Email }}</td>
-                                    <td class="py-2 text-sm text-center">{{ if .IsAdmin }}✅{{ else }}❌{{ end }}</td>
-                                    <td class="py-2 text-sm text-center">{{ if .IsActive }}✅{{ else }}❌{{ end }}</td>
-                                    <td class="py-2 text-sm text-right">
-                                         <div class="space-x-2 inline-flex">
-                                            <a href="/admin/users/edit/{{ .ID }}" class="btn-action btn-edit px-4 py-1 text-xs font-semibold">Edit</a>
-                                            <a href="/admin/users/delete/{{ .ID }}" class="btn-action btn-delete px-4 py-1 text-xs font-semibold">Delete</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {{ else }}
-                                <tr>
-                                    <td colspan="5" class="py-2 text-center text-gray-500">No users yet</td>
-                                </tr>
-                                {{ end }}
-                            </tbody>
-                        </table>
+
+                    <!-- Projects -->
+                    <div class="content-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900">Projects</h3>
+                                <p class="text-sm text-slate-500">Development portfolio</p>
+                            </div>
+                            <a href="/admin/projects" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 flex items-center gap-1">
+                                View All <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div class="space-y-4">
+                            {{ range .Projects }}
+                            <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                                        <i data-lucide="folder-git-2" class="w-4 h-4 text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-slate-900 text-sm">{{ .Title }}</h4>
+                                        <p class="text-xs text-slate-500">{{ .Category }} • {{ if .Featured }}<span class="badge badge-warning">Featured</span>{{ else }}<span class="text-slate-400">Standard</span>{{ end }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <a href="/admin/projects/edit/{{ .ID }}" class="btn btn-edit btn-sm">Edit</a>
+                                    <a href="/admin/projects/delete/{{ .ID }}" class="btn btn-delete btn-sm">Delete</a>
+                                </div>
+                            </div>
+                            {{ else }}
+                            <div class="text-center py-8 text-slate-500">
+                                <i data-lucide="folder-x" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                                <p>No projects yet</p>
+                            </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users & Services Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Services -->
+                    <div class="content-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900">Services</h3>
+                                <p class="text-sm text-slate-500">Available offerings</p>
+                            </div>
+                            <a href="/admin/services" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 flex items-center gap-1">
+                                Manage <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div class="space-y-4">
+                            {{ range .Services }}
+                            <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                                        <i data-lucide="settings" class="w-4 h-4 text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-slate-900 text-sm">{{ .Title }}</h4>
+                                        <p class="text-xs text-slate-500 truncate max-w-xs">{{ .Description }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <a href="/admin/services/edit/{{ .ID }}" class="btn btn-edit btn-sm">Edit</a>
+                                    <a href="/admin/services/delete/{{ .ID }}" class="btn btn-delete btn-sm">Delete</a>
+                                </div>
+                            </div>
+                            {{ else }}
+                            <div class="text-center py-8 text-slate-500">
+                                <i data-lucide="wrench" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                                <p>No services yet</p>
+                            </div>
+                            {{ end }}
+                        </div>
+                    </div>
+
+                    <!-- Users Table -->
+                    <div class="content-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900">Users</h3>
+                                <p class="text-sm text-slate-500">System access management</p>
+                            </div>
+                            <a href="/admin/users" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 flex items-center gap-1">
+                                Manage Users <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div class="overflow-x-auto rounded-lg border border-slate-200">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{ range .Users }}
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                                                    <i data-lucide="user" class="w-4 h-4 text-slate-600"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="font-medium text-slate-900 text-sm">{{ .Username }}</div>
+                                                    <div class="text-xs text-slate-500">{{ .Email }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{ if .IsAdmin }}
+                                            <span class="badge badge-warning">Admin</span>
+                                            {{ else }}
+                                            <span class="badge badge-success">User</span>
+                                            {{ end }}
+                                        </td>
+                                        <td>
+                                            {{ if .IsActive }}
+                                            <span class="badge badge-success">Active</span>
+                                            {{ else }}
+                                            <span class="badge badge-danger">Inactive</span>
+                                            {{ end }}
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="inline-flex items-center gap-2">
+                                                <a href="/admin/users/edit/{{ .ID }}" class="btn btn-edit btn-sm">Edit</a>
+                                                <a href="/admin/users/delete/{{ .ID }}" class="btn btn-delete btn-sm">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{ else }}
+                                    <tr>
+                                        <td colspan="4" class="text-center py-8 text-slate-500">
+                                            <i data-lucide="users" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                                            <p>No users found</p>
+                                        </td>
+                                    </tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="mt-8 pt-8 border-t border-slate-200">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4"></i>
+                            <span>Secure Admin Dashboard • Last updated: {{ .now}}</span>
+                        </div>
+                        <div>© {{ .now}} CyberHub Admin • v1.0.0</div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <footer class="w-full bg-white border-t px-8 py-4 text-sm text-gray-500 text-center">
-        © {{ now }} HackerHub — All rights reserved.
-    </footer>
-
     <script>
         lucide.createIcons();
-        document.getElementById('sidebar-toggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('open');
+        
+        // Sidebar toggle
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+        
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+        
+        // Close sidebar on resize if needed
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('active');
+            }
         });
     </script>
 </body>

@@ -10,8 +10,9 @@ import (
 	"github.com/C9b3rD3vi1/Go_blog/database"
 	"github.com/C9b3rD3vi1/Go_blog/handlers"
 	"github.com/C9b3rD3vi1/Go_blog/routes"
+	"github.com/C9b3rD3vi1/Go_blog/utils"
 
-	//"github.com/C9b3rD3vi1/Go_blog/middleware"
+	"github.com/C9b3rD3vi1/Go_blog/middleware"
 
 	//"github.com/C9b3rD3vi1/Go_blog/routes"
 	//"github.com/C9b3rD3vi1/Go_blog/models"
@@ -34,7 +35,10 @@ func main() {
 	engine.Layout("layouts/base")
 	
 	
-
+	engine.AddFunc("parseJSON", utils.ParseJSON)
+	engine.AddFunc("trim", utils.Trim)
+	engine.AddFunc("add", utils.Add)
+	engine.AddFunc("split", utils.SplitString)
 	// time add function
 	engine.AddFunc("now", func() string {
 		return time.Now().Format("2006-01-02 15:04:05")
@@ -43,7 +47,10 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
-
+	
+	// provide layout for different pages
+	app.Use(middleware.DynamicLayoutMiddleware(engine))
+	
 	//load static files
 	app.Static("/static", "./static")
 	app.Static("/uploads", "./uploads")

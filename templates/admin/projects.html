@@ -1,37 +1,7 @@
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-  body {
-    font-family: 'Inter', sans-serif;
-  }
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-in-out forwards;
-  }
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out forwards;
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>
+{{ block "content" . }}
 
-{{ define "content" }}
+
+
 <section class="bg-gray-900 text-gray-100 min-h-screen p-6 md:p-10 lg:p-16 relative overflow-hidden">
   <!-- Subtle background grid pattern -->
   <div class="absolute inset-0 z-0 bg-repeat opacity-5" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M50 0H0L50 50L100 0H50Z M50 100H0L50 50L100 100H50Z\' fill=\'%231f2937\'/%3E%3C/svg%3E');"></div>
